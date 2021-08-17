@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "806126914308",
+    "project_id": "pro-player-market",
+    "storage_bucket": "pro-player-market.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:806126914308:android:ceca02eea7c210fdc99e51",
+        "android_client_info": {
+          "package_name": "com.company.proplayermarket"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "806126914308-gf1almqs1bu5h9t5o3pen637b5a3enan.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.company.proplayermarket",
+            "certificate_hash": "9633ec5f7f1b7819d82d7d7edfe81872df7d76c3"
+          }
+        },
+        {
+          "client_id": "806126914308-mg2ppkbp9c8oc64mavmd8ifbnnnr61ap.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB53et3U6nJn243Mutel2b2tJcQsefNe8M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "806126914308-mg2ppkbp9c8oc64mavmd8ifbnnnr61ap.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
