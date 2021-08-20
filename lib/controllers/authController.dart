@@ -33,7 +33,7 @@ class AuthController extends GetxController {
     });
   }
 
-  void createUser(String name, UserTypeEnum userType, String email,
+  void createUser(String name, /*UserTypeEnum userType,*/ String email,
       String mobile, String password) async {
     try {
       loading.toggle();
@@ -60,8 +60,11 @@ class AuthController extends GetxController {
     try {
       loading.toggle();
       await _auth.signInWithEmailAndPassword(email: email, password: password);
-      Get.offAllNamed(AppRouter.mainBarRoute);
+      //Get.offAllNamed(AppRouter.mainBarRoute);
+      Get.offAllNamed(AppRouter.contactRoute);
+      print("start");
       loading.toggle();
+      print("finish");
     } catch (e) {
       loading.toggle();
       displayError(e);
@@ -80,4 +83,11 @@ class AuthController extends GetxController {
       displayError(e);
     }
   }
+  var userType = UserTypeEnum.userPlayer.obs as UserTypeEnum;
+  void onClickRadioButton(value) {
+    print(value);
+    userType = value;
+    update();
+  }
+
 }

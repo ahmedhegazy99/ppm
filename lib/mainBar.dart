@@ -19,15 +19,15 @@ class MainBar extends GetWidget<MainBarController> {
       backgroundColor: Colors.grey[200],
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        backgroundColor: Colors.black,
-        title: Center(
+        backgroundColor: ppmMain,
+        /*title: Center(
           child: Image.asset(
             'assets/images/Hlogo.png',
             fit: BoxFit.contain,
             height: 100,
             width: 100,
           ),
-        ),
+        ),*/
         centerTitle: true,
         elevation: 0,
         shape: RoundedRectangleBorder(
@@ -41,11 +41,11 @@ class MainBar extends GetWidget<MainBarController> {
         () => BottomNavigationBar(
           currentIndex: controller.currentIndex,
           type: BottomNavigationBarType.fixed,
-          backgroundColor: Colors.black,
+          backgroundColor: ppmLight,
           //iconSize: 30,
           //unselectedFontSize: 20,
           unselectedItemColor: Colors.white,
-          selectedItemColor: mindersMainY,
+          selectedItemColor: ppmMain,
           items: [
             BottomNavigationBarItem(
                 icon: Icon(Icons.home),
@@ -62,7 +62,7 @@ class MainBar extends GetWidget<MainBarController> {
           ],
           onTap: (index) {
             controller.changeIndex(index);
-            //controller.userId.value = null;
+            controller.userId.value = '';
           },
         ),
       ),

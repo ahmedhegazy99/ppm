@@ -64,4 +64,10 @@ const _$UserTypeEnumEnumMap = {
   UserTypeEnum.club: 'club',
   UserTypeEnum.userPlayer: 'userPlayer',
 };
+/*
+Map<Rx<UserTypeEnum>, dynamic> UserTypeEnumEnumMap = {
+  UserTypeEnum.admin: 'admin',
+  UserTypeEnum.club: 'club',
+  UserTypeEnum.userPlayer: 'userPlayer',
+};*/
 

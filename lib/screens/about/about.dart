@@ -23,7 +23,7 @@ class _AboutState extends State<About> {
                 style: TextStyle(
                     fontWeight: FontWeight.normal,
                     fontFamily: "englishBebas",
-                    color: mindersMainY,
+                    color: ppmMain,
                     fontSize: 60),
               ),
               SizedBox(height: size.height * 0.03),

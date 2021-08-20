@@ -72,7 +72,7 @@ class DatabaseController extends GetxController {
     } catch (e) {
       uploading.toggle();
       displayError(e);
-      return;
+      //return;
     }
   }
 
@@ -82,10 +82,10 @@ class DatabaseController extends GetxController {
           .collection('players')
           .doc(post.id)
           .update(post.toJson());
-      return;
+      //return;
     } catch (e) {
       displayError(e);
-      return;
+      //return;
     }
   }
 
@@ -108,10 +108,10 @@ class DatabaseController extends GetxController {
       if (delete!) {
         _firestore.collection('players').doc(playerId).delete();
       }
-      return;
+      //return;
     } catch (e) {
       displayError(e);
-      return;
+      //return;
     }
   }
 
@@ -158,7 +158,12 @@ class DatabaseController extends GetxController {
       return posts;
     } catch (e) {
       displayError(e);
-      return null;
+      /*Get.snackbar(
+        "Error creating Account",
+        e.message,
+        snackPosition: SnackPosition.BOTTOM,
+      );*/
+      //return null;
     }
   }
 
@@ -198,7 +203,12 @@ class DatabaseController extends GetxController {
       return imageUrl;
     } catch (e) {
       displayError(e);
-      return null;
+      Get.snackbar(
+        "Error uploading image",
+        e.toString(),
+        snackPosition: SnackPosition.BOTTOM,
+      );
+      //return null;
     }
   }
 }

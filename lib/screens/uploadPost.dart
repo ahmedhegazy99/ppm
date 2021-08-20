@@ -49,7 +49,7 @@ class UploadPost extends StatelessWidget {
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontFamily: "englishBebas",
-                      color: mindersMainY,
+                      color: ppmMain,
                       fontSize: 20),
                 ),
 

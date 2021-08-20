@@ -27,10 +27,10 @@ class ProfileController extends GetxController {
     try {
       _user.value = await Get.find<DatabaseController>().getUser(userId!);
 
-      return;
+      //return;
     } catch (e) {
       displayError(e);
-      return;
+      //return;
     }
   }
 
@@ -39,10 +39,10 @@ class ProfileController extends GetxController {
       print(userId);
       posts.value = (await Get.find<DatabaseController>().getUserPosts(userId!))!;
 
-      return;
+      //return;
     } catch (e) {
       displayError(e);
-      return;
+      //return;
     }
   }
 }

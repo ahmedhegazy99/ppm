@@ -46,7 +46,7 @@ class CreatepostController extends GetxController {
 
       await Get.find<DatabaseController>().addPost(post, image: image.value);
 
-      image.value = null;
+      //image.value = null;
       textController.clear();
     }
   }

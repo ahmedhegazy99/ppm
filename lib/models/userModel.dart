@@ -1,3 +1,4 @@
+import 'package:get/get.dart';
 import 'package:json_annotation/json_annotation.dart';
 part 'userModel.g.dart';
 
@@ -5,6 +6,7 @@ part 'userModel.g.dart';
 class UserModel {
   String ?id;
   UserTypeEnum ? userType;
+  //Rx<UserTypeEnum> ? userType;
   String ?name;
   String ?email;
   String ?mobile;

@@ -33,10 +33,10 @@ class PostController extends GetxController {
 
       await db.updatePost(post);
 
-      return;
+      //return;
     } catch (e) {
       displayError(e);
-      return;
+      //return;
     }
   }
 }

@@ -18,17 +18,17 @@ class Login extends GetWidget<AuthController> {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: Colors.black,
-      appBar: AppBar(
-        leading: Container(),
+     /* appBar: AppBar(
+        //leading: Container(),
         backgroundColor: Colors.black,
-        title: Center(
+        /*title: Center(
           child: Image.asset(
             'assets/images/Hlogo.png',
             fit: BoxFit.contain,
             height: 100,
             width: 100,
           ),
-        ),
+        ),*/
         centerTitle: true,
         elevation: 0,
         shape: RoundedRectangleBorder(
@@ -36,7 +36,7 @@ class Login extends GetWidget<AuthController> {
             bottom: Radius.circular(40),
           ),
         ),
-      ),
+      ),*/
       body: Background(
         child: SingleChildScrollView(
           child: Form(
@@ -49,7 +49,7 @@ class Login extends GetWidget<AuthController> {
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontFamily: "englishBebas",
-                      color: mindersMainY,
+                      color: ppmMain,
                       fontSize: 60),
                 ),
                 SizedBox(height: size.height * 0.03),
@@ -78,7 +78,7 @@ class Login extends GetWidget<AuthController> {
                       padding: const EdgeInsets.only(bottom: 12.0),
                       child: Text(
                         "you don't have an account? Sign Up.",
-                        style: TextStyle(color: mindersMainY, fontSize: 12),
+                        style: TextStyle(color: ppmMain, fontSize: 12),
                       ),
                     ),
                   ),

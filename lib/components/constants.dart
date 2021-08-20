@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'dart:math' show pi;
 
-const mindersMainY = Color(0xfff1c40f);
+const ppmMain = Colors.green;
 const mindersDarkY = Color(0xfff7a50c);
-const mindersLight = Color(0xffffce44);
+const ppmLight = Colors.blueGrey;
 const mindersLightBlack = Color(0xff232323);
 
 const gradientLightY = LinearGradient(

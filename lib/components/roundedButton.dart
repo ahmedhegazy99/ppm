@@ -13,8 +13,8 @@ class RoundedButton extends StatelessWidget {
     this.text,
     this.icon,
     this.press,
-    this.color = mindersMainY,
-    this.textColor = Colors.black,
+    this.color = ppmMain,
+    this.textColor = ppmLight,
   })  : viewIcon = icon != null ? 1 : 0,
         super(key: key);
 
