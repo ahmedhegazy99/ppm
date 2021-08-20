@@ -19,17 +19,17 @@ class Splash extends StatelessWidget {
     navigate();
     return Center(
         child: SizedBox(
-            height: 250.0, child:
-        Text(
-          "Pro Player"
-              "Market",
-          style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontFamily: "englishBebas",
-              color: ppmMain,
-              fontSize: 60),
-        ),
-        //Image.asset("assets/images/Hlogo.png")
-        ));
+      height: 250.0,
+      child: Text(
+        "Pro Player"
+        "Market",
+        style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontFamily: "englishBebas",
+            color: ppmMain,
+            fontSize: 60),
+      ),
+      //Image.asset("assets/images/Hlogo.png")
+    ));
   }
 }

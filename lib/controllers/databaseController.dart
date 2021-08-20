@@ -35,10 +35,7 @@ class DatabaseController extends GetxController {
 
   Future<bool> createNewUser(UserModel user) async {
     try {
-      await _firestore
-          .collection('users')
-          .doc(user.id)
-          .set(user.toJson());
+      await _firestore.collection('users').doc(user.id).set(user.toJson());
       return true;
     } catch (e) {
       print(e);
@@ -50,24 +47,28 @@ class DatabaseController extends GetxController {
     try {
       DocumentSnapshot documentSnapshot =
           await _firestore.collection('users').doc(uid).get();
-      return UserModel.fromJson(documentSnapshot.data() as Map<String, dynamic>);
-      //return UserModel.fromJson(documentSnapshot.data());
+      // return UserModel.fromJson(documentSnapshot.data() as Map<String, dynamic>);
+      if (documentSnapshot.exists)
+        return UserModel.fromJson(
+            documentSnapshot.data()! as Map<String, dynamic>);
+      else {
+        print("User Not Found");
+        throw Exception("User Not Found");
+      }
     } catch (e) {
       Get.find<AuthController>().signOut();
       return Get.find<UserController>().user;
     }
   }
 
-  Future<void> addPost(PlayerModel post, {File ?image}) async {
+  Future<void> addPost(PlayerModel post, {File? image}) async {
     try {
       uploading.toggle();
       if (image != null) {
         post.contentUrl = await uploadPostImage(post, image);
       }
-      await _firestore
-          .collection('players')
-          .add(post.toJson());
-         // .then((doc) => doc.update({"id": doc.documentID}));
+      await _firestore.collection('players').add(post.toJson());
+      // .then((doc) => doc.update({"id": doc.documentID}));
       uploading.toggle();
     } catch (e) {
       uploading.toggle();
@@ -78,10 +79,7 @@ class DatabaseController extends GetxController {
 
   Future<void> updatePost(PlayerModel post) async {
     try {
-      await _firestore
-          .collection('players')
-          .doc(post.id)
-          .update(post.toJson());
+      await _firestore.collection('players').doc(post.id).update(post.toJson());
       //return;
     } catch (e) {
       displayError(e);
@@ -91,7 +89,7 @@ class DatabaseController extends GetxController {
 
   Future<void> deletePost(String playerId) async {
     try {
-      bool ? delete = await Get.defaultDialog<bool>(
+      bool? delete = await Get.defaultDialog<bool>(
           title: 'warning'.tr,
           content: Text('confirmPlayertDelete'.tr),
           actions: [
@@ -166,7 +164,6 @@ class DatabaseController extends GetxController {
       //return null;
     }
   }
-
 
   /*Future<String> addComment(ReplyModel comment) async {
     try {

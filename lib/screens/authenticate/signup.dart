@@ -45,121 +45,128 @@ class Signup extends GetWidget<AuthController> {
       ),*/
       body: Background(
         child: /*Obx((){
-          return */SingleChildScrollView(
-            child: Form(
-              key: _formKey,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Text(
-                    "sign up",
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontFamily: "englishBebas",
-                        color: ppmMain,
-                        fontSize: 60),
-                  ),
-                  SizedBox(height: size.height * 0.01),
+          return */
+            SingleChildScrollView(
+          child: Form(
+            key: _formKey,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Text(
+                  "sign up",
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontFamily: "englishBebas",
+                      color: ppmMain,
+                      fontSize: 60),
+                ),
+                SizedBox(height: size.height * 0.01),
 
-                  GetBuilder<AuthController>(
-                    builder: (_) =>Flex(
+                Obx(() {
+                  return Flex(
                     mainAxisAlignment: MainAxisAlignment.center,
                     direction: Axis.horizontal,
                     children: <Widget>[
                       Radio<UserTypeEnum>(
                         value: UserTypeEnum.userPlayer,
-                        groupValue: controller.userType,
+                        groupValue: controller.userType.value,
                         onChanged: (UserTypeEnum? value) {
                           //userType = value!;
-                          controller.onClickRadioButton(value);
+                          controller.userType.value = value!;
                         },
                       ),
                       Text("Player"),
                       Radio<UserTypeEnum>(
-                        value: UserTypeEnum.userPlayer,
-                        groupValue: controller.userType,
+                        value: UserTypeEnum.club,
+                        groupValue: controller.userType.value,
                         onChanged: (UserTypeEnum? value) {
                           //userType = value!;
-                          controller.onClickRadioButton(value);
+                          controller.userType.value = value!;
                         },
                       ),
                       Text("Club"),
                       Radio<UserTypeEnum>(
-                        value: UserTypeEnum.userPlayer,
-                        groupValue: controller.userType,
+                        value: UserTypeEnum.admin,
+                        groupValue: controller.userType.value,
                         onChanged: (UserTypeEnum? value) {
                           //userType = value!;
-                          controller.onClickRadioButton(value);
+                          controller.userType.value = value!;
                         },
                       ),
                       Text("Admin"),
                     ],
-                  ),),
+                  );
+                }),
 
-                  RoundedInputField(
-                    validator: (val) => val!.isEmpty ? 'Enter First Name' : null,
-                    keyboardType: TextInputType.name,
-                    hintText: "Full Name",
-                    icon: Icons.account_circle,
-                    controller: name,
-                  ),
-                  RoundedInputField(
-                    validator: (val) => val!.isEmpty ? 'Enter an Email' : null,
-                    keyboardType: TextInputType.emailAddress,
-                    hintText: "Email",
-                    icon: Icons.mail,
-                    controller: email,
-                  ),
-                  RoundedInputField(
-                    validator: (val) =>
-                    val!.isEmpty ? 'Enter mobile number' : null,
-                    keyboardType: TextInputType.phone,
-                    hintText: "Mobile Number",
-                    icon: Icons.phone,
-                    controller: mobile,
-                  ),
+                RoundedInputField(
+                  validator: (val) => val!.isEmpty ? 'Enter First Name' : null,
+                  keyboardType: TextInputType.name,
+                  hintText: "Full Name",
+                  icon: Icons.account_circle,
+                  controller: name,
+                ),
+                RoundedInputField(
+                  validator: (val) => val!.isEmpty ? 'Enter an Email' : null,
+                  keyboardType: TextInputType.emailAddress,
+                  hintText: "Email",
+                  icon: Icons.mail,
+                  controller: email,
+                ),
+                RoundedInputField(
+                  validator: (val) =>
+                      val!.isEmpty ? 'Enter mobile number' : null,
+                  keyboardType: TextInputType.phone,
+                  hintText: "Mobile Number",
+                  icon: Icons.phone,
+                  controller: mobile,
+                ),
 
-                  //SizedBox(height: size.height * 0.03),
+                //SizedBox(height: size.height * 0.03),
 
-                  RoundedInputField(
-                    validator: (val) => val!.isEmpty ? 'Enter an password' : null,
-                    color: Colors.white,
-                    textColor: Colors.black,
-                    obscureText: true,
-                    icon: Icons.lock,
-                    hintText: "Password",
-                    controller: password,
-                  ),
+                RoundedInputField(
+                  validator: (val) => val!.isEmpty ? 'Enter an password' : null,
+                  color: Colors.white,
+                  textColor: Colors.black,
+                  obscureText: true,
+                  icon: Icons.lock,
+                  hintText: "Password",
+                  controller: password,
+                ),
 
-                  //SizedBox(height: size.height * 0.03),
+                //SizedBox(height: size.height * 0.03),
 
-                  RoundedInputField(
-                    validator: (val) =>
-                    val!.isEmpty ? "Password didn't match" : null,
-                    color: Colors.white,
-                    textColor: Colors.black,
-                    obscureText: true,
-                    icon: Icons.lock,
-                    hintText: "Confirm Password",
-                    controller: confirmPassword,
-                  ),
+                RoundedInputField(
+                  validator: (val) =>
+                      val!.isEmpty ? "Password didn't match" : null,
+                  color: Colors.white,
+                  textColor: Colors.black,
+                  obscureText: true,
+                  icon: Icons.lock,
+                  hintText: "Confirm Password",
+                  controller: confirmPassword,
+                ),
 
-                  //SizedBox(height: size.height * 0.03),
+                //SizedBox(height: size.height * 0.03),
 
-                  RoundedButton(
-                      text: "sign up",
-                      press: () async {
-                        if (_formKey.currentState!.validate() &&
-                            password.text == confirmPassword.text) {
-                          controller.createUser(name.text, /*userType,*/
-                              email.text, mobile.text, password.text);
-                        }
-                      }),
-                ],
-              ),
+                RoundedButton(
+                    text: "sign up",
+                    press: () async {
+                      if (_formKey.currentState!.validate() &&
+                          password.text == confirmPassword.text) {
+                        controller.createUser(
+                            name.text,
+                            /*userType,*/
+                            email.text,
+                            mobile.text,
+                            password.text);
+                      }
+                    }),
+              ],
             ),
+          ),
           /*);
-        }*/),
+        }*/
+        ),
       ),
     );
   }
