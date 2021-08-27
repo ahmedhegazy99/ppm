@@ -8,6 +8,12 @@ DateTime? dateTimeFromTimestamp(Timestamp? timestamp) =>
 Timestamp? dateTimeToTimestamp(DateTime? dateTime) =>
     dateTime == null ? null : Timestamp.fromDate(dateTime);
 
+ calculateAge(DateTime d){
+  Duration days = DateTime.now().difference(d);
+  var age = days.inDays;
+  return age/365;
+}
+
 void displayError(dynamic e) {
   Get.snackbar(
     "error".tr,

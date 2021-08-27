@@ -5,6 +5,7 @@ import 'package:pro_player_market/screens/home.dart';
 import 'package:pro_player_market/screens/profile.dart';
 import 'package:pro_player_market/screens/requests.dart';
 
+import 'controllers/authController.dart';
 import 'controllers/mainBarController.dart';
 
 class MainBar extends GetWidget<MainBarController> {
@@ -14,11 +15,12 @@ class MainBar extends GetWidget<MainBarController> {
       Requests(),
       Home(),
       Profile(),
+      //CreatePlayer(),
     ];
     return Scaffold(
       backgroundColor: Colors.grey[200],
       appBar: AppBar(
-        automaticallyImplyLeading: false,
+        automaticallyImplyLeading: true,
         backgroundColor: ppmMain,
         /*title: Center(
           child: Image.asset(
@@ -29,6 +31,44 @@ class MainBar extends GetWidget<MainBarController> {
           ),
         ),*/
         centerTitle: true,
+
+        /*leading: IconButton(
+          icon: SvgPicture.asset(
+              "assets/icons/back.svg",
+            color: ppmLight,
+          ),
+          onPressed: () {},
+        ),*/
+        actions: <Widget>[
+
+          /*IconButton(
+            icon: Icon(
+              Icons.more_vert,
+              color: ppmLight,
+            ),
+            onPressed: () {},
+          ),*/
+          PopupMenuButton(
+            itemBuilder: (BuildContext context) => <PopupMenuEntry>[
+              const PopupMenuItem(
+                value: 0,
+                child: Text(
+                  "Log Out",
+                ),
+              ),
+            ],
+            onSelected: (result) async {
+              switch(result) {
+                case 0: {
+                  Get.find<AuthController>().signOut();
+                }
+                break;
+              }
+            },
+          ),
+          SizedBox(width: kDefaultPadding / 2)
+        ],
+
         elevation: 0,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(
@@ -48,16 +88,16 @@ class MainBar extends GetWidget<MainBarController> {
           selectedItemColor: ppmMain,
           items: [
             BottomNavigationBarItem(
+                icon: Icon(Icons.info),
+                label: 'Requests',
+                backgroundColor: Colors.black),
+            BottomNavigationBarItem(
                 icon: Icon(Icons.home),
                 label: 'Home',
                 backgroundColor: Colors.black),
             BottomNavigationBarItem(
                 icon: Icon(Icons.person),
                 label: 'Profile',
-                backgroundColor: Colors.black),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.info),
-                label: 'Requests',
                 backgroundColor: Colors.black),
           ],
           onTap: (index) {

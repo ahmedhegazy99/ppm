@@ -4,9 +4,11 @@ import 'package:pro_player_market/models/playerModel.dart';
 import 'package:pro_player_market/models/userModel.dart';
 import 'package:pro_player_market/utils/utilFunctions.dart';
 
+import 'mainBarController.dart';
+
 class ProfileController extends GetxController {
-  final String ?userId;
-  ProfileController({ this.userId});
+  /*final */RxString ?userId = ''.obs;
+  //ProfileController({ this.userId});
 
   var _user = Rxn<UserModel>();
   UserModel? get user => _user.value;
@@ -17,6 +19,8 @@ class ProfileController extends GetxController {
 
   @override
   void onInit() async {
+    print("Start Profile controller");
+    userId = Get.find<MainBarController>().userId;
     await getUser();
     await getUserPosts();
     loading.value = false;
@@ -25,7 +29,8 @@ class ProfileController extends GetxController {
 
   Future<void> getUser() async {
     try {
-      _user.value = await Get.find<DatabaseController>().getUser(userId!);
+      print(userId);
+      _user.value = await Get.find<DatabaseController>().getUser(userId!.value);
 
       //return;
     } catch (e) {
@@ -37,7 +42,7 @@ class ProfileController extends GetxController {
   Future<void> getUserPosts() async {
     try {
       print(userId);
-      posts.value = (await Get.find<DatabaseController>().getUserPosts(userId!))!;
+      posts.value = (await Get.find<DatabaseController>().getUserPosts(userId!.value))!;
 
       //return;
     } catch (e) {

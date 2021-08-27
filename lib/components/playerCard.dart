@@ -4,20 +4,33 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import 'package:get/get.dart';
+import 'package:pro_player_market/components/constants.dart';
+import 'package:pro_player_market/components/videoPlayer.dart';
 import 'package:pro_player_market/controllers/databaseController.dart';
 import 'package:pro_player_market/controllers/mainBarController.dart';
 import 'package:pro_player_market/controllers/postController.dart';
 import 'package:pro_player_market/controllers/userController.dart';
 import 'package:pro_player_market/models/playerModel.dart';
 import 'package:pro_player_market/models/userModel.dart';
+import 'package:photo_view/photo_view.dart';
+import 'package:photo_view/photo_view_gallery.dart';
+import 'package:pro_player_market/screens/playerPage.dart';
 
 class PlayerCard extends StatelessWidget {
-  final PlayerModel ? post;
-  PlayerCard({this.post});
+  final PlayerModel ? player;
+  PlayerCard({this.player});
+
+  var media ;
 
   @override
   Widget build(BuildContext context) {
     final UserModel user = Get.find<UserController>().user;
+
+    media = [
+      Image.network('${player!.photo}'),
+      VideoWidget(player!.video),
+    ];
+
     return Card(
       margin: EdgeInsets.symmetric(vertical: 4, horizontal: 6),
       shape: RoundedRectangleBorder(
@@ -27,75 +40,68 @@ class PlayerCard extends StatelessWidget {
       ),
       child: Column(
         children: [
-          Container(
-            padding: EdgeInsets.only(
-              top: 5,
+          // post image
+          if (player!.photo != null)
+            Container(
+              child: Image.network('${player!.photo}'),
             ),
-            child: ListTile(
-              leading: GestureDetector(
-                onTap: () {
-                  Get.find<MainBarController>().openUserProfile(post!.userId!);
-                },
-                child: CircleAvatar(
-                  radius: 25,
-                  backgroundColor: Colors.grey[200],
-                  backgroundImage: NetworkImage(post!.userImage ??
-                      'https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png'),
+
+          // post video
+          /*if (post!.video != null)
+            Container(
+              child: VideoWidget(post!.video!),
+            ),*/
+/*
+          PhotoViewGallery.builder(
+            itemCount: 2,
+            builder: (context, index) {
+              return PhotoViewGalleryPageOptions.customChild(
+                child: Container(
+                  //width: 300,
+                  //height: 300,
+                  child: media[index],
                 ),
-              ),
-              title: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    '${post!.userName}',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18,
-                    ),
-                  ),
-                  Text(
-                    DateFormat.yMEd().format(post!.date!),
-                    style: TextStyle(
-                        fontWeight: FontWeight.normal,
-                        fontSize: 14,
-                        color: Colors.black38),
-                  ),
-                ],
-              ),
-              subtitle: Text('@${post!.userName}'),
-              trailing: user.id == post!.userId
-                  ? PopupMenuButton(
-                      onSelected: (val) {
-                        if (val == 'delete') {
-                          Get.find<DatabaseController>().deletePost(post!.id!);
-                        }
-                      },
-                      itemBuilder: (context) => [
-                        PopupMenuItem(
-                          child: Text('delete'.tr),
-                          value: 'delete',
-                        )
-                      ],
-                    )
-                  : null,
+                //childSize: const Size(300, 300),
+                //initialScale: PhotoViewComputedScale.contained,
+                minScale: PhotoViewComputedScale.contained * (0.5 + index / 10),
+                maxScale: PhotoViewComputedScale.covered * 4.1,
+                //heroAttributes: PhotoViewHeroAttributes(tag: item.id),
+              );
+            },
+            scrollPhysics: BouncingScrollPhysics(),
+            backgroundDecoration: BoxDecoration(
+              color: Theme.of(context).canvasColor,
             ),
+            /*loadingChild: Center(
+              child: CircularProgressIndicator(),
+            ),*/
           ),
-          // //post text
+*/
+
+          //name and city
           Container(
             padding: EdgeInsets.symmetric(horizontal: 10),
-            margin: EdgeInsets.only(bottom: 10, left: 10, right: 10),
+            margin: EdgeInsets.only(bottom: 10, left: 10, top: 10, right: 10),
             child: Row(
+              //mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('${post!.text}'),
+                Text(
+                  '${player!.name}',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18,
+                  ),
+                ),
+                Text(
+                  ', ${player!.city}',
+                  style: TextStyle(
+                      fontWeight: FontWeight.normal,
+                      fontSize: 14,
+                      color: Colors.black38),
+                ),
               ],
             ),
           ),
-
-          // post image
-          if (post!.type == PostTypeEnum.photo && post!.contentUrl != null)
-            Container(
-              child: Image.network('${post!.contentUrl}'),
-            ),
 
           Container(
             padding: EdgeInsets.symmetric(horizontal: 0),
@@ -104,24 +110,37 @@ class PlayerCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 FlatButton.icon(
-                  icon: SvgPicture.asset(
-                    "assets/icons/cart.svg",
-                    // By default our  icon color is white
-                    color: post!.upvotes?.contains(user.id) == true
-                        ? Colors.blue
-                        : Colors.grey,
+                  icon: Icon(
+                    Icons.arrow_upward,
+                    color: player!.upvotes?.contains(user.id) == true
+                        ? ppmMain
+                        : ppmLight,
                   ),
                   label: Text(
-                    '${'upvote'.tr} (${post!.upvotes?.length ?? '0'})',
+                    '${'upvote'.tr} ${player!.upvotes?.length ?? '0'}',
                     style: TextStyle(
-                      color: post!.upvotes?.contains(user.id) == true
-                          ? Colors.blue
-                          : Colors.grey,
+                      color: player!.upvotes?.contains(user.id) == true
+                          ? ppmMain
+                          : ppmLight,
                     ),
                   ),
                   textColor: Colors.black38,
                   onPressed: () {
-                    Get.find<PostController>().toggleIsLiked(post!);
+                    Get.find<PostController>().toggleIsLiked(player!);
+                  },
+                ),
+
+                FlatButton(
+                  child: Text(
+                    'View more'.tr,
+                    style: TextStyle(
+                      color: ppmLight,
+                    ),
+                  ),
+                  textColor: Colors.black38,
+                  onPressed: () {
+                    Get.to(PlayerPage(player: player!));
+                    //Get.find<MainBarController>().openPlayerProfile(post!.id!);
                   },
                 ),
               ],

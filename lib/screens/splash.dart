@@ -1,3 +1,6 @@
+import 'dart:ui';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pro_player_market/components/constants.dart';
@@ -19,17 +22,28 @@ class Splash extends StatelessWidget {
     navigate();
     return Center(
         child: SizedBox(
-      height: 250.0,
-      child: Text(
-        "Pro Player"
-        "Market",
-        style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontFamily: "englishBebas",
-            color: ppmMain,
-            fontSize: 60),
-      ),
-      //Image.asset("assets/images/Hlogo.png")
-    ));
+        //height: 250.0,
+          height: 300.0,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Text(
+                "Pro Player"
+                "Market",
+                textAlign: TextAlign.end,
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontFamily: "englishBebas",
+                    color: ppmMain,
+                    fontSize: 32,
+                    decoration: TextDecoration.none,
+                ),
+              ),
+            ],
+          ),
+        //Image.asset("assets/images/Hlogo.png")
+
+       )
+    );
   }
 }

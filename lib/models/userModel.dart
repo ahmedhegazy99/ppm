@@ -11,14 +11,17 @@ class UserModel {
   String? email;
   String? mobile;
   String? imageUrl;
+  List<String> ? requests;
 
-  UserModel(
-      {this.id,
-      this.userType,
-      this.name,
-      this.mobile,
-      this.imageUrl,
-      this.email});
+  UserModel({
+    this.id,
+    this.userType,
+    this.name,
+    this.mobile,
+    this.imageUrl,
+    this.email,
+    this.requests,
+  });
 
   UserModel copy() => UserModel.fromJson(this.toJson());
   factory UserModel.fromJson(Map<String, dynamic>? json) =>

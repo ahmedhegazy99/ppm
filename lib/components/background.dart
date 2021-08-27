@@ -2,42 +2,54 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter/material.dart';
 import 'dart:math' show pi;
 
+import 'package:pro_player_market/components/constants.dart';
+
 class Background extends StatelessWidget {
   final Widget child;
+  final Color ? backgroundColor;
   const Background({
     Key? key,
     required this.child,
+    this.backgroundColor = ppmLight,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Container(
-      color: Colors.blueGrey,
+      color: backgroundColor,
       width: double.infinity,
       height: size.height,
       child: Stack(
         alignment: Alignment.center,
         children: <Widget>[
           Positioned(
-            top: 0,
-            left: 0,
+            top: -size.width * 0.1,
+            left: -size.width * 0.3,
             child: Transform.rotate(
-              angle: pi / -90.0,
-              child: SvgPicture.asset(
-                "assets/icons/dots.svg",
-                width: size.width * 0.35,
+              angle: pi / -2.0,
+              child: Opacity(
+                opacity: 0.3,
+                child: SvgPicture.asset(
+                  "assets/icons/soccer_ball.svg",
+                  width: size.width * 0.6,
+                  color: ppmMain,
+                ),
               ),
             ),
           ),
           Positioned(
-            bottom: 0,
-            right: 0,
+            bottom: -size.width * 0.1,
+            right: -size.width * 0.2,
             child: Transform.rotate(
-              angle: pi / 90.0,
-              child: SvgPicture.asset(
-                "assets/icons/dots.svg",
-                width: size.width * 0.4,
+              angle: pi / 2.0,
+              child: Opacity(
+                opacity: 0.6,
+                child: SvgPicture.asset(
+                  "assets/icons/soccer_ball.svg",
+                  width: size.width * 0.4,
+                  color: ppmMain,
+                ),
               ),
             ),
           ),

@@ -6,7 +6,7 @@ class RoundedButton extends StatelessWidget {
   final Widget ?icon;
   final int ?viewIcon;
   final VoidCallback ? press;
-  final Color color, textColor;
+  Color color, textColor;
   //const RoundedButton({
   RoundedButton({
     Key? key,

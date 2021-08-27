@@ -8,24 +8,30 @@ part 'playerModel.g.dart';
 class PlayerModel {
   String ? id;
   String ? userId;
-  String ? userName;
-  String ? userImage;
   @JsonKey(fromJson: dateTimeFromTimestamp, toJson: dateTimeToTimestamp)
-  DateTime ? date;
-  String ? text;
-  PostTypeEnum ? type;
-  String ? contentUrl;
+  DateTime ? joinDate;
+  String ? name;
+  String ? photo;
+  String ? video;
+  String ? city;
+  DateTime ? birthDate;
+  //String ? mobile;
+  //String ? email;
+  String ? bio;
   List<String> ? upvotes;
 
   PlayerModel({
-    this.contentUrl,
-    this.date,
-    this.text,
-    this.type,
-    this.userId,
-    this.userImage,
-    this.userName,
     this.id,
+    this.userId,
+    this.joinDate,
+    this.name,
+    this.photo,
+    this.video,
+    this.city,
+    this.birthDate,
+    //this.mobile,
+    //this.email,
+    this.bio,
     this.upvotes,
   });
 
@@ -35,4 +41,4 @@ class PlayerModel {
   Map<String, dynamic> toJson() => _$PlayerModelToJson(this);
 }
 
-enum PostTypeEnum { photo, text }
+//enum PostTypeEnum { photo, text }

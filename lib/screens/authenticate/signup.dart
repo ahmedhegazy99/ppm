@@ -70,6 +70,7 @@ class Signup extends GetWidget<AuthController> {
                       Radio<UserTypeEnum>(
                         value: UserTypeEnum.userPlayer,
                         groupValue: controller.userType.value,
+                        activeColor: ppmMain,
                         onChanged: (UserTypeEnum? value) {
                           //userType = value!;
                           controller.userType.value = value!;
@@ -79,6 +80,7 @@ class Signup extends GetWidget<AuthController> {
                       Radio<UserTypeEnum>(
                         value: UserTypeEnum.club,
                         groupValue: controller.userType.value,
+                        activeColor: ppmMain,
                         onChanged: (UserTypeEnum? value) {
                           //userType = value!;
                           controller.userType.value = value!;
@@ -88,6 +90,7 @@ class Signup extends GetWidget<AuthController> {
                       Radio<UserTypeEnum>(
                         value: UserTypeEnum.admin,
                         groupValue: controller.userType.value,
+                        activeColor: ppmMain,
                         onChanged: (UserTypeEnum? value) {
                           //userType = value!;
                           controller.userType.value = value!;

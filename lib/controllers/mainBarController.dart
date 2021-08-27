@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:pro_player_market/screens/playerPage.dart';
 
 class MainBarController extends GetxController {
   var _index = RxInt(1);
@@ -10,7 +11,7 @@ class MainBarController extends GetxController {
     _index.value = index;
   }
 
-  void openUserProfile(String userId) {
+  void openPlayerProfile(String userId) {
     this.userId.value = userId;
     _index.value = 1;
   }

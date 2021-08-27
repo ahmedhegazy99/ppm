@@ -1,10 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:pro_player_market/components/createPost.dart';
 import 'package:pro_player_market/screens/about/about.dart';
 import 'package:pro_player_market/screens/authenticate/login.dart';
 import 'package:pro_player_market/screens/authenticate/signup.dart';
 import 'package:pro_player_market/screens/contactUs.dart';
 import 'package:pro_player_market/screens/home.dart';
+import 'package:pro_player_market/screens/playerPage.dart';
 import 'package:pro_player_market/screens/profile.dart';
 import 'package:pro_player_market/screens/requests.dart';
 import 'package:pro_player_market/screens/splash.dart';
@@ -18,6 +20,8 @@ class AppRouter {
   static const String contactRoute = '/contactUs';
   static const String splashRoute = '/splash';
   static const String mainBarRoute = '/mainBar';
+  static const String addPlayerRoute = '/addPlayer';
+  static const String playerPageRoute = '/playerPage';
 
   // Auth
   static const String loginRoute = '/login';
@@ -44,14 +48,17 @@ class AppRouter {
       case mainBarRoute:
         return MaterialPageRoute(builder: (_) => MainBar(), settings: settings);
       case contactRoute:
-        return MaterialPageRoute(
-            builder: (_) => ContactUs(), settings: settings);
+        return MaterialPageRoute(builder: (_) => ContactUs(), settings: settings);
       case aboutRoute:
         return MaterialPageRoute(builder: (_) => About(), settings: settings);
       case userProfile:
         return MaterialPageRoute(builder: (_) => Profile(), settings: settings);
       case requestsRoute:
         return MaterialPageRoute(builder: (_) => Requests(), settings: settings);
+      case addPlayerRoute:
+        return MaterialPageRoute(builder: (_) => CreatePlayer(), settings: settings);
+      case playerPageRoute:
+        return MaterialPageRoute(builder: (_) => PlayerPage(), settings: settings);
       default:
         return MaterialPageRoute(builder: (_) => Home(), settings: settings);
     }

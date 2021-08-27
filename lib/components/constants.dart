@@ -31,3 +31,5 @@ const gradientDarkB = LinearGradient(
 const customTextStyle = TextStyle(
   color: Colors.black , fontStyle: FontStyle.normal , fontSize: 12.0, fontFamily: "englishTex",
 );
+
+const kDefaultPadding = 20.0;

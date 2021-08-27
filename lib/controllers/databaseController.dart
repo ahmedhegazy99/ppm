@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pro_player_market/controllers/userController.dart';
 import 'package:pro_player_market/models/playerModel.dart';
+import 'package:pro_player_market/models/requestModel.dart';
 import 'package:pro_player_market/models/userModel.dart';
 import 'package:pro_player_market/utils/utilFunctions.dart';
 
@@ -61,14 +62,18 @@ class DatabaseController extends GetxController {
     }
   }
 
-  Future<void> addPost(PlayerModel post, {File? image}) async {
+  Future<void> addPost(PlayerModel post, {File? image , File? video}) async {
     try {
       uploading.toggle();
+      //print('add post     $image');
       if (image != null) {
-        post.contentUrl = await uploadPostImage(post, image);
+        post.photo = await uploadPlayerImage(post, image);
       }
-      await _firestore.collection('players').add(post.toJson());
-      // .then((doc) => doc.update({"id": doc.documentID}));
+      if (video != null) {
+        post.video = await uploadPlayerVideo(post, video);
+      }
+      await _firestore.collection('players').add(post.toJson())
+       .then((doc) => doc.update({"id": doc.id}));
       uploading.toggle();
     } catch (e) {
       uploading.toggle();
@@ -116,7 +121,7 @@ class DatabaseController extends GetxController {
   Stream<List<PlayerModel>> getPosts({bool update = false}) {
     return _firestore
         .collection('players')
-        .orderBy('date', descending: true)
+        .orderBy('joinDate', descending: true)
         .snapshots()
         .map((snapshot) => snapshot.docs
             .map((doc) => PlayerModel.fromJson(doc.data()))
@@ -152,7 +157,7 @@ class DatabaseController extends GetxController {
         posts.add(PlayerModel.fromJson(element.data()));
       });
 
-      posts.sort((a, b) => b.date!.compareTo(a.date!));
+      posts.sort((a, b) => b.joinDate!.compareTo(a.joinDate!));
       return posts;
     } catch (e) {
       displayError(e);
@@ -162,6 +167,23 @@ class DatabaseController extends GetxController {
         snackPosition: SnackPosition.BOTTOM,
       );*/
       //return null;
+    }
+  }
+
+  Future<PlayerModel> getPlayer(String pid) async {
+    try {
+      DocumentSnapshot documentSnapshot =
+      await _firestore.collection('players').doc(pid).get();
+      if (documentSnapshot.exists)
+        return PlayerModel.fromJson(
+            documentSnapshot.data()! as Map<String, dynamic>);
+      else {
+        print("PLAYER Not Found");
+        throw Exception("Player Not Found");
+      }
+    } catch (e) {
+      displayError(e);
+      return PlayerModel.fromJson({});
     }
   }
 
@@ -189,10 +211,10 @@ class DatabaseController extends GetxController {
             .toList());
   }
 */
-  Future<String?> uploadPostImage(PlayerModel post, File image) async {
+  Future<String?> uploadPlayerImage(PlayerModel post, File image) async {
     try {
-      String imageName = '${post.userName}_${post.date}.png';
-      Reference reference = _storage.ref().child('players/$imageName');
+      String imageName = 'IMG_${post.name}_${post.joinDate}.jpg';
+      Reference reference = _storage.ref().child('players/photo/$imageName');
       UploadTask uploadTask = reference.putFile(image);
       TaskSnapshot snapshot = await uploadTask;
       String imageUrl = await snapshot.ref.getDownloadURL();
@@ -208,4 +230,48 @@ class DatabaseController extends GetxController {
       //return null;
     }
   }
+
+  Future<String?> uploadPlayerVideo(PlayerModel post, File video) async {
+    try {
+      String imageName = 'VID_${post.name}_${post.joinDate}.mp4';
+      Reference reference = _storage.ref().child('players/video/$imageName');
+      UploadTask uploadTask = reference.putFile(video);
+      TaskSnapshot snapshot = await uploadTask;
+      String videoUrl = await snapshot.ref.getDownloadURL();
+
+      return videoUrl;
+    } catch (e) {
+      displayError(e);
+      Get.snackbar(
+        "Error uploading video",
+        e.toString(),
+        snackPosition: SnackPosition.BOTTOM,
+      );
+      //return null;
+    }
+  }
+
+  Future<void> CreateBuyRequest(RequestModel request) async {
+    try {
+      uploading.toggle();
+      
+      await _firestore.collection('BuyRequests').add(request.toJson())
+          .then((doc) => doc.update({"id": doc.id}));
+      uploading.toggle();
+    } catch (e) {
+      uploading.toggle();
+      displayError(e);
+    }
+  }
+
+  Stream<List<RequestModel>> getRequests({bool update = false}) {
+    return _firestore
+        .collection('BuyRequests')
+        //.orderBy('requestDate', descending: true)
+        .snapshots()
+        .map((snapshot) => snapshot.docs
+        .map((doc) => RequestModel.fromJson(doc.data()))
+        .toList());
+  }
+  
 }
