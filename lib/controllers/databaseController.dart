@@ -267,7 +267,7 @@ class DatabaseController extends GetxController {
   Stream<List<RequestModel>> getRequests({bool update = false}) {
     return _firestore
         .collection('BuyRequests')
-        //.orderBy('requestDate', descending: true)
+        .orderBy('requestDate', descending: true)
         .snapshots()
         .map((snapshot) => snapshot.docs
         .map((doc) => RequestModel.fromJson(doc.data()))

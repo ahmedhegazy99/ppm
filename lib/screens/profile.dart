@@ -72,7 +72,6 @@ class Profile extends GetWidget<ProfileController> {
                     Container(
                       width: size.width * 0.9,
                       decoration: BoxDecoration(
-                        color: ppmMain,
                         borderRadius: BorderRadius.vertical(
                           top: Radius.circular(40),
                         ),
@@ -103,6 +102,69 @@ class Profile extends GetWidget<ProfileController> {
                             child: const Text('Sell Player'),
                           ),
                         ]
+                      ),
+                    ),
+
+                    Container(
+                      decoration: BoxDecoration(
+                        color: ppmMain,
+                        borderRadius: BorderRadius.vertical(
+                          top: Radius.circular(40),
+                        ),
+                      ),
+                      padding: EdgeInsets.symmetric(horizontal: 40, vertical: 20),
+                      margin: EdgeInsets.only(bottom: 10, left: 10, top: 10, right: 10),
+                      child: Column(
+                        children: [
+                          Container(
+                            width: size.width * 0.9,
+                            height: size.height * 0.2,
+                            child: Flex(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              direction: Axis.vertical,
+                              children: <Widget>[
+                                Text(
+                                  "${controller.user!.userType ?? 'no data'}",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold
+                                  ),
+                                ),
+
+                                Text(
+                                  "${controller.user!.email ?? 'no data'}",
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold
+                                  ),
+                                ),
+
+                                Text(
+                                  "${controller.user!.mobile ?? 'no data'}",
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold
+                                  ),
+                                ),
+
+                              ]
+                            ),
+                          ),
+
+                          OutlinedButton(
+                            onPressed: () {
+                              //print('Received click sell player');
+                            },
+                            style: ButtonStyle(
+                              foregroundColor: MaterialStateProperty.all(Colors.white),
+                              fixedSize: MaterialStateProperty.all(Size(size.width * 0.6, size.width * 0.02)),
+                              alignment: Alignment.center,
+                            ),
+                            child: const Text('Edit'),
+                          ),
+
+                        ],
                       ),
                     ),
 
