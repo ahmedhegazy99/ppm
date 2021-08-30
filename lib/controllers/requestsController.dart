@@ -1,64 +1,47 @@
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:pro_player_market/models/playerModel.dart';
 import 'package:pro_player_market/models/requestModel.dart';
+import 'package:pro_player_market/models/userModel.dart';
+import 'package:pro_player_market/utils/utilFunctions.dart';
 import 'databaseController.dart';
 
 class RequestsController extends GetxController {
   var _requestsStream = Rxn<List<RequestModel>>();
+
+  var userList= RxList<UserModel>();
+  var playerList = RxList<PlayerModel>();
 
   List<RequestModel> ? get requests => _requestsStream.value;
 
   @override
   void onInit() {
     _requestsStream.bindStream(Get.find<DatabaseController>().getRequests());
+    getIds();
     super.onInit();
   }
 
-/*
-  Future<void> toggleIsLiked(PlayerModel post) async {
+  @override
+  void onReady() {
+    getIds();
+    super.onReady();
+  }
+
+  Future<void> getIds() async {
     try {
-      final UserModel user = Get.find<UserController>().user;
-      final db = Get.find<DatabaseController>();
+      print("get IDsssssssssssssss");
+      print(requests);
+      requests!.map((value) async {
+        print("start map");
+        userList.add(await Get.find<DatabaseController>().getUser(value.userId!));
+        playerList.add(await Get.find<DatabaseController>().getPlayer(value.playerId!));
+        print("end map");
+        print(playerList);
+      });
 
-      if (post.upvotes?.contains(user.id) == true) {
-        post.upvotes!.remove(user.id);
-      } else {
-        if (post.upvotes == null) {
-          post.upvotes = [];
-        }
-        post.upvotes!.add(user.id!);
-      }
-
-      await db.updatePost(post);
-
-      //return;
     } catch (e) {
       displayError(e);
-      //return;
     }
   }
 
-  Future<void> BuyRequest(String playerid) async {
-    UserModel user = Get.find<UserController>().user;
-
-    RequestModel req = RequestModel();
-
-    req.type = RequestTypeEnum.buy;
-
-    req.userId = user.id;
-    req.playerId = playerid;
-    req.requestDate = DateTime.now();
-    req.title = 'Player Buy Request';
-
-    await Get.find<DatabaseController>().CreateBuyRequest(req);
-
-    await Future.delayed(Duration(seconds: 30), () {
-      Get.defaultDialog(
-          title: 'Done'.tr, content: Icon(Icons.verified_rounded), backgroundColor: ppmMain
-      );
-    });
-
-    Get.back();
-
-  }
-*/
 }

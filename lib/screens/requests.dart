@@ -9,6 +9,9 @@ import 'package:pro_player_market/controllers/requestsController.dart';
 class Requests extends GetWidget<RequestsController> {
   @override
   Widget build(BuildContext context) {
+
+    controller.onInit();
+
     return Scaffold(
       body: Container(
         color: Colors.grey[200],
@@ -28,6 +31,8 @@ class Requests extends GetWidget<RequestsController> {
             itemBuilder: (context, index) {
               return RequestCard(
                 request: controller.requests![index],
+                user: controller.userList[index],
+                player: controller.playerList[index],
               );
             },
           );
