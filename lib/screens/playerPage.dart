@@ -163,6 +163,7 @@ class PlayerPage extends GetWidget<PostController>{
                 ),
               ),
 
+              if (controller.userType != UserTypeEnum.userPlayer)
                RoundedButton(
                   text: "Request Deal",
                   press: () async {

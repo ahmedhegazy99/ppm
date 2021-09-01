@@ -16,7 +16,10 @@ class Requests extends GetWidget<RequestsController> {
       body: Container(
         color: Colors.grey[200],
         child: Obx(() {
-          if (controller.requests!.isEmpty == true || controller.requests == null)
+          if(controller.loading.value){
+            return Center(child: CircularProgressIndicator(color: ppmMain,));
+          }
+          if (controller.requests == null || controller.requests!.isEmpty == true || controller.userList.isEmpty || controller.playerList.isEmpty)
             return Column(
               children: [
                 Center(
@@ -31,8 +34,8 @@ class Requests extends GetWidget<RequestsController> {
             itemBuilder: (context, index) {
               return RequestCard(
                 request: controller.requests![index],
-                user: controller.userList[index],
-                player: controller.playerList[index],
+                user: controller.userList.value[index],
+                player: controller.playerList.value[index],
               );
             },
           );

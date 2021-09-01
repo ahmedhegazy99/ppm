@@ -7,7 +7,6 @@ import '../authController.dart';
 import '../databaseController.dart';
 import '../mainBarController.dart';
 import '../postController.dart';
-import '../requestCardController.dart';
 import '../userController.dart';
 
 class BindingController extends Bindings {
@@ -18,9 +17,8 @@ class BindingController extends Bindings {
     Get.put(DatabaseController());
     Get.put(PostController());
     Get.put(RequestsController());
-    Get.put(RequestCardController());
     Get.put(MainBarController());
-    Get.put(ProfileController());
+    //Get.put(ProfileController());
     Get.put(CreatePlayerController());
   }
 }

@@ -1,5 +1,7 @@
 import 'package:get/get.dart';
+import 'package:pro_player_market/controllers/authController.dart';
 import 'package:pro_player_market/controllers/databaseController.dart';
+import 'package:pro_player_market/controllers/userController.dart';
 import 'package:pro_player_market/models/playerModel.dart';
 import 'package:pro_player_market/models/userModel.dart';
 import 'package:pro_player_market/utils/utilFunctions.dart';
@@ -7,7 +9,7 @@ import 'package:pro_player_market/utils/utilFunctions.dart';
 import 'mainBarController.dart';
 
 class ProfileController extends GetxController {
-  /*final */RxString ?userId = ''.obs;
+  /*final */var userId = RxString('');
   //ProfileController({ this.userId});
 
   var _user = Rxn<UserModel>();
@@ -15,22 +17,63 @@ class ProfileController extends GetxController {
 
   var posts = Rx<List<PlayerModel>>([]);
 
+  var userType = Get.find<UserController>().user.userType ;
+
+  String ? userTypeSt;
+
   var loading = RxBool(true);
 
   @override
-  void onInit() async {
+  void onReady() {
+    init();
+    print('user type: $user');
+    super.onReady();
+  }
+
+  Future init() async {
     print("Start Profile controller");
-    userId = Get.find<MainBarController>().userId;
-    await getUser();
-    await getUserPosts();
-    loading.value = false;
-    super.onInit();
+    userId.value = Get.find<AuthController>().user?.uid ?? "";
+    print('user id: $userId');
+    if(userId.isNotEmpty) {
+      await getUser();
+      await getUserType();
+      await getUserPosts();
+    }
+      loading.value = false;
+
   }
 
   Future<void> getUser() async {
     try {
       print(userId);
-      _user.value = await Get.find<DatabaseController>().getUser(userId!.value);
+      _user.value = await Get.find<DatabaseController>().getUser(userId.value);
+
+      //return;
+    } catch (e) {
+      displayError(e);
+      //return;
+    }
+  }
+
+  Future<void> getUserType() async {
+    try {
+      switch(userType){
+        case UserTypeEnum.userPlayer: {
+          userTypeSt = "Player";
+        }
+        break;
+        case UserTypeEnum.club: {
+          userTypeSt = "Club";
+        }
+        break;
+        case UserTypeEnum.admin: {
+          userTypeSt = "Admin";
+        }
+        break;
+        default:{
+          userTypeSt = "Player";
+        }
+      }
 
       //return;
     } catch (e) {
@@ -42,7 +85,7 @@ class ProfileController extends GetxController {
   Future<void> getUserPosts() async {
     try {
       print(userId);
-      posts.value = (await Get.find<DatabaseController>().getUserPosts(userId!.value))!;
+      posts.value = (await Get.find<DatabaseController>().getUserPosts(userId.value))!;
 
       //return;
     } catch (e) {

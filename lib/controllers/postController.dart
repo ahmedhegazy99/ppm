@@ -11,6 +11,8 @@ import 'databaseController.dart';
 class PostController extends GetxController {
   var _postsStream = Rxn<List<PlayerModel>>();
 
+  var userType = Get.find<UserController>().user.userType ;
+
   List<PlayerModel> ? get posts => _postsStream.value;
 
   @override

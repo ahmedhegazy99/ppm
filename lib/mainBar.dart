@@ -1,22 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pro_player_market/components/constants.dart';
-import 'package:pro_player_market/screens/home.dart';
-import 'package:pro_player_market/screens/profile.dart';
-import 'package:pro_player_market/screens/requests.dart';
-
 import 'controllers/authController.dart';
 import 'controllers/mainBarController.dart';
 
 class MainBar extends GetWidget<MainBarController> {
   @override
   Widget build(BuildContext context) {
-    final tabs = [
-      Requests(),
-      Home(),
-      Profile(),
-      //CreatePlayer(),
-    ];
+
     return Scaffold(
       backgroundColor: Colors.grey[200],
       appBar: AppBar(
@@ -30,6 +21,7 @@ class MainBar extends GetWidget<MainBarController> {
             width: 100,
           ),
         ),*/
+        title: Text("Pro Player Market"),
         centerTitle: true,
 
         /*leading: IconButton(
@@ -76,33 +68,18 @@ class MainBar extends GetWidget<MainBarController> {
           ),
         ),
       ),
-      body: Obx(() => tabs[controller.currentIndex]),
+      body: Obx(() => controller.tabs[controller.currentIndex]),
       bottomNavigationBar: Obx(
         () => BottomNavigationBar(
           currentIndex: controller.currentIndex,
           type: BottomNavigationBarType.fixed,
           backgroundColor: ppmLight,
-          //iconSize: 30,
-          //unselectedFontSize: 20,
           unselectedItemColor: Colors.white,
           selectedItemColor: ppmMain,
-          items: [
-            BottomNavigationBarItem(
-                icon: Icon(Icons.info),
-                label: 'Requests',
-                backgroundColor: Colors.black),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.home),
-                label: 'Home',
-                backgroundColor: Colors.black),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.person),
-                label: 'Profile',
-                backgroundColor: Colors.black),
-          ],
+          items: controller.items,
           onTap: (index) {
             controller.changeIndex(index);
-            controller.userId.value = '';
+            //controller.userId.value = '';
           },
         ),
       ),

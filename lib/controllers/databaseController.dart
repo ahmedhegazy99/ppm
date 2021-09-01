@@ -273,5 +273,16 @@ class DatabaseController extends GetxController {
         .map((doc) => RequestModel.fromJson(doc.data()))
         .toList());
   }
+
+  Stream<List<RequestModel>> getUserRequests({@required userId}) {
+    return _firestore
+        .collection('BuyRequests')
+        .where('userId', isEqualTo: userId)
+        .orderBy('requestDate', descending: true)
+        .snapshots()
+        .map((snapshot) => snapshot.docs
+        .map((doc) => RequestModel.fromJson(doc.data()))
+        .toList());
+  }
   
 }

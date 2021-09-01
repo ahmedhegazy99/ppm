@@ -12,7 +12,7 @@ class Home extends GetWidget<PostController> {
         color: Colors.grey[200],
         padding: EdgeInsets.only(top: kDefaultPadding/2),
         child: Obx(() {
-          if (controller.posts!.isEmpty == true || controller.posts == null)
+          if (controller.posts == null || controller.posts!.isEmpty == true)
             return Column(
               children: [
                 Center(

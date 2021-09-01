@@ -19,7 +19,7 @@ class RoundedInputField extends StatelessWidget {
       {Key? key,
       this.cSize = 0.8,
       this.oWidth = 1,
-      this.maxLines,
+      this.maxLines = 1,
       this.color = Colors.white,
       this.textColor = Colors.black,
       this.hintText,

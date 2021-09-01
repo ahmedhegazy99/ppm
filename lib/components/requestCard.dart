@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
 import 'package:pro_player_market/components/constants.dart';
-import 'package:pro_player_market/controllers/requestCardController.dart';
+import 'package:pro_player_market/controllers/userController.dart';
 import 'package:pro_player_market/models/playerModel.dart';
 import 'package:pro_player_market/models/requestModel.dart';
 import 'package:pro_player_market/models/userModel.dart';
@@ -16,15 +16,9 @@ class RequestCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-    //print(request!.playerId);
-    //controller.request = request;
-    //controller.onInit();
-    //print('getIdsCard  ${controller.player}');
-
+    var userType = Get.find<UserController>().user.userType ;
     return Card(
-      child: Obx(() {
-        return ListTile(
+      child: ListTile(
           title: RichText(
             text: TextSpan(
               text: '${player!.name ?? ""} ',
@@ -40,6 +34,7 @@ class RequestCard extends StatelessWidget {
                       fontWeight: FontWeight.bold
                   ),
                 ),
+                if(userType == UserTypeEnum.admin)
                 TextSpan(
                   text: ' by ${user!.name?? ""}',
                   style: TextStyle(
@@ -50,8 +45,7 @@ class RequestCard extends StatelessWidget {
               ],
             ),
           ),
-        );
-      }),
+        ),
     );
   }
 
