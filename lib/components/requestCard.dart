@@ -7,6 +7,7 @@ import 'package:pro_player_market/controllers/userController.dart';
 import 'package:pro_player_market/models/playerModel.dart';
 import 'package:pro_player_market/models/requestModel.dart';
 import 'package:pro_player_market/models/userModel.dart';
+import 'package:pro_player_market/screens/requestPage.dart';
 
 class RequestCard extends StatelessWidget {
   final RequestModel ? request;
@@ -18,34 +19,39 @@ class RequestCard extends StatelessWidget {
   Widget build(BuildContext context) {
     var userType = Get.find<UserController>().user.userType ;
     return Card(
-      child: ListTile(
-          title: RichText(
-            text: TextSpan(
-              text: '${player!.name ?? ""} ',
-              style: TextStyle(
-                  color: ppmMain,
-                  fontWeight: FontWeight.bold
+      child: GestureDetector(
+        child: ListTile(
+            title: RichText(
+              text: TextSpan(
+                text: '${player!.name ?? ""} ',
+                style: TextStyle(
+                    color: ppmMain,
+                    fontWeight: FontWeight.bold
+                ),
+                children: <TextSpan>[
+                  TextSpan(
+                    text: '${request!.title ?? ""}',
+                    style: TextStyle(
+                        color: ppmMain,
+                        fontWeight: FontWeight.bold
+                    ),
+                  ),
+                  if(userType == UserTypeEnum.admin)
+                  TextSpan(
+                    text: ' by ${user!.name?? ""}',
+                    style: TextStyle(
+                        color: ppmMain,
+                        fontWeight: FontWeight.bold
+                    ),
+                  ),
+                ],
               ),
-              children: <TextSpan>[
-                TextSpan(
-                  text: '${request!.title ?? ""}',
-                  style: TextStyle(
-                      color: ppmMain,
-                      fontWeight: FontWeight.bold
-                  ),
-                ),
-                if(userType == UserTypeEnum.admin)
-                TextSpan(
-                  text: ' by ${user!.name?? ""}',
-                  style: TextStyle(
-                      color: ppmMain,
-                      fontWeight: FontWeight.bold
-                  ),
-                ),
-              ],
             ),
           ),
-        ),
+        onTap: (){
+          Get.to(RequestPage(request: request, user: user, player: player!));
+        },
+      ),
     );
   }
 

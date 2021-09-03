@@ -19,6 +19,9 @@ class RequestsController extends GetxController {
 
   var loading = RxBool(true);
 
+  var _pageUser = Rxn<UserModel>();
+  UserModel ? get pageUser => _pageUser.value;
+
   @override
   void onInit() {
 
@@ -27,6 +30,8 @@ class RequestsController extends GetxController {
           .getUserRequests(userId: Get.find<AuthController>().user?.uid));
     }else if(userType == UserTypeEnum.admin)
       _requestsStream.bindStream(Get.find<DatabaseController>().getRequests());
+
+    _requestsStream.bindStream(Get.find<DatabaseController>().getRequests());
 
     getIds();
     super.onInit();
@@ -61,6 +66,14 @@ class RequestsController extends GetxController {
       });*/
 
       loading.value =false;
+    } catch (e) {
+      displayError(e);
+    }
+  }
+
+  getUser(String userId) async {
+    try {
+      _pageUser.value = await Get.find<DatabaseController>().getUser(userId);
     } catch (e) {
       displayError(e);
     }

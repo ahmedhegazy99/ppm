@@ -33,13 +33,14 @@ class ProfileController extends GetxController {
   Future init() async {
     print("Start Profile controller");
     userId.value = Get.find<AuthController>().user?.uid ?? "";
-    print('user id: $userId');
+    print('user id: ${userId.value}');
     if(userId.isNotEmpty) {
       await getUser();
       await getUserType();
       await getUserPosts();
-    }
       loading.value = false;
+    }
+      //loading.value = false;
 
   }
 

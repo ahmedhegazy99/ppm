@@ -17,7 +17,7 @@ class AuthController extends GetxController {
   @override
   void onReady() {
     _user.bindStream(_auth.authStateChanges());
-    ever(_user, (dynamic _) async {
+    ever(_user, (User? _) async {
       if (_ != null) {
         Get.find<UserController>().user =
             await Get.find<DatabaseController>().getUser(_.uid);

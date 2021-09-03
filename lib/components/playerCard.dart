@@ -43,7 +43,12 @@ class PlayerCard extends StatelessWidget {
           // post image
           if (player!.photo != null)
             Container(
-              child: Image.network('${player!.photo}'),
+              child: (){
+                if(player!.photo != null)
+                  return Image.network('${player!.photo}');
+                return Placeholder(fallbackHeight: 400,fallbackWidth: 400);
+              }(),
+              //Image.network('${player!.photo}') ?? Placeholder(fallbackHeight: 400,fallbackWidth: 400),
             ),
 
           // post video

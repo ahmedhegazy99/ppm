@@ -79,11 +79,11 @@ class VideoWidgetState extends State<VideoWidget> {
       }
       if (_controller!.value.isPlaying) {
         videoStatusAnimation =
-            FadeAnimation(child: const Icon(Icons.pause, size: 100.0));
+            FadeAnimation(child: const Icon(Icons.pause, size: 100.0, color: Colors.white,));
         _controller!.pause();
       } else {
         videoStatusAnimation =
-            FadeAnimation(child: const Icon(Icons.play_arrow, size: 100.0));
+            FadeAnimation(child: const Icon(Icons.play_arrow, size: 100.0, color: Colors.white,));
         _controller!.play();
       }
     },

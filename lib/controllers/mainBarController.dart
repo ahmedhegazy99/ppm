@@ -52,10 +52,12 @@ class MainBarController extends GetxController {
       changeIndex(1);
     }else{
       tabs = [
+        Requests(),
         Home(),
         Profile(),
       ];
-      items.removeAt(0);
+      changeIndex(1);
+      //items.removeAt(0);
     }
 
     // tabs.map((e) {

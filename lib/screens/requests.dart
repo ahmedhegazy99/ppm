@@ -34,8 +34,8 @@ class Requests extends GetWidget<RequestsController> {
             itemBuilder: (context, index) {
               return RequestCard(
                 request: controller.requests![index],
-                user: controller.userList.value[index],
-                player: controller.playerList.value[index],
+                user: controller.userList[index],
+                player: controller.playerList[index],
               );
             },
           );
