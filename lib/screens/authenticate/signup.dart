@@ -17,7 +17,7 @@ class Signup extends GetWidget<AuthController> {
   final TextEditingController mobile = TextEditingController();
 
   //UserTypeEnum userType = UserTypeEnum.userPlayer.obs as UserTypeEnum;
-  //UserTypeEnum userType = UserTypeEnum.userPlayer;
+  var userType = UserTypeEnum.userPlayer.obs;
 
   @override
   Widget build(BuildContext context) {
@@ -87,6 +87,7 @@ class Signup extends GetWidget<AuthController> {
                         },
                       ),
                       Text("Club"),
+                      /*
                       Radio<UserTypeEnum>(
                         value: UserTypeEnum.admin,
                         groupValue: controller.userType.value,
@@ -97,6 +98,7 @@ class Signup extends GetWidget<AuthController> {
                         },
                       ),
                       Text("Admin"),
+                      */
                     ],
                   );
                 }),
@@ -158,7 +160,7 @@ class Signup extends GetWidget<AuthController> {
                           password.text == confirmPassword.text) {
                         controller.createUser(
                             name.text,
-                            /*userType,*/
+                            userType.value,
                             email.text,
                             mobile.text,
                             password.text);

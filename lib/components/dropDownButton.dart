@@ -22,7 +22,7 @@ class DropButton extends StatefulWidget {
 
 class _DropButtonState extends State<DropButton> {
   final controller = Get.put(CreatePlayerController());
-  String dropdownValue = 'Coworking Space';
+  String dropdownValue = 'Cairo';
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -51,6 +51,7 @@ class _DropButtonState extends State<DropButton> {
         onChanged: (String ? newValue) {
           setState(() {
             dropdownValue = newValue! ;
+            controller.city = dropdownValue;
             /*switch (dropdownValue) {
               case 'Coworking Space': {
                   controller.category = PlaceTypeEnum.coworkingSpace.toString();
@@ -65,7 +66,7 @@ class _DropButtonState extends State<DropButton> {
           });
         },
 
-        items: <String>['Coworking Space', 'Studio', 'Restaurant']
+        items: <String>['Cairo', 'Giza', 'Alexandria']
             .map<DropdownMenuItem<String>>((String value) {
           return DropdownMenuItem<String>(
             value: value,

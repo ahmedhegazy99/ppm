@@ -18,7 +18,9 @@ class RequestCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var userType = Get.find<UserController>().user.userType ;
-    return Card(
+    return Container(
+      margin: EdgeInsets.only(bottom: 4),
+      color: ppmBack,
       child: GestureDetector(
         child: ListTile(
             title: RichText(
@@ -50,6 +52,7 @@ class RequestCard extends StatelessWidget {
           ),
         onTap: (){
           Get.to(RequestPage(request: request, user: user, player: player!));
+
         },
       ),
     );

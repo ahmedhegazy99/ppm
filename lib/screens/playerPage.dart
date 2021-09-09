@@ -32,13 +32,13 @@ class PlayerPage extends GetWidget<PostController>{
                 background: Image.network('${player!.photo}'),
               ),
               backgroundColor: ppmMain,
-              actions: <Widget>[
+              /*actions: <Widget>[
                 IconButton(
                   icon: const Icon(Icons.add_circle),
                   tooltip: 'Add new entry',
                   onPressed: () { /* ... */ },
                 ),
-              ]
+              ]*/
             ),
 
              SliverToBoxAdapter(
@@ -46,18 +46,7 @@ class PlayerPage extends GetWidget<PostController>{
                 child: Column(
                   children: [
 
-                  SizedBox(
-                    height: 10,
-                  ),
 
-                  if (player!.video != null)
-                    Container(
-                      child: VideoWidget(player!.video!),
-                    ),
-
-                  SizedBox(
-                    height: 10,
-                  ),
 
                   Container(
                     alignment: Alignment.centerLeft,
@@ -143,7 +132,7 @@ class PlayerPage extends GetWidget<PostController>{
 
                         const Divider(height: 20.0, thickness: 0.5),
 
-                        if(player!.birthDate.isNull == false)
+                        if(player!.birthDate != null)
                         Padding(
                           padding: const EdgeInsets.all(kDefaultPadding),
                           child: Text.rich(
@@ -169,7 +158,20 @@ class PlayerPage extends GetWidget<PostController>{
                     ),
                   ),
 
-                  if (controller.userType != UserTypeEnum.userPlayer)
+                    SizedBox(
+                      height: 10,
+                    ),
+
+                    if (player!.video != null)
+                      Container(
+                        child: VideoWidget(player!.video!),
+                      ),
+
+                    SizedBox(
+                      height: 10,
+                    ),
+
+                  if (controller.userType == UserTypeEnum.club)
                    RoundedButton(
                       text: "Request Deal",
                       press: () async {

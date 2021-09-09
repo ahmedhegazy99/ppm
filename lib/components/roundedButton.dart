@@ -7,14 +7,18 @@ class RoundedButton extends StatelessWidget {
   final int ?viewIcon;
   final VoidCallback ? press;
   Color color, textColor;
-  //const RoundedButton({
+  final double cSize;
+  double fontSize, radiusSize = 37.5;
+
   RoundedButton({
     Key? key,
     this.text,
     this.icon,
     this.press,
     this.color = ppmMain,
-    this.textColor = ppmLight,
+    this.textColor = ppmBack,
+    this.cSize = 0.4,
+    this.fontSize = 40,
   })  : viewIcon = icon != null ? 1 : 0,
         super(key: key);
 
@@ -23,13 +27,20 @@ class RoundedButton extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
 
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 10),
-      width: size.width * 0.8,
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(30),
+      margin: EdgeInsets.symmetric(vertical: 0, horizontal: 12),
+      //margin: EdgeInsets.symmetric(vertical: 10),
+      width: size.width * cSize * 1.5,
+      height: size.width * cSize * cSize,
+      child: Card(
+        color: color,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(
+            Radius.circular(radiusSize * cSize * 6),
+          ),
+        ),
         child: FlatButton(
-          padding: EdgeInsets.symmetric(vertical: 10, horizontal: 40),
-          color: color,
+          //padding: EdgeInsets.symmetric(vertical: 10, horizontal: 32),
+          //color: color,
           onPressed: press,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -37,7 +48,7 @@ class RoundedButton extends StatelessWidget {
             children: [
               //SizedBox(height: size.height * 0.05),
 
-              Container(width: size.width * 0.1 * viewIcon!, child: icon),
+              //Container(width: size.width * 0.1 * viewIcon!, child: icon),
 
               Text(
                 text!,
@@ -45,7 +56,8 @@ class RoundedButton extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                     fontFamily: "englishBebas",
                     color: textColor,
-                    fontSize: 32),
+                    fontSize: fontSize * cSize * 1.5,
+                ),
               ),
             ],
           ),

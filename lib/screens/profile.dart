@@ -11,6 +11,7 @@ import 'package:pro_player_market/utils/appRouter.dart';
 class Profile extends StatelessWidget {
 
   final controller = Get.put(ProfileController());
+  final mainColor = ppmMain;
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +41,7 @@ class Profile extends StatelessWidget {
                     CircleAvatar(
                       backgroundImage: NetworkImage(controller.user?.imageUrl ??
                           'https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png'),
-                      radius: 40,
+                      radius: size.width * 0.2,
                     ),
                     SizedBox(
                       height: 6,
@@ -75,17 +76,20 @@ class Profile extends StatelessWidget {
                         direction: Axis.horizontal,
                         children: <Widget>[
 
-                          if (controller.userType != UserTypeEnum.userPlayer)
+                          if (controller.userType == UserTypeEnum.club)
                             OutlinedButton(
                               onPressed: () {
                                 print('Received click Requests');
                                 //Get.offAllNamed(AppRouter.addPlayerRoute);
                               },
                               style: ButtonStyle(
-                                foregroundColor: MaterialStateProperty.all(ppmMain),
+                                foregroundColor: MaterialStateProperty.all(ppmBack),
+                                backgroundColor: MaterialStateProperty.all(ppmMain),
                               ),
                               child: const Text('Requests'),
                             ),
+
+                          SizedBox(width: size.width * 0.01),
 
                           OutlinedButton(
                             onPressed: () {
@@ -97,7 +101,8 @@ class Profile extends StatelessWidget {
                               }
                             },
                             style: ButtonStyle(
-                              foregroundColor: MaterialStateProperty.all(ppmMain),
+                              foregroundColor: MaterialStateProperty.all(ppmBack),
+                              backgroundColor: MaterialStateProperty.all(ppmMain),
                             ),
                             child: const Text('Sell Player'),
                           ),
@@ -107,76 +112,144 @@ class Profile extends StatelessWidget {
 
                     Container(
                       decoration: BoxDecoration(
-                        color: ppmMain,
-                        borderRadius: BorderRadius.vertical(
+                        //color: ppmMain,
+                        /*borderRadius: BorderRadius.vertical(
                           top: Radius.circular(40),
-                        ),
+                        ),*/
                       ),
-                      padding: EdgeInsets.symmetric(horizontal: 40, vertical: 20),
-                      margin: EdgeInsets.only(bottom: 10, left: 10, top: 10, right: 10),
+                      //padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                      padding: EdgeInsets.only(bottom: 20, left: 20, top: 20),
+                      //margin: EdgeInsets.only(bottom: 10, left: 10, top: 10, right: 10),
                       child: Column(
                         children: [
                           Container(
                             width: size.width * 0.9,
-                            height: size.height * 0.2,
+                            //height: size.height * 0.2,
+                            padding: EdgeInsets.only(bottom: 20),
                             child: Flex(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               direction: Axis.vertical,
                               children: <Widget>[
-                                Text(
-                                  "${controller.userTypeSt ?? 'no data'}",
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold
+                                ListTile(
+                                  leading: Icon(Icons.person, color: mainColor,),
+                                  title: Flex(
+                                    direction: Axis.vertical,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        "Type",
+                                        style: TextStyle(
+                                          color: mainColor,
+                                          fontSize: size.width * 0.03,
+                                        ),
+                                      ),
+                                      Text(
+                                        "${controller.userTypeSt ?? 'no data'}",
+                                        style: TextStyle(
+                                          color: ppmLight,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: size.width * 0.04,
+                                        ),
+                                      ),
+                                      const Divider(height: 20.0, thickness: 0.5),
+                                    ]
                                   ),
                                 ),
 
-                                Text(
-                                  "${controller.user?.email ?? 'no data'}",
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold
+                                ListTile(
+                                  leading: Icon(Icons.mail, color: mainColor,),
+                                  trailing: IconButton(
+                                      onPressed: (){
+
+                                      },
+                                      icon: Icon(Icons.edit),
+                                  ),
+                                  title: Flex(
+                                      direction: Axis.vertical,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          "Mail",
+                                          style: TextStyle(
+                                            color: mainColor,
+                                            fontSize: size.width * 0.03,
+                                          ),
+                                        ),
+                                        Text(
+                                          "${controller.user?.email ?? 'no data'}",
+                                          style: TextStyle(
+                                            color: ppmLight,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: size.width * 0.04,
+                                          ),
+                                        ),
+                                        const Divider(height: 20.0, thickness: 0.5),
+                                      ]
                                   ),
                                 ),
 
-                                Text(
-                                  "${controller.user?.mobile ?? 'no data'}",
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold
+                                ListTile(
+                                  leading: Icon(Icons.phone, color: mainColor,),
+                                  trailing: IconButton(
+                                    onPressed: (){
+
+                                    },
+                                    icon: Icon(Icons.edit),
+                                  ),
+                                  title: Flex(
+                                      direction: Axis.vertical,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          "Phone",
+                                          style: TextStyle(
+                                            color: mainColor,
+                                            fontSize: size.width * 0.03,
+                                          ),
+                                        ),
+                                        Text(
+                                          "${controller.user?.mobile ?? 'no data'}",
+                                          style: TextStyle(
+                                            color: ppmLight,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: size.width * 0.04,
+                                          ),
+                                        ),
+                                        const Divider(height: 20.0, thickness: 0.5),
+                                      ]
                                   ),
                                 ),
-
                               ]
                             ),
                           ),
 
-                          OutlinedButton(
+                          /*OutlinedButton(
                             onPressed: () {
                               print('Received click Edit Data');
                             },
                             style: ButtonStyle(
-                              foregroundColor: MaterialStateProperty.all(Colors.white),
+                              foregroundColor: MaterialStateProperty.all(ppmBack),
+                              backgroundColor: MaterialStateProperty.all(ppmMain),
                               fixedSize: MaterialStateProperty.all(Size(size.width * 0.6, size.width * 0.02)),
                               alignment: Alignment.center,
                             ),
                             child: const Text('Edit'),
-                          ),
+                          ),*/
 
                         ],
                       ),
                     ),
+                    if (controller.userType != UserTypeEnum.admin)
+                      if(controller.posts.value.isNotEmpty)
+                        ...controller.posts.value
+                            .map((e) => PlayerCard(
+                                  player: e,
+                                ))
+                            .toList(),
 
-                    if(controller.posts.value.isNotEmpty)
-                      ...controller.posts.value
-                          .map((e) => PlayerCard(
-                                player: e,
-                              ))
-                          .toList(),
-
-                    if(controller.posts.value.isEmpty)
-                      Text("You haven't Requested Yet"),
+                      if(controller.posts.value.isEmpty)
+                        Text("You haven't Requested Yet"),
 
                   ],
                 ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:pro_player_market/components/constants.dart';
 import 'package:pro_player_market/controllers/userController.dart';
 import 'package:pro_player_market/models/userModel.dart';
 import 'package:pro_player_market/utils/appRouter.dart';
@@ -21,6 +22,7 @@ class AuthController extends GetxController {
       if (_ != null) {
         Get.find<UserController>().user =
             await Get.find<DatabaseController>().getUser(_.uid);
+        print("user auth : ${Get.find<UserController>().user}");
       }
     });
     ever(loading, (bool? val) {
@@ -33,7 +35,7 @@ class AuthController extends GetxController {
     });
   }
 
-  void createUser(String name, /*UserTypeEnum userType,*/ String email,
+  void createUser(String name, UserTypeEnum userType, String email,
       String mobile, String password) async {
     try {
       loading.toggle();
@@ -43,11 +45,33 @@ class AuthController extends GetxController {
       UserModel _user = UserModel(
           id: _authResult.user!.uid,
           name: name,
-          userType: userType.value,
+          //userType: userType.value,
+          userType: userType,
           mobile: mobile,
           email: email);
       await Get.find<DatabaseController>().createNewUser(_user);
       Get.offAllNamed(AppRouter.mainBarRoute);
+      loading.toggle();
+      Get.back();
+    } catch (e) {
+      loading.toggle();
+      displayError(e);
+    }
+  }
+
+  void updateUser(String name, String email,
+      String mobile) async {
+    try {
+      loading.toggle();
+      UserModel _user = UserModel(
+        name: name,
+        mobile: mobile,
+        email: email,
+      );
+      await Get.find<DatabaseController>().createNewUser(_user);
+      Get.defaultDialog(
+          title: 'Done'.tr, content: Icon(Icons.verified_rounded), backgroundColor: ppmMain
+      );
       loading.toggle();
       Get.back();
     } catch (e) {

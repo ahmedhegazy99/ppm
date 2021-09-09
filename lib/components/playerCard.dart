@@ -32,7 +32,7 @@ class PlayerCard extends StatelessWidget {
     ];
 
     return Card(
-      margin: EdgeInsets.symmetric(vertical: 4, horizontal: 6),
+      margin: EdgeInsets.symmetric(vertical: 4, /*horizontal: 6*/),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.all(
           Radius.circular(30.0),

@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'dart:math' show pi;
 
-const ppmMain = Colors.green;
-const mindersDarkY = Color(0xfff7a50c);
+//const ppmMain = Colors.green;
+const ppmMain = Color(0xff246EE9);
 const ppmLight = Colors.blueGrey;
-const mindersLightBlack = Color(0xff232323);
+const ppmBack = Colors.white;
+const ppmLightBlack = Color(0xff232323);
 
 const gradientLightY = LinearGradient(
   begin: Alignment.centerLeft,

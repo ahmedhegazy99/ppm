@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_state_manager/src/simple/get_view.dart';
@@ -29,12 +30,13 @@ class RequestPage extends GetWidget<RequestsController>{
       appBar: AppBar(
         //automaticallyImplyLeading: true,
         backgroundColor: ppmMain,
+        title: Text("Football Player Market"),
         centerTitle: true,
 
         leading: IconButton(
           icon: Icon(
             Icons.arrow_back,
-            color: ppmLight,
+            color: ppmBack,
           ),
           onPressed: () {
             Get.back();
@@ -42,26 +44,26 @@ class RequestPage extends GetWidget<RequestsController>{
         ),
 
         elevation: 0,
-        shape: RoundedRectangleBorder(
+        /*shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(
             bottom: Radius.circular(40),
           ),
-        ),
+        ),*/
       ),
       body: Container(
         child: SingleChildScrollView(
           child: Container(
-            padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+            //padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
             child: Column(
               children: [
                 Container(
-                  padding: EdgeInsets.symmetric(horizontal: 32, vertical: 20),
+                  padding: EdgeInsets.symmetric(horizontal: 8, vertical: 20),
                   //margin: EdgeInsets.only(bottom: 10, left: 10, top: 10, right: 10),
                   decoration: BoxDecoration(
                     color: Colors.white,
-                    borderRadius: BorderRadius.all(
+                   /* borderRadius: BorderRadius.all(
                       Radius.circular(30),
-                    ),
+                    ),*/
                   ),
                   child: Obx((){
                     return Column(
@@ -74,60 +76,67 @@ class RequestPage extends GetWidget<RequestsController>{
                           child: Text(
                             "Player",
                             style: TextStyle(
-                                color: ppmMain,
-                                fontWeight: FontWeight.bold
+                              color: ppmMain,
+                              fontWeight: FontWeight.bold,
+                              fontSize: size.width * 0.06,
                             ),
                           ),
                         ),
                       ),
 
                       Padding(
-                        padding: const EdgeInsets.all(kDefaultPadding),
-                        child: Text.rich(
-                          TextSpan(
-                              text: "Name: ",
-                              style: TextStyle(
-                                  color: ppmMain,
-                                  fontWeight: FontWeight.bold
-                              ),
-                              children: <TextSpan>[
-                                TextSpan(
-                                  text: "${player!.name}",
+                        padding: const EdgeInsets.all(kDefaultPadding/4),
+                        child: ListTile(
+                           leading: Icon(Icons.person, color: ppmMain,),
+                            title: Text.rich(
+                              TextSpan(
+                                  text: "Name: ",
                                   style: TextStyle(
-                                      color: ppmLight,
+                                      color: ppmMain,
                                       fontWeight: FontWeight.bold
                                   ),
-                                ),
-                              ]
-                          ),
+                                  children: <TextSpan>[
+                                    TextSpan(
+                                      text: "${player!.name}",
+                                      style: TextStyle(
+                                          color: ppmLight,
+                                          fontWeight: FontWeight.bold
+                                      ),
+                                    ),
+                                  ]
+                              ),
+                            ),
                         ),
                       ),
 
                       Padding(
-                        padding: const EdgeInsets.all(kDefaultPadding),
-                        child: Text.rich(
-                          TextSpan(
-                              text: "City: ",
-                              style: TextStyle(
-                                  color: ppmMain,
-                                  fontWeight: FontWeight.bold
-                              ),
-                              children: <TextSpan>[
-                                TextSpan(
-                                  text: "${player!.city}",
+                        padding: const EdgeInsets.all(kDefaultPadding/4),
+                        child: ListTile(
+                            leading: Icon(Icons.location_on, color: ppmMain,),
+                            title: Text.rich(
+                              TextSpan(
+                                  text: "City: ",
                                   style: TextStyle(
-                                      color: ppmLight,
+                                      color: ppmMain,
                                       fontWeight: FontWeight.bold
                                   ),
-                                ),
-                              ]
-                          ),
+                                  children: <TextSpan>[
+                                    TextSpan(
+                                      text: "${player!.city}",
+                                      style: TextStyle(
+                                          color: ppmLight,
+                                          fontWeight: FontWeight.bold
+                                      ),
+                                    ),
+                                  ]
+                              ),
+                            ),
                         ),
                       ),
 
                       if(player!.birthDate.isNull == false)
                         Padding(
-                          padding: const EdgeInsets.all(kDefaultPadding),
+                          padding: const EdgeInsets.all(kDefaultPadding/4),
                           child: Text.rich(
                             TextSpan(
                                 text: "Age: ",
@@ -151,7 +160,7 @@ class RequestPage extends GetWidget<RequestsController>{
                       const Divider(height: 20.0, thickness: 0.5),
 
                       Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 8),
+                        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
                         child: Text(
                           "Contact info",
                           style: TextStyle(
@@ -162,72 +171,81 @@ class RequestPage extends GetWidget<RequestsController>{
                       ),
 
                       Padding(
-                        padding: const EdgeInsets.all(kDefaultPadding),
-                        child: Text.rich(
-                            TextSpan(
-                                text: "Name: ",
-                                style: TextStyle(
-                                    color: ppmMain,
-                                    fontWeight: FontWeight.bold
-                                ),
-                                children: <TextSpan>[
-                                  TextSpan(
-                                    text: "${controller.pageUser?.name}",
-                                    style: TextStyle(
-                                        color: ppmLight,
-                                        fontWeight: FontWeight.bold
-                                    ),
-                                  ),
-                                ]
-                            ),
-                          ),
-                      ),
-
-                      const Divider(height: 20.0, thickness: 0.5),
-
-                      Padding(
-                        padding: const EdgeInsets.all(kDefaultPadding),
-                        child: Text.rich(
-                          TextSpan(
-                              text: "Phone: ",
-                              style: TextStyle(
-                                  color: ppmMain,
-                                  fontWeight: FontWeight.bold
-                              ),
-                              children: <TextSpan>[
-                                TextSpan(
-                                  text: "${controller.pageUser?.mobile}",
+                        padding: const EdgeInsets.symmetric(horizontal: kDefaultPadding),
+                        child: ListTile(
+                            leading: Icon(Icons.person, color: ppmMain,),
+                            title: Text.rich(
+                              TextSpan(
+                                  text: "Name: ",
                                   style: TextStyle(
-                                      color: ppmLight,
+                                      color: ppmMain,
                                       fontWeight: FontWeight.bold
                                   ),
+                                  children: <TextSpan>[
+                                    TextSpan(
+                                      text: "${controller.pageUser?.name}",
+                                      style: TextStyle(
+                                          color: ppmLight,
+                                          fontWeight: FontWeight.bold
+                                      ),
+                                    ),
+                                  ]
                                 ),
-                              ]
-                          ),
+                             ),
                         ),
                       ),
 
-                      const Divider(height: 20.0, thickness: 0.5),
+                      //const Divider(height: 20.0, thickness: 0.5),
+
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: kDefaultPadding),
+                        child: ListTile(
+                            leading: Icon(Icons.phone, color: ppmMain,),
+                            title: Text.rich(
+                              TextSpan(
+                                  text: "Phone: ",
+                                  style: TextStyle(
+                                      color: ppmMain,
+                                      fontWeight: FontWeight.bold
+                                  ),
+                                  children: <TextSpan>[
+                                    TextSpan(
+                                      text: "${controller.pageUser?.mobile}",
+                                      style: TextStyle(
+                                          color: ppmLight,
+                                          fontWeight: FontWeight.bold
+                                      ),
+                                    ),
+                                  ]
+                                ),
+                             ),
+                        ),
+                      ),
+
+                      //const Divider(height: 20.0, thickness: 0.5),
 
                         Padding(
-                          padding: const EdgeInsets.all(kDefaultPadding),
-                          child: Text.rich(
-                            TextSpan(
-                                text: "Mail: ",
-                                style: TextStyle(
-                                    color: ppmMain,
-                                    fontWeight: FontWeight.bold
-                                ),
-                                children: <TextSpan>[
-                                  TextSpan(
-                                    text: "${controller.pageUser?.email}",
+                          padding: const EdgeInsets.symmetric(horizontal: kDefaultPadding),
+                          child: ListTile(
+                              leading: Icon(Icons.mail, color: ppmMain,),
+                              title: Text.rich(
+                                TextSpan(
+                                    text: "Mail: ",
                                     style: TextStyle(
-                                        color: ppmLight,
+                                        color: ppmMain,
                                         fontWeight: FontWeight.bold
                                     ),
-                                  ),
-                                ]
-                            ),
+                                    children: <TextSpan>[
+                                      TextSpan(
+                                        text: "${controller.pageUser?.email}",
+                                        style: TextStyle(
+                                            color: ppmLight,
+                                            fontWeight: FontWeight.bold
+                                        ),
+                                      ),
+                                    ]
+                                ),
+                              ),
                           ),
                         ),
                       ],
@@ -240,12 +258,12 @@ class RequestPage extends GetWidget<RequestsController>{
                 ),
 
                 Container(
-                  padding: EdgeInsets.symmetric(horizontal: 32, vertical: 20),
+                  padding: EdgeInsets.symmetric(horizontal: 8, vertical: 20),
                   decoration: BoxDecoration(
                     color: Colors.white,
-                    borderRadius: BorderRadius.all(
+                    /*borderRadius: BorderRadius.all(
                       Radius.circular(30),
-                    ),
+                    ),*/
                   ),
 
                   child: Column(
@@ -258,80 +276,90 @@ class RequestPage extends GetWidget<RequestsController>{
                           child: Text(
                             "Requester",
                             style: TextStyle(
-                                color: ppmMain,
-                                fontWeight: FontWeight.bold
+                              color: ppmMain,
+                              fontWeight: FontWeight.bold,
+                              fontSize: size.width * 0.06,
                             ),
                           ),
                         ),
                       ),
 
                       Padding(
-                        padding: const EdgeInsets.all(kDefaultPadding),
-                        child: Text.rich(
-                          TextSpan(
-                              text: "Name: ",
-                              style: TextStyle(
-                                  color: ppmMain,
-                                  fontWeight: FontWeight.bold
-                              ),
-                              children: <TextSpan>[
-                                TextSpan(
-                                  text: "${user!.name}",
-                                  style: TextStyle(
-                                      color: ppmLight,
-                                      fontWeight: FontWeight.bold
-                                  ),
-                                ),
-                              ]
-                          ),
-                        ),
-                      ),
-
-                      const Divider(height: 20.0, thickness: 0.5),
-
-                      Padding(
-                        padding: const EdgeInsets.all(kDefaultPadding),
-                        child: Text.rich(
-                          TextSpan(
-                              text: "Phone: ",
-                              style: TextStyle(
-                                  color: ppmMain,
-                                  fontWeight: FontWeight.bold
-                              ),
-                              children: <TextSpan>[
-                                TextSpan(
-                                  text: "${user!.mobile}",
-                                  style: TextStyle(
-                                      color: ppmLight,
-                                      fontWeight: FontWeight.bold
-                                  ),
-                                ),
-                              ]
-                          ),
-                        ),
-                      ),
-
-                      const Divider(height: 20.0, thickness: 0.5),
-
-                        Padding(
-                          padding: const EdgeInsets.all(kDefaultPadding),
-                          child: Text.rich(
-                            TextSpan(
-                                text: "Mail: ",
+                        padding: const EdgeInsets.all(kDefaultPadding/4),
+                        child: ListTile(
+                           leading: Icon(Icons.person, color: ppmMain,),
+                           title: Text.rich(
+                              TextSpan(
+                                text: "Name: ",
                                 style: TextStyle(
                                     color: ppmMain,
                                     fontWeight: FontWeight.bold
                                 ),
                                 children: <TextSpan>[
                                   TextSpan(
-                                    text: "${user!.email}",
+                                    text: "${user!.name}",
                                     style: TextStyle(
                                         color: ppmLight,
                                         fontWeight: FontWeight.bold
                                     ),
                                   ),
                                 ]
+                              ),
                             ),
+                        ),
+                      ),
+
+                      //const Divider(height: 20.0, thickness: 0.5),
+
+                      Padding(
+                        padding: const EdgeInsets.all(kDefaultPadding/4),
+                        child:ListTile(
+                            leading: Icon(Icons.phone, color: ppmMain,),
+                            title: Text.rich(
+                              TextSpan(
+                                text: "Phone: ",
+                                style: TextStyle(
+                                    color: ppmMain,
+                                    fontWeight: FontWeight.bold
+                                ),
+                                children: <TextSpan>[
+                                  TextSpan(
+                                    text: "${user!.mobile}",
+                                    style: TextStyle(
+                                        color: ppmLight,
+                                        fontWeight: FontWeight.bold
+                                    ),
+                                  ),
+                                ]
+                              ),
+                            ),
+                        ),
+                      ),
+
+                      //const Divider(height: 20.0, thickness: 0.5),
+
+                        Padding(
+                          padding: const EdgeInsets.all(kDefaultPadding/4),
+                          child: ListTile(
+                             leading: Icon(Icons.mail, color: ppmMain,),
+                             title: Text.rich(
+                                TextSpan(
+                                  text: "Mail: ",
+                                  style: TextStyle(
+                                      color: ppmMain,
+                                      fontWeight: FontWeight.bold
+                                  ),
+                                  children: <TextSpan>[
+                                    TextSpan(
+                                      text: "${user!.email}",
+                                      style: TextStyle(
+                                          color: ppmLight,
+                                          fontWeight: FontWeight.bold
+                                      ),
+                                    ),
+                                  ]
+                                ),
+                              ),
                           ),
                         ),
                     ],

@@ -20,5 +20,20 @@ class BindingController extends Bindings {
     Get.put(MainBarController());
     //Get.put(ProfileController());
     Get.put(CreatePlayerController());
+
+    /*
+    ever(user, (User? _) async {
+      if (_ != null) {
+        print("user binding complete");
+        Get.put(DatabaseController());
+        Get.put(UserController());
+        Get.put(PostController());
+        Get.put(RequestsController());
+        Get.put(MainBarController());
+        //Get.put(ProfileController());
+        Get.put(CreatePlayerController());
+      }
+    });
+*/
   }
 }

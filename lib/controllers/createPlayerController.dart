@@ -15,9 +15,13 @@ class CreatePlayerController extends GetxController {
   final playerNameController = TextEditingController();
   final bioController = TextEditingController();
   final cityController = TextEditingController();
+  var city;
 
   final image = Rxn<File>();
   final video = Rxn<File>();
+
+  var selectedDate = Rx(DateTime.now());
+
 
   Future selectImage() async {
     final picker = ImagePicker();
@@ -69,10 +73,10 @@ class CreatePlayerController extends GetxController {
 
   Future<void> postPlayer() async {
     UserModel user = Get.find<UserController>().user;
-    if (playerNameController.value.text.isEmpty &&
-        bioController.value.text.isEmpty &&
-        cityController.value.text.isEmpty &&
-        image.value == null && video.value == null)
+    if (playerNameController.value.text.isEmpty ||
+        bioController.value.text.isEmpty ||
+        cityController.value.text.isEmpty ||
+        image.value == null || video.value == null)
       Get.snackbar('cantPost'.tr, 'empty'.tr,
           backgroundColor: Colors.red, snackPosition: SnackPosition.BOTTOM);
     else {
@@ -82,11 +86,13 @@ class CreatePlayerController extends GetxController {
       else
         post.type = PostTypeEnum.text;
 */
-      post.city = cityController.value.text;
+      //post.city = cityController.value.text;
+      post.city = city;
       post.userId = user.id;
       post.bio = bioController.text;
       post.name = playerNameController.text;
       post.joinDate = DateTime.now();
+      post.birthDate = selectedDate.value;
       post.upvotes = [];
 
       //print(image.value);
@@ -95,6 +101,23 @@ class CreatePlayerController extends GetxController {
       image.value = null;
       video.value = null;
       playerNameController.clear();
+      bioController.clear();
+      cityController.clear();
+      selectedDate.value = DateTime.now();
     }
   }
+
+
+  selectDate(BuildContext context) async {
+    final DateTime? selected = await showDatePicker(
+      context: context,
+      initialDate: selectedDate.value,
+      firstDate: DateTime(DateTime.now().year - 40),
+      lastDate: DateTime(DateTime.now().year - 15),
+    );
+    if (selected != null && selected != selectedDate.value)
+        selectedDate.value = selected;
+
+  }
+
 }

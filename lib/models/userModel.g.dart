@@ -10,10 +10,12 @@ UserModel _$UserModelFromJson(Map<String, dynamic> json) {
   return UserModel(
     id: json['id'] as String?,
     userType: _$enumDecodeNullable(_$UserTypeEnumEnumMap, json['userType']),
+    joinDate: dateTimeFromTimestamp(json['joinDate'] as Timestamp?),
     name: json['name'] as String?,
     mobile: json['mobile'] as String?,
     imageUrl: json['imageUrl'] as String?,
     email: json['email'] as String?,
+    city: json['city'] as String?,
     requests:
     (json['requests'] as List<dynamic>?)?.map((e) => e as String).toList(),
   );
@@ -22,10 +24,12 @@ UserModel _$UserModelFromJson(Map<String, dynamic> json) {
 Map<String, dynamic> _$UserModelToJson(UserModel instance) => <String, dynamic>{
   'id': instance.id,
   'userType': _$UserTypeEnumEnumMap[instance.userType],
+  'joinDate': dateTimeToTimestamp(instance.joinDate),
   'name': instance.name,
   'email': instance.email,
   'mobile': instance.mobile,
   'imageUrl': instance.imageUrl,
+  'city': instance.city,
   'requests': instance.requests,
 };
 

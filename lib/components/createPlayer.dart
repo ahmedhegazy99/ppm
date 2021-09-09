@@ -24,12 +24,13 @@ class CreatePlayer extends GetWidget<CreatePlayerController> {
       appBar: AppBar(
         //automaticallyImplyLeading: true,
         backgroundColor: ppmMain,
+        title: Text("Football Player Market"),
         centerTitle: true,
 
         leading: IconButton(
           icon: Icon(
             Icons.arrow_back,
-            color: ppmLight,
+            color: ppmBack,
           ),
           onPressed: () {
             Get.back();
@@ -37,19 +38,11 @@ class CreatePlayer extends GetWidget<CreatePlayerController> {
         ),
 
         elevation: 0,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(
-            bottom: Radius.circular(40),
-          ),
-        ),
       ),
       body: Container(
-        margin: EdgeInsets.fromLTRB(8.0, 16.0, 8.0, 8.0),
+        //margin: EdgeInsets.fromLTRB(8.0, 16.0, 8.0, 8.0),
         padding: const EdgeInsets.fromLTRB(12.0, 16.0, 12.0, 0.0),
-        decoration: BoxDecoration(
-          color: ppmLight,
-          borderRadius: BorderRadius.circular(20),
-        ),
+
         child: SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -62,6 +55,7 @@ class CreatePlayer extends GetWidget<CreatePlayerController> {
                      Container(
                         width: size.width * 0.3,
                         height: size.width * 0.3,
+                        color: ppmLight,
                         child: //Placeholder(),
                         SelectImage(),
                       ),
@@ -76,10 +70,10 @@ class CreatePlayer extends GetWidget<CreatePlayerController> {
                       RoundedInputField(
                         validator: (val) => val!.isEmpty ? 'Enter Place Name' : null,
                         keyboardType: TextInputType.name,
-                        hintText: "Place Name",
+                        hintText: "Player Name",
                         cSize: 0.7,
                         oWidth: 0.7,
-                        icon: Icons.store ,
+                        icon: Icons.person ,
                         controller: controller.playerNameController,
                       ),
 
@@ -96,17 +90,40 @@ class CreatePlayer extends GetWidget<CreatePlayerController> {
               ),
               const Divider(height: 20.0, thickness: 0.5),
 
-              RoundedButton(
-                  text: "Upload Video",
-                  press: () async {
-                    await controller.selectVideo();
+              GestureDetector(
+                child: Container(
+                  margin: EdgeInsets.symmetric(vertical: 10),
+                  padding: EdgeInsets.symmetric(horizontal: 48, vertical: 12),
+                  height: size.width * 0.13,
+                  width: size.width * 0.8,
+                  decoration: BoxDecoration(
+                    color: ppmBack,
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                  child: Text(
+                    "${controller.selectedDate.value.day}/${controller.selectedDate.value.month}/${controller.selectedDate.value.year}",
+                    style: TextStyle(
+                      fontSize: 16,
+                    ),
+                  ),
+                ),
+                onTap: (){
+                  print("select date clicked");
+                  controller.selectDate(context);
+                },
+              ),
 
+              RoundedButton(
+                  text: "Date",
+                  press: () async {
+                    print("select date clicked");
+                    controller.selectDate(context);
                   }),
 
               RoundedInputField(
                 validator: (val) => val!.isEmpty ? 'write a brief of place' : null,
                 keyboardType: TextInputType.multiline,
-                hintText: "Description",
+                hintText: "Bio",
                 maxLines: null,
                 controller: controller.bioController,
               ),
@@ -114,9 +131,16 @@ class CreatePlayer extends GetWidget<CreatePlayerController> {
               RoundedInputField(
                 validator: (val) => val!.isEmpty ? 'provide address' : null,
                 keyboardType: TextInputType.streetAddress,
-                hintText: "Address",
+                hintText: "City",
                 controller: controller.cityController,
               ),
+
+              RoundedButton(
+                  text: "Upload Video",
+                  press: () async {
+                    await controller.selectVideo();
+
+                  }),
 
               SizedBox(height: size.height * 0.03),
 

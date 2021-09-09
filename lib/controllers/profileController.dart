@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pro_player_market/controllers/authController.dart';
 import 'package:pro_player_market/controllers/databaseController.dart';
@@ -26,13 +29,14 @@ class ProfileController extends GetxController {
   @override
   void onReady() {
     init();
-    print('user type: $user');
+    print('user type: ${userType}');
+    _user.value = Get.find<UserController>().user;
     super.onReady();
   }
 
   Future init() async {
     print("Start Profile controller");
-    userId.value = Get.find<AuthController>().user?.uid ?? "";
+    userId.value = (await Get.find<AuthController>().user?.uid)!; /*?? "";*/
     print('user id: ${userId.value}');
     if(userId.isNotEmpty) {
       await getUser();
@@ -43,6 +47,19 @@ class ProfileController extends GetxController {
       //loading.value = false;
 
   }
+
+  // Future<void> _waitUntilDone() async {
+  //
+  //   final completer = Completer();
+  //   if (user == null) {
+  //     await 200.milliseconds.delay();
+  //     return _waitUntilDone();
+  //   } else {
+  //     print(user);
+  //     completer.complete();
+  //   }
+  //   return completer.future;
+  // }
 
   Future<void> getUser() async {
     try {
@@ -58,7 +75,9 @@ class ProfileController extends GetxController {
 
   Future<void> getUserType() async {
     try {
-      switch(userType){
+      print(user);
+      waitUntilDone(user);
+      switch(user!.userType){
         case UserTypeEnum.userPlayer: {
           userTypeSt = "Player";
         }
@@ -72,7 +91,7 @@ class ProfileController extends GetxController {
         }
         break;
         default:{
-          userTypeSt = "Player";
+          userTypeSt = "Default";
         }
       }
 
@@ -94,4 +113,48 @@ class ProfileController extends GetxController {
       //return;
     }
   }
+
+  Future updateMail(String mail) async {
+      await Get.find<DatabaseController>().updateUser(userId.value, {'email': mail});
+  }
+  Future updateMobile(String mobile) async {
+    await Get.find<DatabaseController>().updateUser(userId.value, {'mobile': mobile});
+  }
+  Future updateName(String name) async {
+    await Get.find<DatabaseController>().updateUser(userId.value, {'name': name});
+  }
+
+
+  final TextEditingController name = TextEditingController();
+  final TextEditingController email = TextEditingController();
+  final TextEditingController password = TextEditingController();
+  final TextEditingController confirmPassword = TextEditingController();
+  final TextEditingController mobile = TextEditingController();
+
+  showSheet(BuildContext context){
+
+    return showModalBottomSheet<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return Container(
+          height: 200,
+          color: Colors.amber,
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                const Text('Modal BottomSheet'),
+                ElevatedButton(
+                  child: const Text('Close BottomSheet'),
+                  onPressed: () => Navigator.pop(context),
+                )
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
 }

@@ -3,8 +3,13 @@ import 'package:get/get.dart';
 import 'package:pro_player_market/components/constants.dart';
 import 'controllers/authController.dart';
 import 'controllers/mainBarController.dart';
+import 'controllers/postController.dart';
+import 'models/userModel.dart';
 
 class MainBar extends GetWidget<MainBarController> {
+
+  var _showFliterBar = RxBool(false);
+
   @override
   Widget build(BuildContext context) {
 
@@ -21,27 +26,50 @@ class MainBar extends GetWidget<MainBarController> {
             width: 100,
           ),
         ),*/
-        title: Text("Pro Player Market"),
+        title: Text("Football Player Market"),
         centerTitle: true,
-
-        /*leading: IconButton(
-          icon: SvgPicture.asset(
-              "assets/icons/back.svg",
-            color: ppmLight,
-          ),
-          onPressed: () {},
-        ),*/
         actions: <Widget>[
+/*
+          if (controller.userType != UserTypeEnum.admin)
+            if(controller.currentIndex == 0)
+              IconButton(
+                icon: Icon(
+                  Icons.filter_alt,
+                  color: ppmBack,
+                ),
+                onPressed: () {},
+              ),
 
-          /*IconButton(
+          if (controller.userType == UserTypeEnum.admin)
+            if(controller.currentIndex == 1)
+              IconButton(
+                icon: Icon(
+                  Icons.filter_alt,
+                  color: ppmBack,
+                ),
+                onPressed: () {},
+              ),
+*/
+          IconButton(
             icon: Icon(
-              Icons.more_vert,
-              color: ppmLight,
+              Icons.filter_alt,
+              color: ppmBack,
             ),
-            onPressed: () {},
-          ),*/
+            onPressed: () {
+              Get.find<PostController>().showFliterBar.toggle();
+              print("Filter Button clicked value is : ${Get.find<PostController>().showFliterBar}");
+              //Get.find<PostController>().update();
+            },
+          ),
+
           PopupMenuButton(
             itemBuilder: (BuildContext context) => <PopupMenuEntry>[
+              const PopupMenuItem(
+                value: 1,
+                child: Text(
+                  "Settings",
+                ),
+              ),
               const PopupMenuItem(
                 value: 0,
                 child: Text(
@@ -55,26 +83,31 @@ class MainBar extends GetWidget<MainBarController> {
                   Get.find<AuthController>().signOut();
                 }
                 break;
+
+                case 1: {
+                  //Get.to();
+                }
+                break;
               }
             },
           ),
           SizedBox(width: kDefaultPadding / 2)
         ],
-
+        //bottom: controller.putDropdown(),
         elevation: 0,
-        shape: RoundedRectangleBorder(
+        /*shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(
             bottom: Radius.circular(40),
           ),
-        ),
+        ),*/
       ),
       body: Obx(() => controller.tabs[controller.currentIndex]),
       bottomNavigationBar: Obx(
         () => BottomNavigationBar(
           currentIndex: controller.currentIndex,
           type: BottomNavigationBarType.fixed,
-          backgroundColor: ppmLight,
-          unselectedItemColor: Colors.white,
+          backgroundColor: ppmBack,
+          unselectedItemColor: ppmLight,
           selectedItemColor: ppmMain,
           items: controller.items,
           onTap: (index) {

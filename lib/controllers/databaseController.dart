@@ -4,6 +4,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pro_player_market/controllers/userController.dart';
+import 'package:pro_player_market/models/cityModel.dart';
 import 'package:pro_player_market/models/playerModel.dart';
 import 'package:pro_player_market/models/requestModel.dart';
 import 'package:pro_player_market/models/userModel.dart';
@@ -22,6 +23,7 @@ class DatabaseController extends GetxController {
   @override
   void onInit() {
     getPosts();
+    super.onInit();
   }
 
   @override
@@ -49,9 +51,11 @@ class DatabaseController extends GetxController {
       DocumentSnapshot documentSnapshot =
           await _firestore.collection('users').doc(uid).get();
       // return UserModel.fromJson(documentSnapshot.data() as Map<String, dynamic>);
-      if (documentSnapshot.exists)
+      if (documentSnapshot.exists) {
+        print("User Found");
         return UserModel.fromJson(
             documentSnapshot.data()! as Map<String, dynamic>);
+      }
       else {
         print("User Not Found");
         throw Exception("User Not Found");
@@ -60,6 +64,13 @@ class DatabaseController extends GetxController {
       Get.find<AuthController>().signOut();
       return Get.find<UserController>().user;
     }
+  }
+
+  Future<void> updateUser(String userId, Map<String, dynamic> fieldData) async {
+    return  _firestore.collection('users').doc(userId)
+        .update(fieldData)
+        .then((value) => print("User Updated"))
+        .catchError((error) => print("Failed to update user: $error"));
   }
 
   Future<void> addPost(PlayerModel post, {File? image , File? video}) async {
@@ -121,6 +132,7 @@ class DatabaseController extends GetxController {
   Stream<List<PlayerModel>> getPosts({bool update = false}) {
     return _firestore
         .collection('players')
+        //.orderBy('upvotes', descending: true)
         .orderBy('joinDate', descending: true)
         .snapshots()
         .map((snapshot) => snapshot.docs
@@ -283,6 +295,25 @@ class DatabaseController extends GetxController {
         .map((snapshot) => snapshot.docs
         .map((doc) => RequestModel.fromJson(doc.data()))
         .toList());
+  }
+
+  Stream<List<CityModel>> getCities({bool update = false}) {
+    return _firestore
+        .collection('cities')
+        .snapshots()
+        .map((snapshot) => snapshot.docs
+          .map((doc) => CityModel.fromJson(doc.data()))
+          .toList());
+  }
+
+  Future<bool> addCity(CityModel city) async {
+    try {
+      await _firestore.collection('cities').add(city.toJson());
+      return true;
+    } catch (e) {
+      print(e);
+      return false;
+    }
   }
   
 }
