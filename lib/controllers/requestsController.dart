@@ -31,7 +31,7 @@ class RequestsController extends GetxController {
     }else if(userType == UserTypeEnum.admin)
       _requestsStream.bindStream(Get.find<DatabaseController>().getRequests());
 
-    _requestsStream.bindStream(Get.find<DatabaseController>().getRequests());
+   // _requestsStream.bindStream(Get.find<DatabaseController>().getRequests());
 
     getIds();
     super.onInit();
@@ -55,7 +55,12 @@ class RequestsController extends GetxController {
 
       await Future.forEach(_requestsStream.value!, (RequestModel value) async {
         userList.value.add(await Get.find<DatabaseController>().getUser(value.userId!));
-        playerList.value.add(await Get.find<DatabaseController>().getPlayer(value.playerId!));
+        if(value.type == RequestTypeEnum.deal) {
+          playerList.value.add(
+              await Get.find<DatabaseController>().getPlayer(value.info!));
+        }else if(value.type == RequestTypeEnum.post){
+          playerList.add(value.info);
+        }
       });
       /*_requestsStream.value!.map((value) async {
         print("start map");

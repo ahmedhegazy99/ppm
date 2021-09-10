@@ -30,7 +30,7 @@ class DatabaseController extends GetxController {
   void onReady() {
     newPosts.bindStream(_firestore.collection('players').snapshots());
     ever(newPosts, (dynamic newVal) {
-      if (newVal!.documents.length != posts.length) {
+      if (newVal!.docs.length != posts.length) {
         getPosts(update: true);
       }
     });
@@ -52,7 +52,7 @@ class DatabaseController extends GetxController {
           await _firestore.collection('users').doc(uid).get();
       // return UserModel.fromJson(documentSnapshot.data() as Map<String, dynamic>);
       if (documentSnapshot.exists) {
-        print("User Found");
+        //print("User Found");
         return UserModel.fromJson(
             documentSnapshot.data()! as Map<String, dynamic>);
       }
@@ -83,7 +83,12 @@ class DatabaseController extends GetxController {
       if (video != null) {
         post.video = await uploadPlayerVideo(post, video);
       }
-      await _firestore.collection('players').add(post.toJson())
+      RequestModel req = RequestModel();
+      req.type = RequestTypeEnum.post;
+      req.userId = post.userId;
+      req.info = post;
+
+      await _firestore.collection('requests').add(req.toJson())
        .then((doc) => doc.update({"id": doc.id}));
       uploading.toggle();
     } catch (e) {
@@ -267,7 +272,7 @@ class DatabaseController extends GetxController {
     try {
       uploading.toggle();
       
-      await _firestore.collection('BuyRequests').add(request.toJson())
+      await _firestore.collection('requests').add(request.toJson())
           .then((doc) => doc.update({"id": doc.id}));
       uploading.toggle();
     } catch (e) {
@@ -278,7 +283,8 @@ class DatabaseController extends GetxController {
 
   Stream<List<RequestModel>> getRequests({bool update = false}) {
     return _firestore
-        .collection('BuyRequests')
+        .collection('requests')
+        //.where('status', isNull: true)
         .orderBy('requestDate', descending: true)
         .snapshots()
         .map((snapshot) => snapshot.docs
@@ -288,13 +294,71 @@ class DatabaseController extends GetxController {
 
   Stream<List<RequestModel>> getUserRequests({@required userId}) {
     return _firestore
-        .collection('BuyRequests')
+        .collection('requests')
         .where('userId', isEqualTo: userId)
         .orderBy('requestDate', descending: true)
         .snapshots()
         .map((snapshot) => snapshot.docs
         .map((doc) => RequestModel.fromJson(doc.data()))
         .toList());
+  }
+
+  Future<void> approvePlayerRequest(PlayerModel post, String rId, String uId) async {
+    try {
+      uploading.toggle();
+      
+      await _firestore.collection('players').add(post.toJson())
+          .then((doc) => doc.update({"id": doc.id}));
+      await _firestore.collection('requests').doc(rId).update({"status": "true"});
+      await _firestore.collection('users').doc(uId).update({"requests": [rId]});
+      uploading.toggle();
+    } catch (e) {
+      uploading.toggle();
+      displayError(e);
+      //return;
+    }
+  }
+
+  Future<void> declinePlayerRequest(String rId, String uId) async {
+    try {
+      uploading.toggle();
+
+      await _firestore.collection('requests').doc(rId).update({"status": "false"});
+      await _firestore.collection('users').doc(uId).update({"requests": [rId]});
+      uploading.toggle();
+    } catch (e) {
+      uploading.toggle();
+      displayError(e);
+      //return;
+    }
+  }
+
+  Future<void> approveDealRequest(String rId, String uId) async {
+    try {
+      uploading.toggle();
+
+      await _firestore.collection('requests').doc(rId).update({"status": "true"});
+      await _firestore.collection('users').doc(uId).update({"requests": [rId]});
+      uploading.toggle();
+    } catch (e) {
+      uploading.toggle();
+      displayError(e);
+      //return;
+    }
+  }
+
+  Future<void> declineDealRequest(String rId, String uId) async {
+    try {
+      uploading.toggle();
+
+      await _firestore.collection('requests').doc(rId).update({"status": "false"});
+      await _firestore.collection('users').doc(uId).update({"requests": [rId]});
+      uploading.toggle();
+    } catch (e) {
+      uploading.toggle();
+      displayError(e);
+      //return;
+    }
   }
 
   Stream<List<CityModel>> getCities({bool update = false}) {

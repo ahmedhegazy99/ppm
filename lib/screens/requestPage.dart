@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:get/get_state_manager/src/simple/get_view.dart';
 import 'package:pro_player_market/components/constants.dart';
 import 'package:pro_player_market/components/roundedButton.dart';
+import 'package:pro_player_market/controllers/databaseController.dart';
 import 'package:pro_player_market/controllers/postController.dart';
 import 'package:pro_player_market/controllers/requestsController.dart';
 import 'package:pro_player_market/controllers/userController.dart';
@@ -42,13 +43,7 @@ class RequestPage extends GetWidget<RequestsController>{
             Get.back();
           },
         ),
-
         elevation: 0,
-        /*shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(
-            bottom: Radius.circular(40),
-          ),
-        ),*/
       ),
       body: Container(
         child: SingleChildScrollView(
@@ -56,6 +51,7 @@ class RequestPage extends GetWidget<RequestsController>{
             //padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
             child: Column(
               children: [
+                //Player
                 Container(
                   padding: EdgeInsets.symmetric(horizontal: 8, vertical: 20),
                   //margin: EdgeInsets.only(bottom: 10, left: 10, top: 10, right: 10),
@@ -83,6 +79,17 @@ class RequestPage extends GetWidget<RequestsController>{
                           ),
                         ),
                       ),
+
+                      // post image
+                      if (player!.photo != null)
+                        Container(
+                          child: (){
+                            if(player!.photo != null)
+                              return Image.network('${player!.photo}');
+                            return Placeholder(fallbackHeight: 400,fallbackWidth: 400);
+                          }(),
+                          //Image.network('${player!.photo}') ?? Placeholder(fallbackHeight: 400,fallbackWidth: 400),
+                        ),
 
                       Padding(
                         padding: const EdgeInsets.all(kDefaultPadding/4),
@@ -147,6 +154,28 @@ class RequestPage extends GetWidget<RequestsController>{
                                 children: <TextSpan>[
                                   TextSpan(
                                     text: "${calculateAge(player!.birthDate!)}",
+                                    style: TextStyle(
+                                        color: ppmLight,
+                                        fontWeight: FontWeight.bold
+                                    ),
+                                  ),
+                                ]
+                            ),
+                          ),
+                        ),
+
+                        Padding(
+                          padding: const EdgeInsets.all(kDefaultPadding/4),
+                          child: Text.rich(
+                            TextSpan(
+                                text: "Bio: \n",
+                                style: TextStyle(
+                                    color: ppmMain,
+                                    fontWeight: FontWeight.bold
+                                ),
+                                children: <TextSpan>[
+                                  TextSpan(
+                                    text: "\t ${player!.bio}",
                                     style: TextStyle(
                                         color: ppmLight,
                                         fontWeight: FontWeight.bold
@@ -257,6 +286,8 @@ class RequestPage extends GetWidget<RequestsController>{
                   height: size.width * 0.04,
                 ),
 
+                //Requester
+                if(request!.type == RequestTypeEnum.deal)
                 Container(
                   padding: EdgeInsets.symmetric(horizontal: 8, vertical: 20),
                   decoration: BoxDecoration(
@@ -362,6 +393,61 @@ class RequestPage extends GetWidget<RequestsController>{
                               ),
                           ),
                         ),
+                    ],
+                  ),
+                ),
+
+                SizedBox(
+                  height: size.width * 0.04,
+                ),
+
+                //For Admin post Approve
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 8, vertical: 20),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    /*borderRadius: BorderRadius.all(
+                      Radius.circular(30),
+                    ),*/
+                  ),
+
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+
+                      RoundedButton(
+                          text: "Approve",
+                          press: () async {
+                            if(request!.type == RequestTypeEnum.deal){
+                              await Get.find<DatabaseController>().approveDealRequest(
+                                  request!.id!, request!.userId!);
+                              Get.back();
+                            }else {
+                              PlayerModel post = player!;
+                              await Get.find<DatabaseController>()
+                                  .approvePlayerRequest(
+                                  post, request!.id!, request!.userId!);
+                              Get.back();
+                            }
+                          }
+                      ),
+
+                      RoundedButton(
+                          text: "Decline",
+                          press: () async {
+                            if(request!.type == RequestTypeEnum.deal){
+                              await Get.find<DatabaseController>().declineDealRequest(
+                                  request!.id!, request!.userId!);
+                              Get.back();
+                            }else {
+                              await Get.find<DatabaseController>().declinePlayerRequest(
+                                  request!.id!, request!.userId!);
+                              Get.back();
+                            }
+                          }
+                      ),
+
                     ],
                   ),
                 ),

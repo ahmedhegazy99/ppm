@@ -10,10 +10,12 @@ RequestModel _$RequestModelFromJson(Map<String, dynamic> json) {
   return RequestModel(
     id: json['id'] as String?,
     userId: json['userId'] as String?,
-    playerId: json['playerId'] as String?,
+    //playerId: json['playerId'] as String?,
     requestDate: dateTimeFromTimestamp(json['requestDate'] as Timestamp?),
-    title: json['title'] as String?,
+    //title: json['title'] as String?,
     type: _$enumDecodeNullable(_$RequestTypeEnumEnumMap, json['type']),
+    status: json['status'] as bool?,
+    info: json['info'],
   );
 }
 
@@ -21,10 +23,12 @@ Map<String, dynamic> _$RequestModelToJson(RequestModel instance) =>
     <String, dynamic>{
       'id': instance.id,
       'userId': instance.userId,
-      'playerId': instance.playerId,
+      //'playerId': instance.playerId,
       'requestDate': dateTimeToTimestamp(instance.requestDate),
-      'title': instance.title,
+      //'title': instance.title,
       'type': _$RequestTypeEnumEnumMap[instance.type],
+      'status': instance.status,
+      'info': instance.info,
     };
 
 K _$enumDecode<K, V>(
@@ -65,6 +69,6 @@ K? _$enumDecodeNullable<K, V>(
 }
 
 const _$RequestTypeEnumEnumMap = {
-  RequestTypeEnum.buy: 'buy',
-  RequestTypeEnum.account: 'account',
+  RequestTypeEnum.deal: 'deal',
+  RequestTypeEnum.post: 'post',
 };

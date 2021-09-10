@@ -8,19 +8,23 @@ part 'requestModel.g.dart';
 class RequestModel {
   String ? id;
   String ? userId;
-  String ? playerId;
+  //String ? playerId;
   @JsonKey(fromJson: dateTimeFromTimestamp, toJson: dateTimeToTimestamp)
   DateTime ? requestDate;
-  String ? title;
+  //String ? title;
   RequestTypeEnum ?type;
+  bool ? status;
+  var info;
 
   RequestModel({
     this.id,
     this.userId,
-    this.playerId,
+    //this.playerId,
     this.requestDate,
-    this.title,
-    this.type
+    //this.title,
+    this.type,
+    this.status,
+    this.info,
   });
 
   RequestModel copy() => RequestModel.fromJson(this.toJson());
@@ -30,4 +34,4 @@ class RequestModel {
 
 }
 
-enum RequestTypeEnum { buy, account }
+enum RequestTypeEnum { deal, post }

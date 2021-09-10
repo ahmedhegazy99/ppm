@@ -32,7 +32,11 @@ class RequestCard extends StatelessWidget {
                 ),
                 children: <TextSpan>[
                   TextSpan(
-                    text: '${request!.title ?? ""}',
+                    text: '${
+                        request!.type == RequestTypeEnum.deal ?
+                       "Player Buy Request by " :
+                       "Player is Requested to be added by "
+                    }',
                     style: TextStyle(
                         color: ppmMain,
                         fontWeight: FontWeight.bold
@@ -40,7 +44,7 @@ class RequestCard extends StatelessWidget {
                   ),
                   if(userType == UserTypeEnum.admin)
                   TextSpan(
-                    text: ' by ${user!.name?? ""}',
+                    text: '${user!.name?? ""}',
                     style: TextStyle(
                         color: ppmMain,
                         fontWeight: FontWeight.bold

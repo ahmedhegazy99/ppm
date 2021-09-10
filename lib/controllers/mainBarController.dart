@@ -146,11 +146,12 @@ class MainBarController extends GetxController {
     //userType = await Get.find<UserController>().user.userType ;
     //_user.value = await Get.find<UserController>().user ;
     ever(Get.find<UserController>().userModel, (UserModel ? _) async {
-      if (_ != null) {
+      if (_ != null && loading.isTrue) {
         userType=_.userType;
         _user.value = _;
         addTabs();
         print("user type: ${user!.userType}");
+        loading.value = false;
       }
     });
     /*

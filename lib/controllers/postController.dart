@@ -54,12 +54,12 @@ class PostController extends GetxController {
 
     RequestModel req = RequestModel();
 
-    req.type = RequestTypeEnum.buy;
+    req.type = RequestTypeEnum.deal;
 
     req.userId = user.id;
-    req.playerId = playerid;
+    req.info = playerid;
     req.requestDate = DateTime.now();
-    req.title = 'Player Buy Request';
+    //req.title = 'Player Buy Request';
 
     await Get.find<DatabaseController>().CreateBuyRequest(req);
 
