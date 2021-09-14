@@ -36,7 +36,7 @@ class RoundedInputField extends StatelessWidget {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 12.5*cSize!),
       padding: EdgeInsets.symmetric(horizontal: 12 *cSize!, vertical: 2 * cSize!),
-      height: size.width * (cSize!/6),
+      height: size.width * (cSize!/6) * maxLines!,
       width: size.width * cSize! * oWidth!,
       decoration: BoxDecoration(
         color: color,

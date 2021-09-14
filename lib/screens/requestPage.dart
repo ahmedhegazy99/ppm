@@ -70,7 +70,7 @@ class RequestPage extends GetWidget<RequestsController>{
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Text(
-                            "Player",
+                            "player".tr,
                             style: TextStyle(
                               color: ppmMain,
                               fontWeight: FontWeight.bold,
@@ -97,14 +97,14 @@ class RequestPage extends GetWidget<RequestsController>{
                            leading: Icon(Icons.person, color: ppmMain,),
                             title: Text.rich(
                               TextSpan(
-                                  text: "Name: ",
+                                  text: "name".tr,
                                   style: TextStyle(
                                       color: ppmMain,
                                       fontWeight: FontWeight.bold
                                   ),
                                   children: <TextSpan>[
                                     TextSpan(
-                                      text: "${player!.name}",
+                                      text: ": ${player!.name}",
                                       style: TextStyle(
                                           color: ppmLight,
                                           fontWeight: FontWeight.bold
@@ -122,14 +122,14 @@ class RequestPage extends GetWidget<RequestsController>{
                             leading: Icon(Icons.location_on, color: ppmMain,),
                             title: Text.rich(
                               TextSpan(
-                                  text: "City: ",
+                                  text: "city".tr,
                                   style: TextStyle(
                                       color: ppmMain,
                                       fontWeight: FontWeight.bold
                                   ),
                                   children: <TextSpan>[
                                     TextSpan(
-                                      text: "${player!.city}",
+                                      text: ": ${player!.city}",
                                       style: TextStyle(
                                           color: ppmLight,
                                           fontWeight: FontWeight.bold
@@ -144,38 +144,43 @@ class RequestPage extends GetWidget<RequestsController>{
                       if(player!.birthDate.isNull == false)
                         Padding(
                           padding: const EdgeInsets.all(kDefaultPadding/4),
-                          child: Text.rich(
-                            TextSpan(
-                                text: "Age: ",
-                                style: TextStyle(
-                                    color: ppmMain,
-                                    fontWeight: FontWeight.bold
-                                ),
-                                children: <TextSpan>[
-                                  TextSpan(
-                                    text: "${calculateAge(player!.birthDate!)}",
-                                    style: TextStyle(
-                                        color: ppmLight,
-                                        fontWeight: FontWeight.bold
-                                    ),
+                          child: ListTile(
+                            leading: Icon(Icons.date_range, color: ppmMain,),
+                            title: Text.rich(
+                              TextSpan(
+                                  text: "age".tr,
+                                  style: TextStyle(
+                                      color: ppmMain,
+                                      fontWeight: FontWeight.bold
                                   ),
-                                ]
+                                  children: <TextSpan>[
+                                    TextSpan(
+                                      text: ": ${calculateAge(player!.birthDate!)}",
+                                      style: TextStyle(
+                                          color: ppmLight,
+                                          fontWeight: FontWeight.bold
+                                      ),
+                                    ),
+                                  ]
+                              ),
                             ),
                           ),
                         ),
 
-                        Padding(
-                          padding: const EdgeInsets.all(kDefaultPadding/4),
-                          child: Text.rich(
+                      Padding(
+                        padding: const EdgeInsets.all(kDefaultPadding/4),
+                        child: ListTile(
+                          leading: Icon(Icons.description, color: ppmMain,),
+                          title: Text.rich(
                             TextSpan(
-                                text: "Bio: \n",
+                                text: "bio".tr,
                                 style: TextStyle(
                                     color: ppmMain,
                                     fontWeight: FontWeight.bold
                                 ),
                                 children: <TextSpan>[
                                   TextSpan(
-                                    text: "\t ${player!.bio}",
+                                    text: ": \n\t ${player!.bio}",
                                     style: TextStyle(
                                         color: ppmLight,
                                         fontWeight: FontWeight.bold
@@ -185,13 +190,16 @@ class RequestPage extends GetWidget<RequestsController>{
                             ),
                           ),
                         ),
+                      ),
+
 
                       const Divider(height: 20.0, thickness: 0.5),
+
 
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
                         child: Text(
-                          "Contact info",
+                          "Contact info".tr,
                           style: TextStyle(
                               color: ppmMain,
                               fontWeight: FontWeight.bold
@@ -205,14 +213,14 @@ class RequestPage extends GetWidget<RequestsController>{
                             leading: Icon(Icons.person, color: ppmMain,),
                             title: Text.rich(
                               TextSpan(
-                                  text: "Name: ",
+                                  text: "name".tr,
                                   style: TextStyle(
                                       color: ppmMain,
                                       fontWeight: FontWeight.bold
                                   ),
                                   children: <TextSpan>[
                                     TextSpan(
-                                      text: "${controller.pageUser?.name}",
+                                      text: ": ${controller.pageUser?.name}",
                                       style: TextStyle(
                                           color: ppmLight,
                                           fontWeight: FontWeight.bold
@@ -232,14 +240,14 @@ class RequestPage extends GetWidget<RequestsController>{
                             leading: Icon(Icons.phone, color: ppmMain,),
                             title: Text.rich(
                               TextSpan(
-                                  text: "Phone: ",
+                                  text: "phone".tr,
                                   style: TextStyle(
                                       color: ppmMain,
                                       fontWeight: FontWeight.bold
                                   ),
                                   children: <TextSpan>[
                                     TextSpan(
-                                      text: "${controller.pageUser?.mobile}",
+                                      text: ": ${controller.pageUser?.mobile}",
                                       style: TextStyle(
                                           color: ppmLight,
                                           fontWeight: FontWeight.bold
@@ -259,14 +267,14 @@ class RequestPage extends GetWidget<RequestsController>{
                               leading: Icon(Icons.mail, color: ppmMain,),
                               title: Text.rich(
                                 TextSpan(
-                                    text: "Mail: ",
+                                    text: "email".tr,
                                     style: TextStyle(
                                         color: ppmMain,
                                         fontWeight: FontWeight.bold
                                     ),
                                     children: <TextSpan>[
                                       TextSpan(
-                                        text: "${controller.pageUser?.email}",
+                                        text: ": ${controller.pageUser?.email}",
                                         style: TextStyle(
                                             color: ppmLight,
                                             fontWeight: FontWeight.bold
@@ -305,7 +313,7 @@ class RequestPage extends GetWidget<RequestsController>{
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Text(
-                            "Requester",
+                            "requester".tr,
                             style: TextStyle(
                               color: ppmMain,
                               fontWeight: FontWeight.bold,
@@ -321,14 +329,14 @@ class RequestPage extends GetWidget<RequestsController>{
                            leading: Icon(Icons.person, color: ppmMain,),
                            title: Text.rich(
                               TextSpan(
-                                text: "Name: ",
+                                text: "name".tr,
                                 style: TextStyle(
                                     color: ppmMain,
                                     fontWeight: FontWeight.bold
                                 ),
                                 children: <TextSpan>[
                                   TextSpan(
-                                    text: "${user!.name}",
+                                    text: ": ${user!.name}",
                                     style: TextStyle(
                                         color: ppmLight,
                                         fontWeight: FontWeight.bold
@@ -348,14 +356,14 @@ class RequestPage extends GetWidget<RequestsController>{
                             leading: Icon(Icons.phone, color: ppmMain,),
                             title: Text.rich(
                               TextSpan(
-                                text: "Phone: ",
+                                text: "phone".tr,
                                 style: TextStyle(
                                     color: ppmMain,
                                     fontWeight: FontWeight.bold
                                 ),
                                 children: <TextSpan>[
                                   TextSpan(
-                                    text: "${user!.mobile}",
+                                    text: ": ${user!.mobile}",
                                     style: TextStyle(
                                         color: ppmLight,
                                         fontWeight: FontWeight.bold
@@ -375,14 +383,14 @@ class RequestPage extends GetWidget<RequestsController>{
                              leading: Icon(Icons.mail, color: ppmMain,),
                              title: Text.rich(
                                 TextSpan(
-                                  text: "Mail: ",
+                                  text: "email".tr,
                                   style: TextStyle(
                                       color: ppmMain,
                                       fontWeight: FontWeight.bold
                                   ),
                                   children: <TextSpan>[
                                     TextSpan(
-                                      text: "${user!.email}",
+                                      text: ": ${user!.email}",
                                       style: TextStyle(
                                           color: ppmLight,
                                           fontWeight: FontWeight.bold
@@ -412,12 +420,13 @@ class RequestPage extends GetWidget<RequestsController>{
                   ),
 
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
 
                       RoundedButton(
-                          text: "Approve",
+                          text: "approve".tr,
+                          coff: 1,
                           press: () async {
                             if(request!.type == RequestTypeEnum.deal){
                               await Get.find<DatabaseController>().approveDealRequest(
@@ -426,15 +435,16 @@ class RequestPage extends GetWidget<RequestsController>{
                             }else {
                               PlayerModel post = player!;
                               await Get.find<DatabaseController>()
-                                  .approvePlayerRequest(
-                                  post, request!.id!, request!.userId!);
+                                  .approvePlayerRequest(request!);
                               Get.back();
                             }
                           }
                       ),
 
                       RoundedButton(
-                          text: "Decline",
+                          text: "decline".tr,
+                          coff: 1,
+                          //coff: 0.6,
                           press: () async {
                             if(request!.type == RequestTypeEnum.deal){
                               await Get.find<DatabaseController>().declineDealRequest(

@@ -2,11 +2,15 @@ import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:pro_player_market/components/constants.dart';
 import 'package:pro_player_market/controllers/createPlayerController.dart';
+import 'package:pro_player_market/controllers/postController.dart';
+import 'package:pro_player_market/models/cityModel.dart';
 
 class DropButton extends StatefulWidget {
   final double ? cSize, oWidth;
   final Color ? color;
   final Color ? textColor;
+  var controller;
+  var cities;
 
   DropButton({
     Key ?key,
@@ -14,6 +18,8 @@ class DropButton extends StatefulWidget {
     this.oWidth = 1,
     this.color = Colors.white,
     this.textColor = Colors.black,
+    required this.controller,
+    this.cities,
   }) :super(key: key);
 
   @override
@@ -21,12 +27,13 @@ class DropButton extends StatefulWidget {
 }
 
 class _DropButtonState extends State<DropButton> {
-  final controller = Get.put(CreatePlayerController());
-  String dropdownValue = 'Cairo';
+  //final controller = Get.put(CreatePlayerController());
+  String ?dropdownValue ;
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-
+    widget.cities = Get.find<PostController>().cities.value;
+    dropdownValue = widget.cities[0].cityName;
     return Container(
       //margin: EdgeInsets.symmetric(vertical: 12.5* widget.cSize),
       padding: EdgeInsets.symmetric(horizontal: 12 *widget.cSize!, vertical: 5 * widget.cSize!),
@@ -51,7 +58,7 @@ class _DropButtonState extends State<DropButton> {
         onChanged: (String ? newValue) {
           setState(() {
             dropdownValue = newValue! ;
-            controller.city = dropdownValue;
+            widget.controller.city = dropdownValue;
             /*switch (dropdownValue) {
               case 'Coworking Space': {
                   controller.category = PlaceTypeEnum.coworkingSpace.toString();
@@ -66,11 +73,11 @@ class _DropButtonState extends State<DropButton> {
           });
         },
 
-        items: <String>['Cairo', 'Giza', 'Alexandria']
-            .map<DropdownMenuItem<String>>((String value) {
+        items: widget.cities
+            .map<DropdownMenuItem<String>>((data) {
           return DropdownMenuItem<String>(
-            value: value,
-            child: Text(value),
+            value: data.cityName,
+            child: Text('${data.cityName}'),
           );
         }).toList(),
       ),

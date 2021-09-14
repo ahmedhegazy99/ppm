@@ -19,6 +19,7 @@ PlayerModel _$PlayerModelFromJson(Map<String, dynamic> json) {
         ? null
         : DateTime.parse(json['birthDate'] as String),
     bio: json['bio'] as String?,
+    show: json['show'] as bool?,
     upvotes:
         (json['upvotes'] as List<dynamic>?)?.map((e) => e as String).toList(),
   );
@@ -35,5 +36,6 @@ Map<String, dynamic> _$PlayerModelToJson(PlayerModel instance) =>
       'city': instance.city,
       'birthDate': instance.birthDate?.toIso8601String(),
       'bio': instance.bio,
+      'show': instance.show,
       'upvotes': instance.upvotes,
     };

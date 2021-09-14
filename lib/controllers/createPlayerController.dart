@@ -5,7 +5,9 @@ import 'package:get/get.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:pro_player_market/components/constants.dart';
+import 'package:pro_player_market/controllers/postController.dart';
 import 'package:pro_player_market/controllers/userController.dart';
+import 'package:pro_player_market/models/cityModel.dart';
 import 'package:pro_player_market/models/playerModel.dart';
 import 'package:pro_player_market/models/userModel.dart';
 
@@ -15,12 +17,13 @@ class CreatePlayerController extends GetxController {
   final playerNameController = TextEditingController();
   final bioController = TextEditingController();
   final cityController = TextEditingController();
+  //var cities = Get.find<PostController>().cities;
   var city;
 
   final image = Rxn<File>();
   final video = Rxn<File>();
 
-  var selectedDate = Rx(DateTime.now());
+  var selectedDate = Rx(DateTime(DateTime.now().year - 15));
 
 
   Future selectImage() async {
@@ -76,6 +79,7 @@ class CreatePlayerController extends GetxController {
     if (playerNameController.value.text.isEmpty ||
         bioController.value.text.isEmpty ||
         cityController.value.text.isEmpty ||
+        city == null ||
         image.value == null || video.value == null)
       Get.snackbar('cantPost'.tr, 'empty'.tr,
           backgroundColor: Colors.red, snackPosition: SnackPosition.BOTTOM);
@@ -104,6 +108,7 @@ class CreatePlayerController extends GetxController {
       bioController.clear();
       cityController.clear();
       selectedDate.value = DateTime.now();
+      Get.back();
     }
   }
 

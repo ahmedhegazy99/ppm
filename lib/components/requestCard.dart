@@ -20,7 +20,7 @@ class RequestCard extends StatelessWidget {
     var userType = Get.find<UserController>().user.userType ;
     return Container(
       margin: EdgeInsets.only(bottom: 4),
-      color: ppmBack,
+      color: request!.status == null ? ppmBack : request!.status == true ? Colors.green : Colors.red,
       child: GestureDetector(
         child: ListTile(
             title: RichText(
@@ -39,10 +39,10 @@ class RequestCard extends StatelessWidget {
                     }',
                     style: TextStyle(
                         color: ppmMain,
-                        fontWeight: FontWeight.bold
+                        fontWeight: FontWeight.normal
                     ),
                   ),
-                  if(userType == UserTypeEnum.admin)
+                  //if(userType == UserTypeEnum.admin)
                   TextSpan(
                     text: '${user!.name?? ""}',
                     style: TextStyle(

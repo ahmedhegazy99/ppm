@@ -37,6 +37,7 @@ class Login extends GetWidget<AuthController> {
           ),
         ),
       ),*/
+      resizeToAvoidBottomInset: true,
       body: Background(
         child: SingleChildScrollView(
           child: Form(

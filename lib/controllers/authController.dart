@@ -45,11 +45,13 @@ class AuthController extends GetxController {
       UserModel _user = UserModel(
           id: _authResult.user!.uid,
           name: name,
-          //userType: userType.value,
           userType: userType,
           mobile: mobile,
           email: email);
+      _authResult.user!.updateDisplayName(name);
+     // _authResult.user!.updatePhoneNumber(mobile);
       await Get.find<DatabaseController>().createNewUser(_user);
+      updateUserPhone(mobile);
       Get.offAllNamed(AppRouter.mainBarRoute);
       loading.toggle();
       Get.back();
@@ -59,7 +61,7 @@ class AuthController extends GetxController {
     }
   }
 
-  void updateUser(String name, String email,
+  /*void updateUser(String name, String email,
       String mobile) async {
     try {
       loading.toggle();
@@ -78,7 +80,67 @@ class AuthController extends GetxController {
       loading.toggle();
       displayError(e);
     }
+  }*/
+
+  Future updateUserPhone(String phoneNumber) async {
+    try{
+      loading.toggle();
+      await _auth.verifyPhoneNumber(
+        phoneNumber: phoneNumber,
+        timeout: const Duration(minutes: 2),
+        verificationCompleted: (credential) async {
+          await user!.updatePhoneNumber(credential);
+          // either this occurs or the user needs to manually enter the SMS code
+        },
+        verificationFailed: (FirebaseAuthException e) {
+          if (e.code == 'invalid-phone-number') {
+            print('The provided phone number is not valid.');
+          }
+
+        },
+        codeSent: (verificationId, [forceResendingToken]) async {
+          String smsCode = 'xxxx';
+          // get the SMS code from the user somehow (probably using a text field)
+          PhoneAuthCredential credential =
+          PhoneAuthProvider.credential(verificationId: verificationId, smsCode: smsCode);
+          await user!.updatePhoneNumber(credential);
+        },
+        codeAutoRetrievalTimeout: (String verificationId) {
+          // Auto-resolution timed out...
+        },
+      );
+     Get.defaultDialog(
+         title: 'Done'.tr, content: Text("Phone Verified", style: TextStyle(color: ppmBack),), backgroundColor: ppmMain, titleStyle: TextStyle(color: ppmBack)
+     );
+     loading.toggle();
+    } catch (e){
+
+    }
   }
+
+  Future updateUserPass(String password) async {
+    try {
+      loading.toggle();
+      await _auth.currentUser!.updatePassword(password).then((val){
+        // Password has been updated.
+        Get.defaultDialog(
+            title: 'Done'.tr, content: Text("Password Updated Successfully", style: TextStyle(color: ppmBack),), backgroundColor: ppmMain, titleStyle: TextStyle(color: ppmBack)
+        );
+      }).catchError((err){
+        // An error has occured.
+        Get.defaultDialog(
+            title: 'Failed'.tr, content: Text("Can't Update Password\ntry again later", style: TextStyle(color: ppmBack),), backgroundColor: ppmLight, titleStyle: TextStyle(color: ppmBack)
+        );
+      });
+
+      loading.toggle();
+      Get.back();
+    } catch (e) {
+      loading.toggle();
+      displayError(e);
+    }
+  }
+
 
   void login(String email, String password) async {
     try {

@@ -43,6 +43,7 @@ class Signup extends GetWidget<AuthController> {
           ),
         ),
       ),*/
+      resizeToAvoidBottomInset: true,
       body: Background(
         child: /*Obx((){
           return */

@@ -13,7 +13,7 @@ class PostController extends GetxController {
   var _postsStream = Rxn<List<PlayerModel>>();
   var _filterdPosts = Rxn<List<PlayerModel>>();
 
-  var userType = Get.find<UserController>().user.userType ;
+  var userType = Rx(Get.find<UserController>().user.userType) ;
 
   List<PlayerModel> ? get posts => _filterdPosts.value;
 
@@ -25,7 +25,13 @@ class PostController extends GetxController {
     super.onInit();
   }
 
+  @override
+  void onReady() {
 
+    ever(Get.find<UserController>().userModel , (UserModel newVal) {
+      userType.value = newVal.userType;
+    });
+  }
   Future<void> toggleIsLiked(PlayerModel post) async {
     try {
       final UserModel user = Get.find<UserController>().user;
@@ -45,6 +51,7 @@ class PostController extends GetxController {
       //return;
     } catch (e) {
       displayError(e);
+      print(e);
       //return;
     }
   }
@@ -63,11 +70,11 @@ class PostController extends GetxController {
 
     await Get.find<DatabaseController>().CreateBuyRequest(req);
 
-   /* await Future.delayed(Duration(seconds: 30), () {*/
+    await Future.delayed(Duration(seconds: 0), () {
       Get.defaultDialog(
         title: 'Done'.tr, content: Icon(Icons.verified_rounded), backgroundColor: ppmMain
       );
-   // });
+    });
 
     Get.back();
 
@@ -81,7 +88,7 @@ class PostController extends GetxController {
       if (keyword.isEmpty) {
         // if the search field is empty or only contains white-space, we'll display all users
         results = _postsStream.value!;
-      }else if(keyword == 'all'){
+      }else if(keyword == 'select'){
         results = _postsStream.value!;
       }else{
         print("filtering......");
@@ -167,11 +174,11 @@ class DropButton extends StatefulWidget {
 
 class _DropButtonState extends State<DropButton> {
   //final controller = Get.put(CreatePlayerController());
-  String dropdownValue = 'all';
+  String dropdownValue = 'select';
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-
+    dropdownValue = widget.cities[0].cityName;
     return DropdownButton<String>(
       value: dropdownValue,
       icon: Icon(Icons.arrow_downward, color: ppmMain,),

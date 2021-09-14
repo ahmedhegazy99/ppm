@@ -7,7 +7,7 @@ class RoundedButton extends StatelessWidget {
   final int ?viewIcon;
   final VoidCallback ? press;
   Color color, textColor;
-  final double cSize;
+  final double cSize, coff;
   double fontSize, radiusSize = 37.5;
 
   RoundedButton({
@@ -18,6 +18,7 @@ class RoundedButton extends StatelessWidget {
     this.color = ppmMain,
     this.textColor = ppmBack,
     this.cSize = 0.4,
+    this.coff = 1.5,
     this.fontSize = 40,
   })  : viewIcon = icon != null ? 1 : 0,
         super(key: key);
@@ -29,7 +30,7 @@ class RoundedButton extends StatelessWidget {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 0, horizontal: 12),
       //margin: EdgeInsets.symmetric(vertical: 10),
-      width: size.width * cSize * 1.5,
+      width: size.width * cSize * coff,
       height: size.width * cSize * cSize,
       child: Card(
         color: color,
@@ -56,7 +57,7 @@ class RoundedButton extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                     fontFamily: "englishBebas",
                     color: textColor,
-                    fontSize: fontSize * cSize * 1.5,
+                    fontSize: fontSize * cSize * coff,
                 ),
               ),
             ],

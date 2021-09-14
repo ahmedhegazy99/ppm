@@ -15,8 +15,7 @@ class PlayerModel {
   String ? video;
   String ? city;
   DateTime ? birthDate;
-  //String ? mobile;
-  //String ? email;
+  bool ? show;
   String ? bio;
   List<String> ? upvotes;
 
@@ -29,8 +28,7 @@ class PlayerModel {
     this.video,
     this.city,
     this.birthDate,
-    //this.mobile,
-    //this.email,
+    this.show = false,
     this.bio,
     this.upvotes,
   });

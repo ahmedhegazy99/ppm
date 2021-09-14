@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pro_player_market/components/constants.dart';
@@ -21,6 +22,7 @@ class CreatePlayer extends GetWidget<CreatePlayerController> {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: Colors.grey[200],
+      resizeToAvoidBottomInset: true,
       appBar: AppBar(
         //automaticallyImplyLeading: true,
         backgroundColor: ppmMain,
@@ -82,6 +84,8 @@ class CreatePlayer extends GetWidget<CreatePlayerController> {
                       DropButton(
                         cSize: 0.7,
                         oWidth: 0.7,
+                        controller: controller,
+                        //cities: controller.cities,
                       )
 
                     ],
@@ -100,11 +104,21 @@ class CreatePlayer extends GetWidget<CreatePlayerController> {
                     color: ppmBack,
                     borderRadius: BorderRadius.circular(30),
                   ),
-                  child: Text(
-                    "${controller.selectedDate.value.day}/${controller.selectedDate.value.month}/${controller.selectedDate.value.year}",
-                    style: TextStyle(
-                      fontSize: 16,
-                    ),
+                  child: Flex(
+                    direction: Axis.horizontal,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "${controller.selectedDate.value.day}/${controller.selectedDate.value.month}/${controller.selectedDate.value.year}",
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: ppmMain
+                        ),
+                      ),
+                      SizedBox(width: size.width * 0.02),
+
+                      Icon(Icons.arrow_forward_ios, color: ppmMain,),
+                    ]
                   ),
                 ),
                 onTap: (){
@@ -113,18 +127,18 @@ class CreatePlayer extends GetWidget<CreatePlayerController> {
                 },
               ),
 
-              RoundedButton(
-                  text: "Date",
-                  press: () async {
-                    print("select date clicked");
-                    controller.selectDate(context);
-                  }),
+              // RoundedButton(
+              //     text: "Date",
+              //     press: () async {
+              //       print("select date clicked");
+              //       controller.selectDate(context);
+              //     }),
 
               RoundedInputField(
                 validator: (val) => val!.isEmpty ? 'write a brief of place' : null,
                 keyboardType: TextInputType.multiline,
                 hintText: "Bio",
-                maxLines: null,
+                maxLines: 4,
                 controller: controller.bioController,
               ),
 
@@ -148,19 +162,20 @@ class CreatePlayer extends GetWidget<CreatePlayerController> {
                   text: "Create",
                   press: () async {
                     await controller.postPlayer();
-                    //Get.offAllNamed(AppRouter.mainBarRoute);
                     Get.back();
-                    //Navigator.of(context).pop();
                   }),
 
-              GetX<DatabaseController>(
-                init: DatabaseController(),
-                builder: (controller) {
-                  if (controller.uploading.value) return LinearProgressIndicator();
-                  return Container(
-                    color: ppmMain,
-                  );
-                },
+              Padding(
+                padding: const EdgeInsets.all(kDefaultPadding * 2),
+                child: GetX<DatabaseController>(
+                  init: DatabaseController(),
+                  builder: (controller) {
+                    if (controller.uploading.value) return LinearProgressIndicator();
+                    return Container(
+                      color: ppmMain,
+                    );
+                  },
+                ),
               )
             ],
           ),

@@ -61,16 +61,20 @@ class Splash extends StatelessWidget {
       child: Center(
           child: SizedBox(
           //height: 250.0,
-            height: 300.0,
+            height: 500.0,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
 
                 Image.asset(
-                  'assets/images/fpm.jpeg',
+                  'assets/images/fpm.png',
                   fit: BoxFit.contain,
                   height: 200,
                   width: 200,
+                ),
+
+                SizedBox(
+                  height: kDefaultPadding * 2,
                 ),
 
                 Text(

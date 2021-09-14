@@ -86,11 +86,17 @@ class DatabaseController extends GetxController {
       RequestModel req = RequestModel();
       req.type = RequestTypeEnum.post;
       req.userId = post.userId;
-      req.info = post;
+      //req.info = post;
+      req.requestDate = post.joinDate;
 
-      await _firestore.collection('requests').add(req.toJson())
-       .then((doc) => doc.update({"id": doc.id}));
+      await _firestore.collection('players').add(post.toJson())
+       .then((doc) {
+          doc.update({"id": doc.id});
+          print("add post request ${doc.id}");
+          req.info = doc.id;
+        });
       uploading.toggle();
+      CreateBuyRequest(req);
     } catch (e) {
       uploading.toggle();
       displayError(e);
@@ -137,7 +143,7 @@ class DatabaseController extends GetxController {
   Stream<List<PlayerModel>> getPosts({bool update = false}) {
     return _firestore
         .collection('players')
-        //.orderBy('upvotes', descending: true)
+        .where('show', isEqualTo: true)
         .orderBy('joinDate', descending: true)
         .snapshots()
         .map((snapshot) => snapshot.docs
@@ -285,7 +291,7 @@ class DatabaseController extends GetxController {
     return _firestore
         .collection('requests')
         //.where('status', isNull: true)
-        .orderBy('requestDate', descending: true)
+        //.orderBy('requestDate', descending: true)
         .snapshots()
         .map((snapshot) => snapshot.docs
         .map((doc) => RequestModel.fromJson(doc.data()))
@@ -296,21 +302,21 @@ class DatabaseController extends GetxController {
     return _firestore
         .collection('requests')
         .where('userId', isEqualTo: userId)
-        .orderBy('requestDate', descending: true)
+        //.orderBy('requestDate', descending: true)
         .snapshots()
         .map((snapshot) => snapshot.docs
         .map((doc) => RequestModel.fromJson(doc.data()))
         .toList());
   }
 
-  Future<void> approvePlayerRequest(PlayerModel post, String rId, String uId) async {
+  Future<void> approvePlayerRequest(RequestModel request) async {
     try {
       uploading.toggle();
-      
-      await _firestore.collection('players').add(post.toJson())
-          .then((doc) => doc.update({"id": doc.id}));
-      await _firestore.collection('requests').doc(rId).update({"status": "true"});
-      await _firestore.collection('users').doc(uId).update({"requests": [rId]});
+      UserModel user = await getUser(request.userId!);
+      user.requests!.add(request.id!);
+      await _firestore.collection('players').doc(request.info).update({"show" : true});
+      await _firestore.collection('requests').doc(request.id).update({"status": true});
+      await _firestore.collection('users').doc(request.userId).update({"requests": [request.id]});
       uploading.toggle();
     } catch (e) {
       uploading.toggle();
@@ -323,7 +329,7 @@ class DatabaseController extends GetxController {
     try {
       uploading.toggle();
 
-      await _firestore.collection('requests').doc(rId).update({"status": "false"});
+      await _firestore.collection('requests').doc(rId).update({"status": false});
       await _firestore.collection('users').doc(uId).update({"requests": [rId]});
       uploading.toggle();
     } catch (e) {
@@ -337,7 +343,7 @@ class DatabaseController extends GetxController {
     try {
       uploading.toggle();
 
-      await _firestore.collection('requests').doc(rId).update({"status": "true"});
+      await _firestore.collection('requests').doc(rId).update({"status": true});
       await _firestore.collection('users').doc(uId).update({"requests": [rId]});
       uploading.toggle();
     } catch (e) {
@@ -351,7 +357,7 @@ class DatabaseController extends GetxController {
     try {
       uploading.toggle();
 
-      await _firestore.collection('requests').doc(rId).update({"status": "false"});
+      await _firestore.collection('requests').doc(rId).update({"status": false});
       await _firestore.collection('users').doc(uId).update({"requests": [rId]});
       uploading.toggle();
     } catch (e) {

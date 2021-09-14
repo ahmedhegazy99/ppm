@@ -12,8 +12,9 @@ Timestamp? dateTimeToTimestamp(DateTime? dateTime) =>
 
  calculateAge(DateTime d){
   Duration days = DateTime.now().difference(d);
-  var age = days.inDays;
-  return age/365;
+  var ageDays = days.inDays;
+  int age = (ageDays~/365).toInt();
+  return age;
 }
 
 void displayError(dynamic e) {

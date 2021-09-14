@@ -137,7 +137,7 @@ class PlayerCard extends StatelessWidget {
 
                 FlatButton(
                   child: Text(
-                    'View more'.tr,
+                    'view more'.tr,
                     style: TextStyle(
                       color: ppmLight,
                     ),

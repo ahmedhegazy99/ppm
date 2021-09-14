@@ -15,6 +15,7 @@ class UserModel {
   String? mobile;
   String? imageUrl;
   String ? city;
+  DateTime ? birthDate;
   List<String> ? requests;
 
   UserModel({
@@ -26,6 +27,7 @@ class UserModel {
     this.imageUrl,
     this.email,
     this.city,
+    this.birthDate,
     this.requests,
   });
 

@@ -16,6 +16,9 @@ UserModel _$UserModelFromJson(Map<String, dynamic> json) {
     imageUrl: json['imageUrl'] as String?,
     email: json['email'] as String?,
     city: json['city'] as String?,
+    birthDate: json['birthDate'] == null
+        ? null
+        : DateTime.parse(json['birthDate'] as String),
     requests:
     (json['requests'] as List<dynamic>?)?.map((e) => e as String).toList(),
   );
@@ -30,6 +33,7 @@ Map<String, dynamic> _$UserModelToJson(UserModel instance) => <String, dynamic>{
   'mobile': instance.mobile,
   'imageUrl': instance.imageUrl,
   'city': instance.city,
+  'birthDate': instance.birthDate?.toIso8601String(),
   'requests': instance.requests,
 };
 

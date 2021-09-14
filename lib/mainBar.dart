@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pro_player_market/components/constants.dart';
+import 'package:pro_player_market/screens/settings.dart';
 import 'controllers/authController.dart';
 import 'controllers/mainBarController.dart';
 import 'controllers/postController.dart';
@@ -15,6 +16,7 @@ class MainBar extends GetWidget<MainBarController> {
 
     return Scaffold(
       backgroundColor: Colors.grey[200],
+      resizeToAvoidBottomInset: true,
       appBar: AppBar(
         automaticallyImplyLeading: true,
         backgroundColor: ppmMain,
@@ -64,16 +66,16 @@ class MainBar extends GetWidget<MainBarController> {
 
           PopupMenuButton(
             itemBuilder: (BuildContext context) => <PopupMenuEntry>[
-              const PopupMenuItem(
+               PopupMenuItem(
                 value: 1,
                 child: Text(
-                  "Settings",
+                  "settings".tr,
                 ),
               ),
-              const PopupMenuItem(
+              PopupMenuItem(
                 value: 0,
                 child: Text(
-                  "Log Out",
+                  "logout".tr,
                 ),
               ),
             ],
@@ -85,7 +87,7 @@ class MainBar extends GetWidget<MainBarController> {
                 break;
 
                 case 1: {
-                  //Get.to();
+                  Get.to(Settings());
                 }
                 break;
               }

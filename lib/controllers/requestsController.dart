@@ -6,6 +6,7 @@ import 'package:pro_player_market/models/userModel.dart';
 import 'package:pro_player_market/utils/utilFunctions.dart';
 import 'authController.dart';
 import 'databaseController.dart';
+import 'mainBarController.dart';
 
 class RequestsController extends GetxController {
   var _requestsStream = Rxn<List<RequestModel>>();
@@ -25,24 +26,40 @@ class RequestsController extends GetxController {
   @override
   void onInit() {
 
-    if(userType == UserTypeEnum.club){
-      _requestsStream.bindStream(Get.find<DatabaseController>()
-          .getUserRequests(userId: Get.find<AuthController>().user?.uid));
-    }else if(userType == UserTypeEnum.admin)
-      _requestsStream.bindStream(Get.find<DatabaseController>().getRequests());
+    ever(Get.find<UserController>().userModel, (UserModel newVal) {
+      _pageUser.value = newVal ;
+      //print("new val usertype : ${newVal.userType}");
+      if(newVal != null && loading.isTrue) {
+        if (pageUser!.userType == UserTypeEnum.club) {
+          _requestsStream.bindStream(Get.find<DatabaseController>()
+              .getUserRequests(userId: Get
+              .find<AuthController>()
+              .user
+              ?.uid));
+          getIds();
+          loading.value = false;
+        } else if (pageUser!.userType == UserTypeEnum.admin) {
+          _requestsStream.bindStream(
+              Get.find<DatabaseController>().getRequests());
+          print("new val usertype : ${newVal.userType}");
+          getIds();
+          loading.value = false;
+        }
+      }
+    });
 
-   // _requestsStream.bindStream(Get.find<DatabaseController>().getRequests());
-
-    getIds();
     super.onInit();
   }
 
   @override
   void onReady() {
+
     ever(_requestsStream, (dynamic newVal) {
+      getIds(update: true);
       if (requests!.isEmpty) {
         print("empty requests");
         getIds(update: true);
+        //loading.value = false;
       }
     });
   }
@@ -54,14 +71,20 @@ class RequestsController extends GetxController {
       print(requests);
 
       await Future.forEach(_requestsStream.value!, (RequestModel value) async {
-        userList.value.add(await Get.find<DatabaseController>().getUser(value.userId!));
-        if(value.type == RequestTypeEnum.deal) {
-          playerList.value.add(
+        userList.add(await Get.find<DatabaseController>().getUser(value.userId!));
+        /*if(value.type == RequestTypeEnum.deal) {
+          playerList.add(
               await Get.find<DatabaseController>().getPlayer(value.info!));
         }else if(value.type == RequestTypeEnum.post){
           playerList.add(value.info);
-        }
+        }*/
+        playerList.add(
+            await Get.find<DatabaseController>().getPlayer(value.info!));
+        print("requests length : ${requests!.length}");
+        print("users length : ${userList.length}");
+        print("players length : ${playerList.length}");
       });
+
       /*_requestsStream.value!.map((value) async {
         print("start map");
         userList.value.add(await Get.find<DatabaseController>().getUser(value.userId!));
@@ -70,7 +93,12 @@ class RequestsController extends GetxController {
         print(playerList);
       });*/
 
-      loading.value =false;
+      /*if() {
+        print(requests);
+        loading.value = false;
+        print(loading.value);
+      }*/
+      //print(loading.value);
     } catch (e) {
       displayError(e);
     }

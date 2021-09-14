@@ -1,8 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.pro_player_market">
    <application
-        android:label="pro_player_market"
-        android:icon="@mipmap/ic_launcher">
+        android:label="Football Player Market"
+        android:icon="@mipmap/launcher_icon">
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"

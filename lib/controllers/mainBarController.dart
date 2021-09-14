@@ -21,15 +21,15 @@ class MainBarController extends GetxController {
   var items= [
     BottomNavigationBarItem(
     icon: Icon(Icons.info),
-    label: 'Requests',
+    label: 'requests'.tr,
     backgroundColor: Colors.black),
     BottomNavigationBarItem(
     icon: Icon(Icons.home),
-    label: 'Home',
+    label: 'home'.tr,
     backgroundColor: Colors.black),
     BottomNavigationBarItem(
     icon: Icon(Icons.person),
-    label: 'Profile',
+    label: 'profile'.tr,
     backgroundColor: Colors.black),
   ];
   

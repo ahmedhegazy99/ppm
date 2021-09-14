@@ -4,6 +4,7 @@ import 'package:get/get_state_manager/src/simple/get_view.dart';
 import 'package:pro_player_market/components/constants.dart';
 import 'package:pro_player_market/components/roundedButton.dart';
 import 'package:pro_player_market/components/videoPlayer.dart';
+import 'package:pro_player_market/controllers/databaseController.dart';
 import 'package:pro_player_market/controllers/postController.dart';
 import 'package:pro_player_market/controllers/userController.dart';
 import 'package:pro_player_market/models/playerModel.dart';
@@ -56,14 +57,14 @@ class PlayerPage extends GetWidget<PostController>{
                       padding: const EdgeInsets.all(kDefaultPadding),
                       child: RichText(
                         text: TextSpan(
-                          text: "Bio\n",
+                          text: "bio".tr,
                           style: TextStyle(
                               color: ppmMain,
                               fontWeight: FontWeight.bold
                           ),
                           children: <TextSpan>[
                             TextSpan(
-                              text: "\t ${player!.bio}",
+                              text: "\n\t ${player!.bio}",
                               style: TextStyle(
                                   color: ppmLight,
                                   fontWeight: FontWeight.w500
@@ -88,14 +89,14 @@ class PlayerPage extends GetWidget<PostController>{
                           padding: const EdgeInsets.all(kDefaultPadding),
                           child: Text.rich(
                             TextSpan(
-                              text: "Name: ",
+                              text: "name".tr,
                               style: TextStyle(
                                   color: ppmMain,
                                   fontWeight: FontWeight.bold
                               ),
                               children: <TextSpan>[
                                 TextSpan(
-                                  text: "${player!.name}",
+                                  text: ": ${player!.name}",
                                   style: TextStyle(
                                       color: ppmLight,
                                       fontWeight: FontWeight.bold
@@ -112,14 +113,14 @@ class PlayerPage extends GetWidget<PostController>{
                           padding: const EdgeInsets.all(kDefaultPadding),
                           child: Text.rich(
                             TextSpan(
-                                text: "City: ",
+                                text: "city".tr,
                                 style: TextStyle(
                                     color: ppmMain,
                                     fontWeight: FontWeight.bold
                                 ),
                                 children: <TextSpan>[
                                   TextSpan(
-                                    text: "${player!.city}",
+                                    text: ": ${player!.city}",
                                     style: TextStyle(
                                         color: ppmLight,
                                         fontWeight: FontWeight.bold
@@ -137,14 +138,14 @@ class PlayerPage extends GetWidget<PostController>{
                           padding: const EdgeInsets.all(kDefaultPadding),
                           child: Text.rich(
                             TextSpan(
-                                text: "Age: ",
+                                text: "age".tr,
                                 style: TextStyle(
                                     color: ppmMain,
                                     fontWeight: FontWeight.bold
                                 ),
                                 children: <TextSpan>[
                                   TextSpan(
-                                    text: "${calculateAge(player!.birthDate!)}",
+                                    text: ": ${calculateAge(player!.birthDate!)}",
                                     style: TextStyle(
                                         color: ppmLight,
                                         fontWeight: FontWeight.bold
@@ -173,21 +174,31 @@ class PlayerPage extends GetWidget<PostController>{
 
                   if (controller.userType == UserTypeEnum.club)
                    RoundedButton(
-                      text: "Request Deal",
+                      text: "Request Deal".tr,
                       press: () async {
                         UserModel user = Get.find<UserController>().user;
+                        print("user on click : $user");
                         if(user.requests?.contains(player!.id) == false || user.requests == null) {
                           controller.BuyRequest(player!.id!);
                           if (user.requests == null) {
                             user.requests = [];
                           }
                           user.requests!.add(player!.id!);
-                          Get.find<PostController>().toggleIsLiked(player!);
+                          Get.find<DatabaseController>().updateUser(user.id!, {'requests' : user.requests!});
+                          if (player!.upvotes?.contains(user.id) == false) {
+                            controller.toggleIsLiked(player!);
+                          }
+                          Get.defaultDialog(
+                              title: 'success'.tr,
+                              content: Icon(Icons.verified_rounded,color: ppmBack,),
+                              backgroundColor: ppmMain, titleStyle: TextStyle(color: ppmBack)
+                          );
                         }else{
                           Get.defaultDialog(
                             title: "Can't Request".tr,
-                            content: Text("You already submitted a request"),
-                            backgroundColor: ppmLight
+                            content: Text("You already submitted a request",style: TextStyle(color: ppmBack),),
+                            backgroundColor: ppmLight,
+                            titleStyle: TextStyle(color: ppmBack)
                           );
                         }
                       }
