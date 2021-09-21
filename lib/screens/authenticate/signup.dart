@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pro_player_market/components/background.dart';
 import 'package:pro_player_market/components/constants.dart';
+import 'package:pro_player_market/components/dropDownButton.dart';
 import 'package:pro_player_market/components/roundedButton.dart';
 import 'package:pro_player_market/components/roundedInputField.dart';
 import 'package:pro_player_market/controllers/authController.dart';
 import 'package:pro_player_market/models/userModel.dart';
+import 'package:pro_player_market/utils/utilFunctions.dart';
 
 class Signup extends GetWidget<AuthController> {
   final _formKey = GlobalKey<FormState>();
@@ -18,6 +20,8 @@ class Signup extends GetWidget<AuthController> {
 
   //UserTypeEnum userType = UserTypeEnum.userPlayer.obs as UserTypeEnum;
   var userType = UserTypeEnum.userPlayer.obs;
+
+  var selectedDate = Rx(DateTime(DateTime.now().year - 15));
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +58,7 @@ class Signup extends GetWidget<AuthController> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Text(
-                  "sign up",
+                  'signup'.tr,
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontFamily: "englishBebas",
@@ -110,6 +114,7 @@ class Signup extends GetWidget<AuthController> {
                   hintText: "Full Name",
                   icon: Icons.account_circle,
                   controller: name,
+                  color: Colors.grey[200]!,
                 ),
                 RoundedInputField(
                   validator: (val) => val!.isEmpty ? 'Enter an Email' : null,
@@ -117,6 +122,7 @@ class Signup extends GetWidget<AuthController> {
                   hintText: "Email",
                   icon: Icons.mail,
                   controller: email,
+                  color: Colors.grey[200]!,
                 ),
                 RoundedInputField(
                   validator: (val) =>
@@ -125,16 +131,55 @@ class Signup extends GetWidget<AuthController> {
                   hintText: "Mobile Number",
                   icon: Icons.phone,
                   controller: mobile,
+                  color: Colors.grey[200]!,
                 ),
 
                 //SizedBox(height: size.height * 0.03),
+                GestureDetector(
+                  child: Container(
+                    margin: EdgeInsets.symmetric(vertical: 10),
+                    padding: EdgeInsets.symmetric(horizontal: 48, vertical: 12),
+                    height: size.width * 0.13,
+                    width: size.width * 0.8,
+                    decoration: BoxDecoration(
+                      color: ppmBack,
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                    child: Flex(
+                        direction: Axis.horizontal,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "${selectedDate.value.day}/${selectedDate.value.month}/${selectedDate.value.year}",
+                            style: TextStyle(
+                                fontSize: 16,
+                                color: ppmMain
+                            ),
+                          ),
+                          SizedBox(width: size.width * 0.02),
+
+                          Icon(Icons.arrow_forward_ios, color: ppmMain,),
+                        ]
+                    ),
+                  ),
+                  onTap: () async {
+                    print("select date clicked");
+                    selectedDate = await selectDate(context);
+                  },
+                ),
+
+                DropButton(
+                  cSize: 0.7,
+                  oWidth: 0.7,
+                  controller: controller,
+                ),
 
                 RoundedInputField(
                   validator: (val) => val!.isEmpty ? 'Enter an password' : null,
-                  color: Colors.white,
                   textColor: Colors.black,
                   obscureText: true,
                   icon: Icons.lock,
+                  color: Colors.grey[200]!,
                   hintText: "Password",
                   controller: password,
                 ),
@@ -144,10 +189,10 @@ class Signup extends GetWidget<AuthController> {
                 RoundedInputField(
                   validator: (val) =>
                       val!.isEmpty ? "Password didn't match" : null,
-                  color: Colors.white,
                   textColor: Colors.black,
                   obscureText: true,
                   icon: Icons.lock,
+                  color: Colors.grey[200]!,
                   hintText: "Confirm Password",
                   controller: confirmPassword,
                 ),
@@ -164,6 +209,7 @@ class Signup extends GetWidget<AuthController> {
                             userType.value,
                             email.text,
                             mobile.text,
+                            selectedDate.value,
                             password.text);
                       }
                     }),

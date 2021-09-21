@@ -1,6 +1,8 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import 'package:get/get.dart';
@@ -30,7 +32,7 @@ class PlayerCard extends StatelessWidget {
       Image.network('${player!.photo}'),
       VideoWidget(player!.video),
     ];
-
+    Size size = MediaQuery.of(context).size;
     return Card(
       margin: EdgeInsets.symmetric(vertical: 4, /*horizontal: 6*/),
       shape: RoundedRectangleBorder(
@@ -43,10 +45,19 @@ class PlayerCard extends StatelessWidget {
           // post image
           if (player!.photo != null)
             Container(
+              //height: size.height * 0.65,
               child: (){
-                if(player!.photo != null)
-                  return Image.network('${player!.photo}');
-                return Placeholder(fallbackHeight: 400,fallbackWidth: 400);
+                //if(player!.photo != null)
+                  return CachedNetworkImage(
+                    placeholder: (context, url) => Container(child: CircularProgressIndicator(), width: 500, height: 400,),
+                    imageUrl: '${player!.photo}',
+                    errorWidget: (context, url, error) => Icon(Icons.error),
+                  );
+
+                //     Image.network(
+                //       player!.photo ?? 'assets/images/placeholder.jpg',
+                //   );
+                // return Placeholder(fallbackHeight: 400,fallbackWidth: 400);
               }(),
               //Image.network('${player!.photo}') ?? Placeholder(fallbackHeight: 400,fallbackWidth: 400),
             ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pro_player_market/components/constants.dart';
+import 'package:pro_player_market/screens/about/about.dart';
 
 class Settings extends StatelessWidget {
   const Settings({Key? key}) : super(key: key);
@@ -40,6 +41,16 @@ class Settings extends StatelessWidget {
                     }else {
                       Get.updateLocale(Locale('ar'));
                     }
+                  },
+                ),
+
+                GestureDetector(
+                  child: ListTile(
+                    //leading: Icon(Icons.language, color: ppmMain,),
+                    title: Text('about'.tr),
+                  ),
+                  onTap: (){
+                    Get.to(About());
                   },
                 )
               ],

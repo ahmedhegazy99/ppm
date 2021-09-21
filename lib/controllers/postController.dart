@@ -10,12 +10,18 @@ import 'package:flutter/material.dart';
 import 'databaseController.dart';
 
 class PostController extends GetxController {
-  var _postsStream = Rxn<List<PlayerModel>>();
-  var _filterdPosts = Rxn<List<PlayerModel>>();
+  //var _postsStream = Rxn<List<PlayerModel>>();
+  //var _filterdPosts = Rxn<List<PlayerModel>>();
+  var _postsStream = RxList<PlayerModel>();
+  var _filterdPosts = RxList<PlayerModel>();
 
   var userType = Rx(Get.find<UserController>().user.userType) ;
 
   List<PlayerModel> ? get posts => _filterdPosts.value;
+
+  var loading = false.obs;
+
+  List<PlayerModel> res = [];
 
   @override
   void onInit() {
@@ -31,6 +37,7 @@ class PostController extends GetxController {
     ever(Get.find<UserController>().userModel , (UserModel newVal) {
       userType.value = newVal.userType;
     });
+
   }
   Future<void> toggleIsLiked(PlayerModel post) async {
     try {
@@ -82,21 +89,32 @@ class PostController extends GetxController {
 
   // This function is called whenever the text field changes
   Future<void> runFilter(String? keyword) async {
+    loading.toggle();
     List<PlayerModel> results = [];
     print(keyword);
     if (keyword != null){
       if (keyword.isEmpty) {
         // if the search field is empty or only contains white-space, we'll display all users
-        results = _postsStream.value!;
+        results = _postsStream;
       }else if(keyword == 'select'){
-        results = _postsStream.value!;
+        results = _postsStream;
       }else{
         print("filtering......");
         print(_postsStream.value);
-        results = _postsStream.value!
-            .where((P) =>
-            P.city!.contains(keyword/*.toLowerCase()*/))
-            .toList();
+        await Future.delayed(
+          Duration(seconds: 1),
+            () {
+              //_postsStream.bindStream(Get.find<DatabaseController>().getPosts());
+              results = _postsStream
+                .where((P) =>
+                P.city!.contains(keyword/*.toLowerCase()*/))
+                .toList();
+          },
+        );
+        // results = _postsStream.value!
+        //     .where((P) =>
+        //     P.city!.contains(keyword/*.toLowerCase()*/))
+        //     .toList();
 
         results.sort((a, b) => a.upvotes!.length.compareTo(b.upvotes!.length));
         // we use the toLowerCase() method to make it case-insensitive
@@ -106,6 +124,7 @@ class PostController extends GetxController {
     print(results);
     _filterdPosts.value = results;
     //showFliterBar.toggle();
+    loading.toggle();
 
   }
 
@@ -178,7 +197,7 @@ class _DropButtonState extends State<DropButton> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    dropdownValue = widget.cities[0].cityName;
+    //dropdownValue = widget.cities[0].cityName;
     return DropdownButton<String>(
       value: dropdownValue,
       icon: Icon(Icons.arrow_downward, color: ppmMain,),
@@ -187,10 +206,7 @@ class _DropButtonState extends State<DropButton> {
       style: TextStyle(
           color: ppmMain
       ),
-      /*underline: Container(
-        height: 2,
-        color: mainLigthP,
-      ),*/
+
       onChanged: (String ? newValue) {
         setState(() {
           dropdownValue = newValue! ;

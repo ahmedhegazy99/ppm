@@ -45,10 +45,11 @@ class RoundedInputField extends StatelessWidget {
       child: TextFormField(
         validator: validator,
         controller: controller,
-        cursorColor: ppmMain,
+        cursorColor: textColor,
         keyboardType: keyboardType,
         autofocus: true,
         maxLines: maxLines,
+        obscureText: obscureText,
         decoration: InputDecoration(
           icon: Icon(
             icon,

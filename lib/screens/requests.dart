@@ -28,17 +28,29 @@ class Requests extends GetWidget<RequestsController> {
               ],
             );
 
-          return ListView.builder(
-            physics: AlwaysScrollableScrollPhysics(),
-            itemCount: controller.requests!.length,
-            itemBuilder: (context, index) {
-              return RequestCard(
-                request: controller.requests![index],
-                user: controller.userList[index],
-                player: controller.playerList[index],
-              );
-            },
-          );
+          return Obx(() {
+            return RefreshIndicator(
+              onRefresh: () {
+                return Future.delayed(
+                  Duration(seconds: 1),
+                      () {
+                    controller.update();
+                  },
+                );
+              },
+              child: ListView.builder(
+                physics: AlwaysScrollableScrollPhysics(),
+                itemCount: controller.requests!.length,
+                itemBuilder: (context, index) {
+                  return RequestCard(
+                    request: controller.requests![index],
+                    user: controller.userList[index],
+                    player: controller.playerList[index],
+                  );
+                },
+              ),
+            );
+          });
         }),
       ),
     );

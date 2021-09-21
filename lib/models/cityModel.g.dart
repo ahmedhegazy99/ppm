@@ -16,5 +16,5 @@ CityModel _$CityModelFromJson(Map<String, dynamic> json) {
 Map<String, dynamic> _$CityModelToJson(CityModel instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'userId': instance.cityName,
+      'cityName': instance.cityName,
     };

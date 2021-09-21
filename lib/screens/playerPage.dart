@@ -27,10 +27,13 @@ class PlayerPage extends GetWidget<PostController>{
           slivers: <Widget>[
 
             SliverAppBar(
-              expandedHeight: 150.0,
+              expandedHeight: 300.0,
               flexibleSpace: FlexibleSpaceBar(
                 //title: Text('Available seats'),
-                background: Image.network('${player!.photo}'),
+                background: Image.network(
+                  '${player!.photo}',
+                  fit: BoxFit.cover,
+                ),
               ),
               backgroundColor: ppmMain,
               /*actions: <Widget>[
@@ -172,7 +175,7 @@ class PlayerPage extends GetWidget<PostController>{
                       height: 10,
                     ),
 
-                  if (controller.userType == UserTypeEnum.club)
+                  if (controller.userType.value == UserTypeEnum.club)
                    RoundedButton(
                       text: "Request Deal".tr,
                       press: () async {

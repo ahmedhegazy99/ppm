@@ -10,7 +10,7 @@ class Background extends StatelessWidget {
   const Background({
     Key? key,
     required this.child,
-    this.backgroundColor = ppmLight,
+    this.backgroundColor = ppmBack,
   }) : super(key: key);
 
   @override

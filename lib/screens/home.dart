@@ -20,6 +20,9 @@ class Home extends GetWidget<PostController> {
             color: Colors.grey[200],
             //padding: EdgeInsets.only(top: kDefaultPadding/2),
             child: Obx(() {
+              if(controller.loading.value){
+                return Center(child: CircularProgressIndicator(color: ppmMain,));
+              }
               if (controller.posts == null || controller.posts!.isEmpty == true)
                 return Column(
                   children: [
@@ -29,15 +32,27 @@ class Home extends GetWidget<PostController> {
                   ],
                 );
 
-              return ListView.builder(
-                physics: AlwaysScrollableScrollPhysics(),
-                itemCount: controller.posts!.length,
-                itemBuilder: (context, index) {
-                  return PlayerCard(
-                    player: controller.posts![index],
-                  );
-                },
-              );
+              return Obx(() {
+                return RefreshIndicator(
+                  onRefresh: () {
+                    return Future.delayed(
+                      Duration(seconds: 1),
+                      () {
+                        controller.update();
+                      },
+                    );
+                  },
+                  child: ListView.builder(
+                  physics: AlwaysScrollableScrollPhysics(),
+                  itemCount: controller.posts!.length,
+                  itemBuilder: (context, index) {
+                    return PlayerCard(
+                      player: controller.posts![index],
+                    );
+                  },
+              ),
+                );
+              });
             }),
           ),
         );

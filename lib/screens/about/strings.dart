@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 
-const String aboutMinders = "Minders is a student activity in the faculty of Computers and information systems, Helwan university,\n"
-"Helps discovering the potentials buried inside students, supports and improves them,\n"
-"in order to develop projects that help them get connected to the job market";
+const String aboutFpm = "\nتاسس التطبيق تبع  لنادي الشروق جروب الرياضي ش. م. م. عام 2020\n"
+    "من اجل تنمية الروح الرياضية و التشجيع علي ممارسة الرياضة. و يتم دعمه من خلال شركات الشروق\n وعدنا بتقديم افضل مستوي ممكن\n"
+    "مقرنا متوفر 24 ساعة للتواصل\n"
+    "نساعد الاعبين علي الاحتراف\n"
+    "";
 
-const String years = "6\nyears";
-const String members = "230\nhradworking members";
-const String events = "35\nevents";

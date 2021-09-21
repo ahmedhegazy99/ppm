@@ -25,7 +25,7 @@ class CreatePlayerController extends GetxController {
 
   var selectedDate = Rx(DateTime(DateTime.now().year - 15));
 
-
+/*
   Future selectImage() async {
     final picker = ImagePicker();
     final pickedFile = await picker.getImage(source: ImageSource.gallery);
@@ -37,30 +37,34 @@ class CreatePlayerController extends GetxController {
       return image.value;
     }
   }
-
- /* selectImage() async {
+*/
+  selectImage() async {
     final sImage = await ImagePicker().getImage(source: ImageSource.gallery);
     if(sImage != null) {
       image.value = await ImageCropper.cropImage(
           sourcePath: sImage.path,
           aspectRatio: CropAspectRatio(
-              ratioX: 1, ratioY: 1),
+              ratioX: 5, ratioY: 4),
           compressQuality: 100,
-          maxWidth: 700,
-          maxHeight: 700,
+          //maxWidth: 700,
+          //maxHeight: 700,
           compressFormat: ImageCompressFormat.jpg,
           androidUiSettings: AndroidUiSettings(
             toolbarColor: ppmLight,
-            toolbarTitle: "Cropper",
+            toolbarTitle: "Crop",
             //statusBarColor: Colors.deepOrange.shade900,
             backgroundColor: Colors.white,
-          )
+            initAspectRatio: CropAspectRatioPreset.original,
+          ),
+          iosUiSettings: IOSUiSettings(
+            title: 'Crop',
+          ),
       );
       return image.value;
     }
     //return image.value;
   }
-*/
+
   Future selectVideo() async {
     final picker = ImagePicker();
     final pickedFile = await picker.getVideo(source: ImageSource.gallery);
@@ -113,16 +117,16 @@ class CreatePlayerController extends GetxController {
   }
 
 
-  selectDate(BuildContext context) async {
-    final DateTime? selected = await showDatePicker(
-      context: context,
-      initialDate: selectedDate.value,
-      firstDate: DateTime(DateTime.now().year - 40),
-      lastDate: DateTime(DateTime.now().year - 15),
-    );
-    if (selected != null && selected != selectedDate.value)
-        selectedDate.value = selected;
-
-  }
+  // Future selectDate(BuildContext context) async {
+  //   final DateTime? selected = await showDatePicker(
+  //     context: context,
+  //     initialDate: DateTime(DateTime.now().year - 15),
+  //     firstDate: DateTime(DateTime.now().year - 40),
+  //     lastDate: DateTime(DateTime.now().year - 15),
+  //   );
+  //   if (selected != null && selected != selectedDate.value)
+  //       //selectedDate.value = selected;
+  //       return selected;
+  // }
 
 }

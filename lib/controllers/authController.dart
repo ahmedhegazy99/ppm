@@ -15,6 +15,8 @@ class AuthController extends GetxController {
   var userType = UserTypeEnum.userPlayer.obs;
   User? get user => _user.value;
 
+  var city;
+
   @override
   void onReady() {
     _user.bindStream(_auth.authStateChanges());
@@ -36,18 +38,22 @@ class AuthController extends GetxController {
   }
 
   void createUser(String name, UserTypeEnum userType, String email,
-      String mobile, String password) async {
+      String mobile, DateTime birthDate, String password) async {
     try {
       loading.toggle();
       UserCredential _authResult = /* AuthResult _authResult =*/ await _auth
           .createUserWithEmailAndPassword(
               email: email.trim(), password: password);
       UserModel _user = UserModel(
-          id: _authResult.user!.uid,
-          name: name,
-          userType: userType,
-          mobile: mobile,
-          email: email);
+        id: _authResult.user!.uid,
+        name: name,
+        userType: userType,
+        mobile: mobile,
+        email: email,
+        joinDate: DateTime.now(),
+        city: city,
+        birthDate: birthDate,
+      );
       _authResult.user!.updateDisplayName(name);
      // _authResult.user!.updatePhoneNumber(mobile);
       await Get.find<DatabaseController>().createNewUser(_user);
@@ -141,8 +147,53 @@ class AuthController extends GetxController {
     }
   }
 
+  Future forgotPass(String email) async {
+    try {
+      loading.toggle();
+      await _auth.sendPasswordResetEmail(email: email).then((val){
+        // reset email has been sent.
+        Get.defaultDialog(
+            title: 'Done'.tr, content: Text("/Sent Password Reset Link to $email", style: TextStyle(color: ppmBack),), backgroundColor: ppmMain, titleStyle: TextStyle(color: ppmBack)
+        );
+      }).catchError((err){
+        // An error has occured.
+        Get.defaultDialog(
+            title: 'Failed'.tr, content: Text("Can't send email\ntry again later", style: TextStyle(color: ppmBack),), backgroundColor: ppmLight, titleStyle: TextStyle(color: ppmBack)
+        );
+      });
 
-  void login(String email, String password) async {
+      loading.toggle();
+      Get.back();
+    } catch (e) {
+      loading.toggle();
+      displayError(e);
+    }
+  }
+
+  Future updateUserPhoto(String photo) async {
+    try {
+      loading.toggle();
+      await _auth.currentUser!.updatePhotoURL(photo).then((val){
+        // Pic has been updated.
+        Get.defaultDialog(
+            title: 'Done'.tr, content: Text("Photo Updated Successfully", style: TextStyle(color: ppmBack),), backgroundColor: ppmMain, titleStyle: TextStyle(color: ppmBack)
+        );
+      }).catchError((err){
+        // An error has occured.
+        Get.defaultDialog(
+            title: 'Failed'.tr, content: Text("Can't Update Photo\ntry again later", style: TextStyle(color: ppmBack),), backgroundColor: ppmLight, titleStyle: TextStyle(color: ppmBack)
+        );
+      });
+
+      loading.toggle();
+      Get.back();
+    } catch (e) {
+      loading.toggle();
+      displayError(e);
+    }
+  }
+
+  Future login(String email, String password) async {
     try {
       loading.toggle();
       await _auth.signInWithEmailAndPassword(email: email, password: password);
@@ -151,9 +202,9 @@ class AuthController extends GetxController {
       print("start");
       loading.toggle();
       print("finish");
-    } catch (e) {
+    } on FirebaseAuthException catch (e) {
       loading.toggle();
-      displayError(e);
+      //displayError(e);
     }
   }
 

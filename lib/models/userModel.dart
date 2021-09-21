@@ -17,6 +17,9 @@ class UserModel {
   String ? city;
   DateTime ? birthDate;
   List<String> ? requests;
+  bool ? subscribed;
+  DateTime ? subscribeStartDate;
+  DateTime ? subscribeEndDate;
 
   UserModel({
     this.id,
@@ -29,6 +32,7 @@ class UserModel {
     this.city,
     this.birthDate,
     this.requests,
+    this.subscribed,
   });
 
   UserModel copy() => UserModel.fromJson(this.toJson());

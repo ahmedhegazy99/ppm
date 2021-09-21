@@ -234,6 +234,27 @@ class DatabaseController extends GetxController {
             .toList());
   }
 */
+
+  Future<String?> uploadUserImage(UserModel user, File image) async {
+    try {
+      String imageName = 'IMG_${user.name}_${user.joinDate}.jpg';
+      Reference reference = _storage.ref().child('users/photos/$imageName');
+      UploadTask uploadTask = reference.putFile(image);
+      TaskSnapshot snapshot = await uploadTask;
+      String imageUrl = await snapshot.ref.getDownloadURL();
+
+      return imageUrl;
+    } catch (e) {
+      displayError(e);
+      Get.snackbar(
+        "Error uploading image",
+        e.toString(),
+        snackPosition: SnackPosition.BOTTOM,
+      );
+      //return null;
+    }
+  }
+  
   Future<String?> uploadPlayerImage(PlayerModel post, File image) async {
     try {
       String imageName = 'IMG_${post.name}_${post.joinDate}.jpg';
@@ -279,7 +300,10 @@ class DatabaseController extends GetxController {
       uploading.toggle();
       
       await _firestore.collection('requests').add(request.toJson())
-          .then((doc) => doc.update({"id": doc.id}));
+          .then((doc) async{
+        doc.update({"id": doc.id});
+        await _firestore.collection('users').doc(request.userId).update({"requests": FieldValue.arrayUnion([doc.id])});
+      });
       uploading.toggle();
     } catch (e) {
       uploading.toggle();
@@ -290,8 +314,8 @@ class DatabaseController extends GetxController {
   Stream<List<RequestModel>> getRequests({bool update = false}) {
     return _firestore
         .collection('requests')
-        //.where('status', isNull: true)
-        //.orderBy('requestDate', descending: true)
+        .where('status', isNull: true)
+        .orderBy('requestDate', descending: true)
         .snapshots()
         .map((snapshot) => snapshot.docs
         .map((doc) => RequestModel.fromJson(doc.data()))
@@ -316,7 +340,7 @@ class DatabaseController extends GetxController {
       user.requests!.add(request.id!);
       await _firestore.collection('players').doc(request.info).update({"show" : true});
       await _firestore.collection('requests').doc(request.id).update({"status": true});
-      await _firestore.collection('users').doc(request.userId).update({"requests": [request.id]});
+      //await _firestore.collection('users').doc(request.userId).update({"requests": [request.id]});
       uploading.toggle();
     } catch (e) {
       uploading.toggle();

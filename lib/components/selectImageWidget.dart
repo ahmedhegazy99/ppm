@@ -18,20 +18,26 @@ class SelectImage extends GetWidget<CreatePlayerController> {
       return GestureDetector(
         child: Container(
             key: key,
-            child: _done.value?Image.file(
+            child: _done.value && selectedImage!=null?Image.file(
               selectedImage,
               width: 250,
               height: 250,
               fit: BoxFit.cover,
-            ):Image.asset(
+            ): Image.asset(
               "assets/images/placeholder.jpg",
               width: 250,
               height: 250,
               fit: BoxFit.cover,
             ),
+              /*Image.network(
+                  'https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png',
+                  width: 250,
+                  height: 250,
+                  fit: BoxFit.cover,
+                ),*/
           ),
         onTap: () async{
-          selectedImage = await controller.selectImage();
+          selectedImage = await (controller.selectImage())!;
           _done.value = true;
 
         },

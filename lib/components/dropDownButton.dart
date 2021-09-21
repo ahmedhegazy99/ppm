@@ -18,7 +18,7 @@ class DropButton extends StatefulWidget {
     this.oWidth = 1,
     this.color = Colors.white,
     this.textColor = Colors.black,
-    required this.controller,
+    this.controller,
     this.cities,
   }) :super(key: key);
 
@@ -28,12 +28,12 @@ class DropButton extends StatefulWidget {
 
 class _DropButtonState extends State<DropButton> {
   //final controller = Get.put(CreatePlayerController());
-  String ?dropdownValue ;
+  String ?dropdownValue = 'select';
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     widget.cities = Get.find<PostController>().cities.value;
-    dropdownValue = widget.cities[0].cityName;
+    //dropdownValue = widget.cities[0].cityName;
     return Container(
       //margin: EdgeInsets.symmetric(vertical: 12.5* widget.cSize),
       padding: EdgeInsets.symmetric(horizontal: 12 *widget.cSize!, vertical: 5 * widget.cSize!),
@@ -45,16 +45,13 @@ class _DropButtonState extends State<DropButton> {
       ),
       child:DropdownButton<String>(
         value: dropdownValue,
-        icon: Icon(Icons.arrow_downward),
+        icon: Icon(Icons.arrow_downward, color: ppmMain),
         iconSize: 24,
         elevation: 16,
         style: TextStyle(
             color: ppmMain
         ),
-        /*underline: Container(
-          height: 2,
-          color: mainLigthP,
-        ),*/
+
         onChanged: (String ? newValue) {
           setState(() {
             dropdownValue = newValue! ;

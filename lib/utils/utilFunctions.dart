@@ -10,11 +10,25 @@ DateTime? dateTimeFromTimestamp(Timestamp? timestamp) =>
 Timestamp? dateTimeToTimestamp(DateTime? dateTime) =>
     dateTime == null ? null : Timestamp.fromDate(dateTime);
 
- calculateAge(DateTime d){
+calculateAge(DateTime d){
   Duration days = DateTime.now().difference(d);
   var ageDays = days.inDays;
   int age = (ageDays~/365).toInt();
   return age;
+}
+
+Future selectDate(BuildContext context) async {
+  var selectedDate = DateTime(DateTime.now().year - 15);
+  final DateTime? selected = await showDatePicker(
+    context: context,
+    initialDate: selectedDate,
+    firstDate: DateTime(DateTime.now().year - 40),
+    lastDate: DateTime(DateTime.now().year - 15),
+  );
+  if (selected != null && selected != selectedDate) {
+    selectedDate = selected;
+    return selected;
+  }
 }
 
 void displayError(dynamic e) {

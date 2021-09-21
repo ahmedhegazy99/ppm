@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pro_player_market/components/constants.dart';
@@ -20,16 +21,21 @@ class MainBar extends GetWidget<MainBarController> {
       appBar: AppBar(
         automaticallyImplyLeading: true,
         backgroundColor: ppmMain,
-        /*title: Center(
-          child: Image.asset(
-            'assets/images/Hlogo.png',
-            fit: BoxFit.contain,
-            height: 100,
-            width: 100,
-          ),
-        ),*/
-        title: Text("Football Player Market"),
-        centerTitle: true,
+        title: Flex(
+          direction: Axis.horizontal,
+          children: [
+            Image.asset(
+              'assets/images/fpm.png',
+              fit: BoxFit.contain,
+              height: 30,
+              width: 30,
+            ),
+            SizedBox(width: kDefaultPadding / 3),
+            Text("FPM"),
+          ]
+        ),
+        //title: Text("Football Player Market"),
+        //centerTitle: true,
         actions: <Widget>[
 /*
           if (controller.userType != UserTypeEnum.admin)

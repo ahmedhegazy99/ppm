@@ -8,6 +8,7 @@ import 'package:pro_player_market/components/selectImageWidget.dart';
 import 'package:pro_player_market/controllers/createPlayerController.dart';
 import 'package:pro_player_market/controllers/databaseController.dart';
 import 'package:pro_player_market/utils/appRouter.dart';
+import 'package:pro_player_market/utils/utilFunctions.dart';
 
 import 'dropDownButton.dart';
 
@@ -86,7 +87,7 @@ class CreatePlayer extends GetWidget<CreatePlayerController> {
                         oWidth: 0.7,
                         controller: controller,
                         //cities: controller.cities,
-                      )
+                      ),
 
                     ],
                   ),
@@ -121,9 +122,10 @@ class CreatePlayer extends GetWidget<CreatePlayerController> {
                     ]
                   ),
                 ),
-                onTap: (){
+                onTap: () async {
                   print("select date clicked");
-                  controller.selectDate(context);
+                  //controller.selectDate(context);
+                  controller.selectedDate = await selectDate(context);
                 },
               ),
 
@@ -141,25 +143,29 @@ class CreatePlayer extends GetWidget<CreatePlayerController> {
                 maxLines: 4,
                 controller: controller.bioController,
               ),
-
+/*
               RoundedInputField(
                 validator: (val) => val!.isEmpty ? 'provide address' : null,
                 keyboardType: TextInputType.streetAddress,
                 hintText: "City",
                 controller: controller.cityController,
               ),
-
-              RoundedButton(
-                  text: "Upload Video",
+*/
+              Obx(() {
+                return RoundedButton(
+                  text: controller.video.value.isNull
+                      ? "select video".tr
+                      : "done".tr,
                   press: () async {
                     await controller.selectVideo();
-
-                  }),
+                  }
+                );
+              }),
 
               SizedBox(height: size.height * 0.03),
 
               RoundedButton(
-                  text: "Create",
+                  text: "create".tr,
                   press: () async {
                     await controller.postPlayer();
                     Get.back();
