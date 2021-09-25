@@ -19,7 +19,8 @@ class Signup extends GetWidget<AuthController> {
   final TextEditingController mobile = TextEditingController();
 
   //UserTypeEnum userType = UserTypeEnum.userPlayer.obs as UserTypeEnum;
-  var userType = UserTypeEnum.userPlayer.obs;
+  //var userType = UserTypeEnum.userPlayer.obs;
+  var userType = Rxn<UserTypeEnum>();
 
   var selectedDate = Rx(DateTime(DateTime.now().year - 15));
 
@@ -28,25 +29,6 @@ class Signup extends GetWidget<AuthController> {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: Colors.black,
-      /*appBar: AppBar(
-        automaticallyImplyLeading: false,
-        backgroundColor: Colors.black,
-        /*title: Center(
-          child: Image.asset(
-            'assets/images/Hlogo.png',
-            fit: BoxFit.contain,
-            height: 100,
-            width: 100,
-          ),
-        ),*/
-        centerTitle: true,
-        elevation: 0,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(
-            bottom: Radius.circular(40),
-          ),
-        ),
-      ),*/
       resizeToAvoidBottomInset: true,
       body: Background(
         child: /*Obx((){
@@ -77,8 +59,8 @@ class Signup extends GetWidget<AuthController> {
                         groupValue: controller.userType.value,
                         activeColor: ppmMain,
                         onChanged: (UserTypeEnum? value) {
-                          //userType = value!;
-                          controller.userType.value = value!;
+                          userType.value = value!;
+                          //controller.userType.value = value!;
                         },
                       ),
                       Text("Player"),
@@ -87,8 +69,8 @@ class Signup extends GetWidget<AuthController> {
                         groupValue: controller.userType.value,
                         activeColor: ppmMain,
                         onChanged: (UserTypeEnum? value) {
-                          //userType = value!;
-                          controller.userType.value = value!;
+                          userType.value = value!;
+                          //controller.userType.value = value!;
                         },
                       ),
                       Text("Club"),
@@ -117,7 +99,14 @@ class Signup extends GetWidget<AuthController> {
                   color: Colors.grey[200]!,
                 ),
                 RoundedInputField(
-                  validator: (val) => val!.isEmpty ? 'Enter an Email' : null,
+                  validator: (val) {
+                    if (val!.isEmpty)
+                      return "Please enter email";
+                    else if (!val.contains("@"))
+                      return "Please enter valid email";
+                    else
+                      return null;
+                  },
                   keyboardType: TextInputType.emailAddress,
                   hintText: "Email",
                   icon: Icons.mail,
@@ -135,38 +124,40 @@ class Signup extends GetWidget<AuthController> {
                 ),
 
                 //SizedBox(height: size.height * 0.03),
-                GestureDetector(
-                  child: Container(
-                    margin: EdgeInsets.symmetric(vertical: 10),
-                    padding: EdgeInsets.symmetric(horizontal: 48, vertical: 12),
-                    height: size.width * 0.13,
-                    width: size.width * 0.8,
-                    decoration: BoxDecoration(
-                      color: ppmBack,
-                      borderRadius: BorderRadius.circular(30),
-                    ),
-                    child: Flex(
-                        direction: Axis.horizontal,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            "${selectedDate.value.day}/${selectedDate.value.month}/${selectedDate.value.year}",
-                            style: TextStyle(
-                                fontSize: 16,
-                                color: ppmMain
+                Obx((){
+                  return GestureDetector(
+                    child: Container(
+                      margin: EdgeInsets.symmetric(vertical: 10),
+                      padding: EdgeInsets.symmetric(horizontal: 48, vertical: 12),
+                      height: size.width * 0.13,
+                      width: size.width * 0.8,
+                      decoration: BoxDecoration(
+                        color: ppmBack,
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                      child: Flex(
+                          direction: Axis.horizontal,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              "${selectedDate.value.day}/${selectedDate.value.month}/${selectedDate.value.year}",
+                              style: TextStyle(
+                                  fontSize: 16,
+                                  color: ppmMain
+                              ),
                             ),
-                          ),
-                          SizedBox(width: size.width * 0.02),
+                            SizedBox(width: size.width * 0.02),
 
-                          Icon(Icons.arrow_forward_ios, color: ppmMain,),
-                        ]
+                            Icon(Icons.arrow_forward_ios, color: ppmMain,),
+                          ]
+                      ),
                     ),
-                  ),
-                  onTap: () async {
-                    print("select date clicked");
-                    selectedDate = await selectDate(context);
-                  },
-                ),
+                    onTap: () async {
+                      print("select date clicked");
+                      selectedDate.value = await selectDate(context);
+                    },
+                  );
+                }),
 
                 DropButton(
                   cSize: 0.7,
@@ -175,7 +166,16 @@ class Signup extends GetWidget<AuthController> {
                 ),
 
                 RoundedInputField(
-                  validator: (val) => val!.isEmpty ? 'Enter an password' : null,
+                  validator: (val) {
+                    if (val!.isEmpty)
+                      return "Please enter password";
+                    else if (val.length < 8)
+                      return "Your password should be 8 character or more";
+                    else if(!RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$').hasMatch(val))
+                      return "Your password should contains numbers & special characters";
+                    else
+                      return null;
+                  },
                   textColor: Colors.black,
                   obscureText: true,
                   icon: Icons.lock,
@@ -206,7 +206,7 @@ class Signup extends GetWidget<AuthController> {
                           password.text == confirmPassword.text) {
                         controller.createUser(
                             name.text,
-                            userType.value,
+                            userType.value!,
                             email.text,
                             mobile.text,
                             selectedDate.value,

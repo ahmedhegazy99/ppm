@@ -125,7 +125,7 @@ class CreatePlayer extends GetWidget<CreatePlayerController> {
                 onTap: () async {
                   print("select date clicked");
                   //controller.selectDate(context);
-                  controller.selectedDate = await selectDate(context);
+                  controller.selectedDate.value = await selectDate(context);
                 },
               ),
 
@@ -156,6 +156,9 @@ class CreatePlayer extends GetWidget<CreatePlayerController> {
                   text: controller.video.value.isNull
                       ? "select video".tr
                       : "done".tr,
+                  color: controller.video.value.isNull
+                      ? ppmMain
+                      : Colors.green,
                   press: () async {
                     await controller.selectVideo();
                   }
@@ -167,6 +170,7 @@ class CreatePlayer extends GetWidget<CreatePlayerController> {
               RoundedButton(
                   text: "create".tr,
                   press: () async {
+                    print("create");
                     await controller.postPlayer();
                     Get.back();
                   }),

@@ -18,13 +18,15 @@ class RequestPage extends GetWidget<RequestsController>{
   final RequestModel ? request;
   final UserModel ? user;
   final PlayerModel ? player;
-  RequestPage({this.request, this.user,this.player});
+  final UserModel ? ownerUser;
+  RequestPage({this.request, this.user, this.player, this.ownerUser});
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
-    controller.getUser(player!.userId!);
+    //controller.pageUser = controller.getUser(player!.userId!);
+    //ownerUser = controller.getUser(player!.userId!);
 
     return Scaffold(
       backgroundColor: Colors.grey[200],
@@ -195,7 +197,7 @@ class RequestPage extends GetWidget<RequestsController>{
 
                       const Divider(height: 20.0, thickness: 0.5),
 
-
+                      if (controller.pageUser!.userType == UserTypeEnum.admin)
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
                         child: Text(
@@ -207,6 +209,7 @@ class RequestPage extends GetWidget<RequestsController>{
                         ),
                       ),
 
+                      if (controller.pageUser!.userType == UserTypeEnum.admin)
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: kDefaultPadding),
                         child: ListTile(
@@ -220,7 +223,7 @@ class RequestPage extends GetWidget<RequestsController>{
                                   ),
                                   children: <TextSpan>[
                                     TextSpan(
-                                      text: ": ${controller.pageUser?.name}",
+                                      text: ": ${ownerUser!.name}",
                                       style: TextStyle(
                                           color: ppmLight,
                                           fontWeight: FontWeight.bold
@@ -233,7 +236,7 @@ class RequestPage extends GetWidget<RequestsController>{
                       ),
 
                       //const Divider(height: 20.0, thickness: 0.5),
-
+                      if (controller.pageUser!.userType == UserTypeEnum.admin)
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: kDefaultPadding),
                         child: ListTile(
@@ -247,7 +250,7 @@ class RequestPage extends GetWidget<RequestsController>{
                                   ),
                                   children: <TextSpan>[
                                     TextSpan(
-                                      text: ": ${controller.pageUser?.mobile}",
+                                      text: ": ${ownerUser!.mobile}",
                                       style: TextStyle(
                                           color: ppmLight,
                                           fontWeight: FontWeight.bold
@@ -260,7 +263,7 @@ class RequestPage extends GetWidget<RequestsController>{
                       ),
 
                       //const Divider(height: 20.0, thickness: 0.5),
-
+                      if (controller.pageUser!.userType == UserTypeEnum.admin)
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: kDefaultPadding),
                           child: ListTile(
@@ -274,7 +277,7 @@ class RequestPage extends GetWidget<RequestsController>{
                                     ),
                                     children: <TextSpan>[
                                       TextSpan(
-                                        text: ": ${controller.pageUser?.email}",
+                                        text: ": ${ownerUser!.email}",
                                         style: TextStyle(
                                             color: ppmLight,
                                             fontWeight: FontWeight.bold
@@ -410,6 +413,7 @@ class RequestPage extends GetWidget<RequestsController>{
                 ),
 
                 //For Admin post Approve
+                if (controller.pageUser!.userType == UserTypeEnum.admin)
                 Container(
                   padding: EdgeInsets.symmetric(horizontal: 8, vertical: 20),
                   decoration: BoxDecoration(

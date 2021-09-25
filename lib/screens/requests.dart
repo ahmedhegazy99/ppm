@@ -5,14 +5,32 @@ import 'package:pro_player_market/components/constants.dart';
 import 'package:pro_player_market/components/requestCard.dart';
 import 'package:pro_player_market/controllers/databaseController.dart';
 import 'package:pro_player_market/controllers/requestsController.dart';
+import 'package:pro_player_market/models/userModel.dart';
 
 class Requests extends GetWidget<RequestsController> {
   @override
   Widget build(BuildContext context) {
 
     controller.onInit();
-
     return Scaffold(
+      appBar: controller.pageUser!.userType != UserTypeEnum.admin ?
+        AppBar(
+        //automaticallyImplyLeading: true,
+        backgroundColor: ppmMain,
+        title: Text("Football Player Market"),
+        centerTitle: true,
+
+        leading: IconButton(
+          icon: Icon(
+            Icons.arrow_back,
+            color: ppmBack,
+          ),
+          onPressed: () {
+            Get.back();
+          },
+        ),
+        elevation: 0,
+      ): PreferredSize(preferredSize: Size(0.0, 0.0),child: Container(),),
       body: Container(
         color: Colors.grey[200],
         child: Obx(() {
@@ -46,6 +64,7 @@ class Requests extends GetWidget<RequestsController> {
                     request: controller.requests![index],
                     user: controller.userList[index],
                     player: controller.playerList[index],
+                    ownerUser: controller.ownerUserList[index],
                   );
                 },
               ),

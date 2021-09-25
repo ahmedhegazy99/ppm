@@ -15,6 +15,7 @@ class RequestsController extends GetxController {
 
   var userList= RxList<UserModel>();
   var playerList = RxList<PlayerModel>();
+  var ownerUserList= RxList<UserModel>();
 
   List<RequestModel> ? get requests => _requestsStream.value;
 
@@ -22,6 +23,8 @@ class RequestsController extends GetxController {
 
   var _pageUser = Rxn<UserModel>();
   UserModel ? get pageUser => _pageUser.value;
+  //set pageUser(UserModel ? value) => this._pageUser.value = value;
+  set pageUser(value) => this._pageUser.value = value;
 
   @override
   void onInit() {
@@ -80,6 +83,8 @@ class RequestsController extends GetxController {
         }*/
         playerList.add(
             await Get.find<DatabaseController>().getPlayer(value.info!));
+        ownerUserList.add(
+            await getUser(playerList.last.userId!));
         print("requests length : ${requests!.length}");
         print("users length : ${userList.length}");
         print("players length : ${playerList.length}");
@@ -104,11 +109,13 @@ class RequestsController extends GetxController {
     }
   }
 
-  getUser(String userId) async {
+  Future<UserModel> getUser(String userId) async {
     try {
-      _pageUser.value = await Get.find<DatabaseController>().getUser(userId);
+      UserModel u = await Get.find<DatabaseController>().getUser(userId);
+      return u;
     } catch (e) {
-      displayError(e);
+      throw Exception("User Not Found");
+      //displayError(e);
     }
   }
 

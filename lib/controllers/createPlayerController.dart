@@ -79,15 +79,17 @@ class CreatePlayerController extends GetxController {
   }
 
   Future<void> postPlayer() async {
+    print("start posting");
     UserModel user = Get.find<UserController>().user;
     if (playerNameController.value.text.isEmpty ||
         bioController.value.text.isEmpty ||
-        cityController.value.text.isEmpty ||
         city == null ||
-        image.value == null || video.value == null)
+        image.value == null || video.value == null) {
+      print("can't post");
       Get.snackbar('cantPost'.tr, 'empty'.tr,
           backgroundColor: Colors.red, snackPosition: SnackPosition.BOTTOM);
-    else {
+    }else {
+      print("post process start");
       PlayerModel post = PlayerModel();
       /*if (image.value != null)
         post.type = PostTypeEnum.photo;

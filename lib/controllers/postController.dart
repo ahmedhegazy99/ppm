@@ -26,7 +26,7 @@ class PostController extends GetxController {
   @override
   void onInit() {
     _postsStream.bindStream(Get.find<DatabaseController>().getPosts());
-    _filterdPosts = _postsStream;
+    _filterdPosts.value = _postsStream;
     cities.bindStream(Get.find<DatabaseController>().getCities());
     super.onInit();
   }
@@ -37,6 +37,7 @@ class PostController extends GetxController {
     ever(Get.find<UserController>().userModel , (UserModel newVal) {
       userType.value = newVal.userType;
     });
+
 
   }
   Future<void> toggleIsLiked(PlayerModel post) async {
@@ -79,7 +80,7 @@ class PostController extends GetxController {
 
     await Future.delayed(Duration(seconds: 0), () {
       Get.defaultDialog(
-        title: 'Done'.tr, content: Icon(Icons.verified_rounded), backgroundColor: ppmMain
+          title: 'Done'.tr, content: Icon(Icons.verified_rounded), backgroundColor: ppmMain
       );
     });
 
@@ -103,9 +104,9 @@ class PostController extends GetxController {
         print(_postsStream.value);
         await Future.delayed(
           Duration(seconds: 1),
-            () {
-              //_postsStream.bindStream(Get.find<DatabaseController>().getPosts());
-              results = _postsStream
+              () {
+            //_postsStream.bindStream(Get.find<DatabaseController>().getPosts());
+            results = _postsStream
                 .where((P) =>
                 P.city!.contains(keyword/*.toLowerCase()*/))
                 .toList();
@@ -136,42 +137,42 @@ class PostController extends GetxController {
     print("Start Put drop down");
     return Container(
       color: ppmBack,
-        // child: ListTile(
-        //   title: DropButton(cities: cities.value,),
-        //   trailing: OutlinedButton(
-        //     onPressed: () {
-        //       print('Received click Filter');
-        //       runFilter(selectedCity);
-        //       update();
-        //     },
-        //     style: ButtonStyle(
-        //       foregroundColor: MaterialStateProperty.all(ppmBack),
-        //       backgroundColor: MaterialStateProperty.all(ppmMain),
-        //     ),
-        //     child: Text("Filter"),
-        //   ),
-        // )
+      // child: ListTile(
+      //   title: DropButton(cities: cities.value,),
+      //   trailing: OutlinedButton(
+      //     onPressed: () {
+      //       print('Received click Filter');
+      //       runFilter(selectedCity);
+      //       update();
+      //     },
+      //     style: ButtonStyle(
+      //       foregroundColor: MaterialStateProperty.all(ppmBack),
+      //       backgroundColor: MaterialStateProperty.all(ppmMain),
+      //     ),
+      //     child: Text("Filter"),
+      //   ),
+      // )
       padding: EdgeInsets.only(left: kDefaultPadding *1.5, right: kDefaultPadding),
-        child: Flex(
-          direction: Axis.horizontal,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            DropButton(cities: cities.value,),
-            OutlinedButton(
-              onPressed: () {
-                print('Received click Filter');
-                print(_postsStream.value);
-                runFilter(selectedCity);
-                //update();
-              },
-              style: ButtonStyle(
-                foregroundColor: MaterialStateProperty.all(ppmBack),
-                backgroundColor: MaterialStateProperty.all(ppmMain),
-              ),
-              child: Text("Filter"),
+      child: Flex(
+        direction: Axis.horizontal,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          DropButton(cities: cities.value,),
+          OutlinedButton(
+            onPressed: () {
+              print('Received click Filter');
+              print(_postsStream.value);
+              runFilter(selectedCity);
+              //update();
+            },
+            style: ButtonStyle(
+              foregroundColor: MaterialStateProperty.all(ppmBack),
+              backgroundColor: MaterialStateProperty.all(ppmMain),
             ),
-          ],
-        ),
+            child: Text("Filter"),
+          ),
+        ],
+      ),
     );
   }
 

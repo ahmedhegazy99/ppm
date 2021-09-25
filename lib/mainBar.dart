@@ -37,28 +37,9 @@ class MainBar extends GetWidget<MainBarController> {
         //title: Text("Football Player Market"),
         //centerTitle: true,
         actions: <Widget>[
-/*
-          if (controller.userType != UserTypeEnum.admin)
-            if(controller.currentIndex == 0)
-              IconButton(
-                icon: Icon(
-                  Icons.filter_alt,
-                  color: ppmBack,
-                ),
-                onPressed: () {},
-              ),
-
-          if (controller.userType == UserTypeEnum.admin)
-            if(controller.currentIndex == 1)
-              IconButton(
-                icon: Icon(
-                  Icons.filter_alt,
-                  color: ppmBack,
-                ),
-                onPressed: () {},
-              ),
-*/
-          IconButton(
+        Obx((){
+          if(controller.currentIndex == controller.filterIndex)
+          return IconButton(
             icon: Icon(
               Icons.filter_alt,
               color: ppmBack,
@@ -68,8 +49,9 @@ class MainBar extends GetWidget<MainBarController> {
               print("Filter Button clicked value is : ${Get.find<PostController>().showFliterBar}");
               //Get.find<PostController>().update();
             },
-          ),
-
+          );
+          return Container();
+        }),
           PopupMenuButton(
             itemBuilder: (BuildContext context) => <PopupMenuEntry>[
                PopupMenuItem(

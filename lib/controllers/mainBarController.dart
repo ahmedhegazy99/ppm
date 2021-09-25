@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:pro_player_market/components/constants.dart';
 import 'package:pro_player_market/controllers/databaseController.dart';
 import 'package:pro_player_market/controllers/postController.dart';
+import 'package:pro_player_market/controllers/profileController.dart';
 import 'package:pro_player_market/controllers/userController.dart';
 import 'package:pro_player_market/models/cityModel.dart';
 import 'package:pro_player_market/models/userModel.dart';
@@ -51,6 +52,8 @@ class MainBarController extends GetxController {
 
   get userTabs => addTabs();
 
+  var filterIndex = 0;
+
   Future<void> addTabs()async {
   try {
     print("userType: ${userType}");
@@ -84,6 +87,7 @@ class MainBarController extends GetxController {
             Profile(),
           ];
           changeIndex(1);
+          filterIndex = 1;
         }
         break;
       default:
@@ -92,6 +96,7 @@ class MainBarController extends GetxController {
           items.removeAt(0);
         }
     }
+    //Get.put(ProfileController());
   } catch(e) {
     displayError(e);
   }

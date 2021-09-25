@@ -57,13 +57,13 @@ class AuthController extends GetxController {
       _authResult.user!.updateDisplayName(name);
      // _authResult.user!.updatePhoneNumber(mobile);
       await Get.find<DatabaseController>().createNewUser(_user);
-      updateUserPhone(mobile);
+      //updateUserPhone(mobile);
       Get.offAllNamed(AppRouter.mainBarRoute);
       loading.toggle();
       Get.back();
     } catch (e) {
       loading.toggle();
-      displayError(e);
+      //displayError(e);
     }
   }
 

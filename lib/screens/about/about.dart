@@ -113,7 +113,7 @@ class About extends StatelessWidget {
               ),
             ),
 
-            Center(
+            /*Center(
               child: Text.rich(
                   TextSpan(
                     text: "Developed By Ahmed Hegazy",
@@ -128,7 +128,7 @@ class About extends StatelessWidget {
                       },
                   )
               ),
-            )
+            )*/
           ],
         ),
       ),

@@ -13,7 +13,8 @@ class RequestCard extends StatelessWidget {
   final RequestModel ? request;
   final UserModel ? user;
   final PlayerModel ? player;
-  RequestCard({this.request, this.user, this.player});
+  final UserModel ? ownerUser;
+  RequestCard({this.request, this.user, this.player, this.ownerUser});
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +56,7 @@ class RequestCard extends StatelessWidget {
             ),
           ),
         onTap: (){
-          Get.to(RequestPage(request: request, user: user, player: player!));
+          Get.to(RequestPage(request: request, user: user, player: player!, ownerUser: ownerUser,));
 
         },
       ),

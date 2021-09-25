@@ -10,7 +10,7 @@ import 'package:pro_player_market/screens/requests.dart';
 import 'package:pro_player_market/utils/appRouter.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
-class Profile extends StatelessWidget {
+class Profile extends GetWidget<ProfileController> {
 
   final controller = Get.put(ProfileController());
   final mainColor = ppmMain;
@@ -42,7 +42,7 @@ class Profile extends StatelessWidget {
                       children: [
 
                         CachedNetworkImage(
-                          imageUrl: '${controller.user?.imageUrl}',
+                          imageUrl: '${controller.user?.imageUrl ??'https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png' }',
                           imageBuilder: (context, imageProvider) => Container(
                             width: size.width * 0.4,
                             height: size.width * 0.4,
@@ -53,7 +53,11 @@ class Profile extends StatelessWidget {
                             ),
                           ),
                           placeholder: (context, url) => CircularProgressIndicator(),
-                          errorWidget: (context, url, error) => Icon(Icons.error),
+                          errorWidget: (context, url, error) => CircleAvatar(
+                            backgroundImage:
+                            NetworkImage('https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png'),
+                            radius: size.width * 0.2,
+                            ),
                         ),
 
                         /*CircleAvatar(
@@ -145,9 +149,12 @@ class Profile extends StatelessWidget {
                         OutlinedButton(
                           onPressed: () {
                             print('Received click sell player');
+                            print(controller.userType);
                             if (controller.userType == UserTypeEnum.userPlayer){
-                              if (controller.user!.requests == null)
-                              Get.snackbar("Can't sell player", "You arent allowed to sell more players");
+                              if (controller.user!.requests != null)
+                                Get.snackbar("Can't sell player", "You arent allowed to sell more players");
+                              else
+                                Get.toNamed(AppRouter.addPlayerRoute);
                             }else {
                               Get.toNamed(AppRouter.addPlayerRoute);
                             }
@@ -199,33 +206,6 @@ class Profile extends StatelessWidget {
                                     ),
                                     const Divider(height: 20.0, thickness: 0.5),
                                   ]
-                                ),
-                              ),
-
-                              if(controller.user!.birthDate != null)
-                              ListTile(
-                                leading: Icon(Icons.person, color: mainColor,),
-                                title: Flex(
-                                    direction: Axis.vertical,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        "BirthDate",
-                                        style: TextStyle(
-                                          color: mainColor,
-                                          fontSize: size.width * 0.03,
-                                        ),
-                                      ),
-                                      Text(
-                                        "${controller.user!.birthDate ?? 'no data'}",
-                                        style: TextStyle(
-                                          color: ppmLight,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: size.width * 0.04,
-                                        ),
-                                      ),
-                                      const Divider(height: 20.0, thickness: 0.5),
-                                    ]
                                 ),
                               ),
 
@@ -312,8 +292,8 @@ class Profile extends StatelessWidget {
                                           ),
 
                                           Icon(Icons.verified,
-                                            semanticLabel: controller.fireUser!.phoneNumber!.isEmpty ? "Verify" :"" ,
-                                            color: controller.fireUser!.phoneNumber!.isEmpty ? ppmLight : ppmMain,
+                                            semanticLabel: controller.fireUser?.phoneNumber == null ? "Verify" :"" ,
+                                            color: controller.fireUser?.phoneNumber == null ? ppmLight : ppmMain,
                                           ),
                                         ]
                                       ),
@@ -368,15 +348,9 @@ class Profile extends StatelessWidget {
                                 ),
                               ),
 
+                              if(controller.user!.birthDate != null)
                               ListTile(
                                 leading: Icon(Icons.calendar_today, color: mainColor,),
-                                // trailing: IconButton(
-                                //   onPressed: (){
-                                //     print('Received click edit mobile');
-                                //     controller.showSheet(context, "mobile");
-                                //   },
-                                //   icon: Icon(Icons.edit),
-                                // ),
                                 title: Flex(
                                     direction: Axis.vertical,
                                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -393,18 +367,14 @@ class Profile extends StatelessWidget {
                                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                           children:[
                                             Text(
-                                              "${controller.user?.birthDate?? 'no data'}",
+                                              //"${controller.user?.birthDate?? 'no data'}",
+                                              "${controller.user!.birthDate!.day}/${controller.user!.birthDate!.month}/${controller.user!.birthDate!.year}",
                                               style: TextStyle(
                                                 color: ppmLight,
                                                 fontWeight: FontWeight.bold,
                                                 fontSize: size.width * 0.04,
                                               ),
                                             ),
-
-                                            // Icon(Icons.verified,
-                                            //   semanticLabel: controller.fireUser!.phoneNumber!.isEmpty ? "Verify" :"" ,
-                                            //   color: controller.fireUser!.phoneNumber!.isEmpty ? ppmLight : ppmMain,
-                                            // ),
                                           ]
                                       ),
 
