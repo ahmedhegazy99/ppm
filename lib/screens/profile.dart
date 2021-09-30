@@ -12,7 +12,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 
 class Profile extends GetWidget<ProfileController> {
 
-  final controller = Get.put(ProfileController());
+  //final controller = Get.put(ProfileController());
   final mainColor = ppmMain;
 
   @override
@@ -118,7 +118,7 @@ class Profile extends GetWidget<ProfileController> {
                       direction: Axis.horizontal,
                       children: <Widget>[
 
-                        if (controller.userType == UserTypeEnum.club)
+                        if (controller.user!.userType == UserTypeEnum.club)
                           OutlinedButton(
                             onPressed: () {
                               print('Received click Requests');
@@ -131,7 +131,7 @@ class Profile extends GetWidget<ProfileController> {
                             child: Text('requests'.tr),
                           ),
 
-                        if (controller.userType == UserTypeEnum.admin)
+                        if (controller.user!.userType == UserTypeEnum.admin)
                           OutlinedButton(
                             onPressed: () {
                               print('Received click cities');
@@ -150,7 +150,7 @@ class Profile extends GetWidget<ProfileController> {
                           onPressed: () {
                             print('Received click sell player');
                             print(controller.userType);
-                            if (controller.userType == UserTypeEnum.userPlayer){
+                            if (controller.user!.userType == UserTypeEnum.userPlayer){
                               if (controller.user!.requests != null)
                                 Get.snackbar("Can't sell player", "You arent allowed to sell more players");
                               else
@@ -197,7 +197,7 @@ class Profile extends GetWidget<ProfileController> {
                                       ),
                                     ),
                                     Text(
-                                      "${controller.userTypeSt ?? 'no data'}",
+                                      "${controller.userTypeSt ?? 'no data'}".tr,
                                       style: TextStyle(
                                         color: ppmLight,
                                         fontWeight: FontWeight.bold,
@@ -404,17 +404,24 @@ class Profile extends GetWidget<ProfileController> {
                       ],
                     ),
                   ),
-                  if (controller.userType != UserTypeEnum.admin)
+                  ///add obx listener here
+                  Obx((){
+                  if (controller.user!.userType != UserTypeEnum.admin)
                     if(controller.posts.value.isNotEmpty)
-                      ...controller.posts.value
-                          .map((e) => PlayerCard(
-                                player: e,
-                              ))
-                          .toList(),
-
-                    if(controller.posts.value.isEmpty)
-                      Text("You haven't Requested Yet"),
-
+                      return ListView.builder(
+                          itemCount: controller.posts.value.length,
+                          itemBuilder: (context, index) {
+                            return PlayerCard(
+                              player: controller.posts.value[index],
+                            );
+                          });
+                          //   ...controller.posts.value
+                          // .map((e) => PlayerCard(
+                          //       player: e,
+                          //     ))
+                          // .toList();
+                    return Text("You haven't add player Yet".tr);
+                  }),
                 ],
               ),
             );

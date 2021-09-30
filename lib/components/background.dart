@@ -1,7 +1,7 @@
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter/material.dart';
 import 'dart:math' show pi;
-
+import 'package:get/get.dart';
 import 'package:pro_player_market/components/constants.dart';
 
 class Background extends StatelessWidget {
@@ -53,7 +53,34 @@ class Background extends StatelessWidget {
               ),
             ),
           ),
-          child,
+
+          // Positioned(
+          //   top: size.width * 0.05,
+          //   width: size.width,
+          //   child: ListTile(
+          //     leading: Image.asset(
+          //       'assets/images/fpm.png',
+          //       fit: BoxFit.contain,
+          //       height: 30,
+          //       width: 30,
+          //     ),
+          //     trailing: OutlinedButton.icon(
+          //       onPressed: (){
+          //         if(Get.locale == Locale('ar')){
+          //           Get.updateLocale(Locale('en'));
+          //         }else {
+          //           Get.updateLocale(Locale('ar'));
+          //         }
+          //       },
+          //       label: Text('language'.tr),
+          //       icon: Icon(Icons.language, color: ppmMain,),
+          //     ),
+          //   ),
+          // ),
+          Align(
+            alignment: Alignment.topCenter,
+            child: child
+          ),
         ],
       ),
     );

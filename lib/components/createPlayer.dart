@@ -17,7 +17,7 @@ class CreatePlayer extends GetWidget<CreatePlayerController> {
   final _formKey = GlobalKey<FormState>();
 
   //final GlobalKey<TagsState> _globalKey = GlobalKey<TagsState>();
-
+  var buttonClicked = false.obs;
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -71,9 +71,9 @@ class CreatePlayer extends GetWidget<CreatePlayerController> {
                   Column(
                     children: [
                       RoundedInputField(
-                        validator: (val) => val!.isEmpty ? 'Enter Place Name' : null,
+                        validator: (val) => val!.isEmpty ? 'Enter Player Name'.tr : null,
                         keyboardType: TextInputType.name,
-                        hintText: "Player Name",
+                        hintText: "Player Name".tr,
                         cSize: 0.7,
                         oWidth: 0.7,
                         icon: Icons.person ,
@@ -137,9 +137,9 @@ class CreatePlayer extends GetWidget<CreatePlayerController> {
               //     }),
 
               RoundedInputField(
-                validator: (val) => val!.isEmpty ? 'write a brief of place' : null,
+                validator: (val) => val!.isEmpty ? 'write biography of player'.tr : null,
                 keyboardType: TextInputType.multiline,
-                hintText: "Bio",
+                hintText: 'bio'.tr,
                 maxLines: 4,
                 controller: controller.bioController,
               ),
@@ -170,9 +170,12 @@ class CreatePlayer extends GetWidget<CreatePlayerController> {
               RoundedButton(
                   text: "create".tr,
                   press: () async {
-                    print("create");
-                    await controller.postPlayer();
-                    Get.back();
+                    if(!buttonClicked.value){
+                      buttonClicked.value = true;
+                      print("create");
+                      await controller.postPlayer();
+                      Get.back();
+                    }
                   }),
 
               Padding(

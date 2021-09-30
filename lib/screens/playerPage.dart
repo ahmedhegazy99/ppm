@@ -21,7 +21,7 @@ class PlayerPage extends GetWidget<PostController>{
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-      backgroundColor: ppmLight,
+      backgroundColor: Colors.grey[200],
       body: Container(
         child: CustomScrollView(
           slivers: <Widget>[
@@ -80,7 +80,7 @@ class PlayerPage extends GetWidget<PostController>{
                   ),
 
                   SizedBox(
-                    height: size.width * 0.04,
+                    height: size.width * 0.02,
                   ),
 
                   Container(
@@ -175,6 +175,7 @@ class PlayerPage extends GetWidget<PostController>{
                       height: 10,
                     ),
 
+                  if(player!.userId != Get.find<UserController>().user.id)
                   if (controller.userType.value == UserTypeEnum.club)
                    RoundedButton(
                       text: "Request Deal".tr,
@@ -199,7 +200,7 @@ class PlayerPage extends GetWidget<PostController>{
                         }else{
                           Get.defaultDialog(
                             title: "Can't Request".tr,
-                            content: Text("You already submitted a request",style: TextStyle(color: ppmBack),),
+                            content: Text("You already submitted a request".tr,style: TextStyle(color: ppmBack),),
                             backgroundColor: ppmLight,
                             titleStyle: TextStyle(color: ppmBack)
                           );

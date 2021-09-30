@@ -74,7 +74,7 @@ class _DropButtonState extends State<DropButton> {
             .map<DropdownMenuItem<String>>((data) {
           return DropdownMenuItem<String>(
             value: data.cityName,
-            child: Text('${data.cityName}'),
+            child: Center(child: Text('${data.cityName}'.tr)),
           );
         }).toList(),
       ),

@@ -169,7 +169,7 @@ class PostController extends GetxController {
               foregroundColor: MaterialStateProperty.all(ppmBack),
               backgroundColor: MaterialStateProperty.all(ppmMain),
             ),
-            child: Text("Filter"),
+            child: Text("filter".tr),
           ),
         ],
       ),
@@ -194,7 +194,7 @@ class DropButton extends StatefulWidget {
 
 class _DropButtonState extends State<DropButton> {
   //final controller = Get.put(CreatePlayerController());
-  String dropdownValue = 'select';
+  String dropdownValue = 'select'.tr;
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;

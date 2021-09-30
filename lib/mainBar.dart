@@ -7,6 +7,7 @@ import 'controllers/authController.dart';
 import 'controllers/mainBarController.dart';
 import 'controllers/postController.dart';
 import 'models/userModel.dart';
+//import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 
 class MainBar extends GetWidget<MainBarController> {
 
@@ -14,7 +15,8 @@ class MainBar extends GetWidget<MainBarController> {
 
   @override
   Widget build(BuildContext context) {
-
+    //force a crash
+    //FirebaseCrashlytics.instance.crash();
     return Scaffold(
       backgroundColor: Colors.grey[200],
       resizeToAvoidBottomInset: true,

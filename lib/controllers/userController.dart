@@ -11,6 +11,8 @@ class UserController extends GetxController {
 
   set user(UserModel value) => this.userModel.value = value;
 
+  var loading = RxBool(true);
+
   void clear() {
     userModel.value = UserModel();
   }
@@ -20,10 +22,11 @@ class UserController extends GetxController {
     print("user usercontroller: ${user.name}");
 
     ever(userModel, (UserModel ? _) async {
-        if (_ != null) {
+        if (_ != null && loading.value) {
           user =
           await Get.find<DatabaseController>().getUser(_.id!);
          // print("user auth usertype: ${user.userType}");
+          loading.value = false;
         }
     });
 

@@ -21,6 +21,7 @@ UserModel _$UserModelFromJson(Map<String, dynamic> json) {
         : DateTime.parse(json['birthDate'] as String),
     requests:
     (json['requests'] as List<dynamic>?)?.map((e) => e as String).toList(),
+    subscriptionsHistory: (json['subscriptionsHistory'] as List<dynamic>?)?.map((e) => e as String).toList(),
   );
 }
 
@@ -35,6 +36,7 @@ Map<String, dynamic> _$UserModelToJson(UserModel instance) => <String, dynamic>{
   'city': instance.city,
   'birthDate': instance.birthDate?.toIso8601String(),
   'requests': instance.requests,
+  'subscriptionsHistory': instance.subscriptionsHistory,
 };
 
 K _$enumDecode<K, V>(

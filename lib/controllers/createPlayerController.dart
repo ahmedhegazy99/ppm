@@ -16,7 +16,7 @@ import 'databaseController.dart';
 class CreatePlayerController extends GetxController {
   final playerNameController = TextEditingController();
   final bioController = TextEditingController();
-  final cityController = TextEditingController();
+  //final cityController = TextEditingController();
   //var cities = Get.find<PostController>().cities;
   var city;
 
@@ -112,7 +112,7 @@ class CreatePlayerController extends GetxController {
       video.value = null;
       playerNameController.clear();
       bioController.clear();
-      cityController.clear();
+      //cityController.clear();
       selectedDate.value = DateTime.now();
       Get.back();
     }

@@ -9,7 +9,7 @@ class RoundedInputField extends StatelessWidget {
   final String ?hintText;
   final IconData ?icon;
   final Color color;
-  final Color textColor;
+  final Color textColor, iconColor;
   final FormFieldValidator<String> ?validator;
   final bool obscureText;
   final TextInputType ?keyboardType;
@@ -22,6 +22,7 @@ class RoundedInputField extends StatelessWidget {
       this.maxLines = 1,
       this.color = Colors.white,
       this.textColor = Colors.black,
+      this.iconColor = ppmMain,
       this.hintText,
       this.icon,
       this.validator,
@@ -53,7 +54,7 @@ class RoundedInputField extends StatelessWidget {
         decoration: InputDecoration(
           icon: Icon(
             icon,
-            color: textColor,
+            color: iconColor,
           ),
           hintText: hintText,
           border: InputBorder.none,

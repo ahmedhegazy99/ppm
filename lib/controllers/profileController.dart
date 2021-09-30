@@ -42,10 +42,20 @@ class ProfileController extends GetxController {
   @override
   void onReady() {
     init();
-    print('user type: ${userType}');
-    _user.value = Get.find<UserController>().user;
-    fireUser = Get.find<AuthController>().user;
-    cities.bindStream(Get.find<DatabaseController>().getCities());
+    ever(Get.find<UserController>().userModel, (UserModel ? _) async {
+      if (_ != null && loading.value) {
+        init();
+        print('user type: ${userType}');
+        _user.value = Get.find<UserController>().user;
+        fireUser = Get.find<AuthController>().user;
+        cities.bindStream(Get.find<DatabaseController>().getCities());
+      }
+    });
+    // init();
+    // print('user type: ${userType}');
+    // _user.value = Get.find<UserController>().user;
+    // fireUser = Get.find<AuthController>().user;
+    // cities.bindStream(Get.find<DatabaseController>().getCities());
     super.onReady();
   }
 

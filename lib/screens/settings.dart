@@ -41,6 +41,7 @@ class Settings extends StatelessWidget {
                     }else {
                       Get.updateLocale(Locale('ar'));
                     }
+                    Get.reset();
                   },
                 ),
 

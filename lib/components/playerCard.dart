@@ -7,6 +7,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import 'package:get/get.dart';
 import 'package:pro_player_market/components/constants.dart';
+import 'package:pro_player_market/components/editPlayer.dart';
 import 'package:pro_player_market/components/videoPlayer.dart';
 import 'package:pro_player_market/controllers/databaseController.dart';
 import 'package:pro_player_market/controllers/mainBarController.dart';
@@ -43,23 +44,99 @@ class PlayerCard extends StatelessWidget {
       child: Column(
         children: [
           // post image
-          if (player!.photo != null)
-            Container(
-              //height: size.height * 0.65,
-              child: (){
-                //if(player!.photo != null)
-                  return CachedNetworkImage(
-                    placeholder: (context, url) => Container(child: CircularProgressIndicator(), width: 500, height: 400,),
-                    imageUrl: '${player!.photo}',
-                    errorWidget: (context, url, error) => Icon(Icons.error),
-                  );
+          //if (player!.photo != null)
+            Stack(
+              children: [
+                Container(
+                  //height: size.height * 0.65,
+                  child: (){
+                    //if(player!.photo != null)
+                      return CachedNetworkImage(
+                        placeholder: (context, url) => Container(child: CircularProgressIndicator(), width: 500, height: 400,),
+                        imageUrl: '${player!.photo}',
+                        errorWidget: (context, url, error) => Icon(Icons.error),
+                      );
 
-                //     Image.network(
-                //       player!.photo ?? 'assets/images/placeholder.jpg',
-                //   );
-                // return Placeholder(fallbackHeight: 400,fallbackWidth: 400);
-              }(),
-              //Image.network('${player!.photo}') ?? Placeholder(fallbackHeight: 400,fallbackWidth: 400),
+                    //     Image.network(
+                    //       player!.photo ?? 'assets/images/placeholder.jpg',
+                    //   );
+                    // return Placeholder(fallbackHeight: 400,fallbackWidth: 400);
+                  }(),
+                  //Image.network('${player!.photo}') ?? Placeholder(fallbackHeight: 400,fallbackWidth: 400),
+                ),
+                if(user.id == player!.userId)
+                  PopupMenuButton(
+                    onSelected: (val) {
+                      if (val == 'delete') {
+                        showDialog<void>(
+                          context: context,
+                          barrierDismissible: false, // user must tap button!
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: Text('Delete Player'.tr),
+                              content: Text('Are you sure you want to delete player?'.tr),
+                              actions: <Widget>[
+                                TextButton(
+                                  child: Text('delete'.tr),
+                                  onPressed: () {
+                                    Get.find<DatabaseController>().deletePost(player!.id!);
+                                    //Navigator.of(context).pop();
+                                    Get.back();
+                                  },
+                                ),
+                                TextButton(
+                                  child: Text('cancel'.tr),
+                                  onPressed: () {
+                                    //Navigator.of(context).pop();
+                                    Get.back();
+                                  },
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      }
+
+                      if(val == 'edit'){
+                        showDialog<void>(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return SingleChildScrollView(
+                              child: SimpleDialog(
+                                title: const Text('Select assignment'),
+                                children: <Widget>[
+
+                                  EditPlayer(player: player!),
+
+                                  SimpleDialogOption(
+                                    onPressed: () {Get.back();},
+                                    child: Text('cancel'.tr),
+                                  ),
+                                  SimpleDialogOption(
+                                    onPressed: () {
+
+                                    },
+                                    child: Text('edit'.tr),
+                                  ),
+                                ],
+                              ),
+                            );
+                          }
+                        );
+                      }
+                    },
+                    itemBuilder: (context) => [
+                      PopupMenuItem(
+                        child: Text('delete'.tr),
+                        value: 'delete',
+                      ),
+                      PopupMenuItem(
+                        child: Text('edit'.tr),
+                        value: 'edit',
+                      ),
+                    ],
+                  ),
+              ]
             ),
 
           // post video
@@ -67,32 +144,6 @@ class PlayerCard extends StatelessWidget {
             Container(
               child: VideoWidget(post!.video!),
             ),*/
-/*
-          PhotoViewGallery.builder(
-            itemCount: 2,
-            builder: (context, index) {
-              return PhotoViewGalleryPageOptions.customChild(
-                child: Container(
-                  //width: 300,
-                  //height: 300,
-                  child: media[index],
-                ),
-                //childSize: const Size(300, 300),
-                //initialScale: PhotoViewComputedScale.contained,
-                minScale: PhotoViewComputedScale.contained * (0.5 + index / 10),
-                maxScale: PhotoViewComputedScale.covered * 4.1,
-                //heroAttributes: PhotoViewHeroAttributes(tag: item.id),
-              );
-            },
-            scrollPhysics: BouncingScrollPhysics(),
-            backgroundDecoration: BoxDecoration(
-              color: Theme.of(context).canvasColor,
-            ),
-            /*loadingChild: Center(
-              child: CircularProgressIndicator(),
-            ),*/
-          ),
-*/
 
           //name and city
           Container(
@@ -133,7 +184,7 @@ class PlayerCard extends StatelessWidget {
                         : ppmLight,
                   ),
                   label: Text(
-                    '${'upvote'.tr} ${player!.upvotes?.length ?? '0'}',
+                    '${'like'.tr} ${player!.upvotes?.length ?? '0'}',
                     style: TextStyle(
                       color: player!.upvotes?.contains(user.id) == true
                           ? ppmMain

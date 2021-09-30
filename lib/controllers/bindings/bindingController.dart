@@ -18,7 +18,7 @@ class BindingController extends Bindings {
     Get.put(PostController());
     Get.put(RequestsController());
     Get.put(MainBarController());
-    //Get.put(ProfileController());
+    Get.put(ProfileController());
     Get.put(CreatePlayerController());
 
     /*

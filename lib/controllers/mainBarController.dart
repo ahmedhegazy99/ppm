@@ -1,16 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:pro_player_market/components/constants.dart';
-import 'package:pro_player_market/controllers/databaseController.dart';
-import 'package:pro_player_market/controllers/postController.dart';
-import 'package:pro_player_market/controllers/profileController.dart';
 import 'package:pro_player_market/controllers/userController.dart';
-import 'package:pro_player_market/models/cityModel.dart';
 import 'package:pro_player_market/models/userModel.dart';
 import 'package:pro_player_market/screens/home.dart';
 import 'package:pro_player_market/screens/profile.dart';
 import 'package:pro_player_market/screens/requests.dart';
 import 'package:pro_player_market/utils/utilFunctions.dart';
+import 'package:get/get.dart';
+
 
 class MainBarController extends GetxController {
 
@@ -53,6 +50,7 @@ class MainBarController extends GetxController {
   get userTabs => addTabs();
 
   var filterIndex = 0;
+  var currentLocale = Get.locale.obs;
 
   Future<void> addTabs()async {
   try {
@@ -144,6 +142,25 @@ class MainBarController extends GetxController {
     //_user.value = Get.find<UserController>().user ;
     init();
     print("user type mainbar : $userType");
+
+    ever(currentLocale, (_) async {
+      print(currentLocale);
+      items= [
+        BottomNavigationBarItem(
+            icon: Icon(Icons.info),
+            label: 'requests'.tr,
+            backgroundColor: Colors.black),
+        BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            //label: 'home'.tr,
+            backgroundColor: Colors.black),
+        BottomNavigationBarItem(
+            icon: Icon(Icons.person),
+            //label: 'profile'.tr,
+            backgroundColor: Colors.black),
+      ];
+    });
+
     super.onInit();
   }
 
