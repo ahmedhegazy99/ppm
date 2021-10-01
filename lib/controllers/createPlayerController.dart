@@ -86,8 +86,22 @@ class CreatePlayerController extends GetxController {
         city == null ||
         image.value == null || video.value == null) {
       print("can't post");
-      Get.snackbar('cantPost'.tr, 'empty'.tr,
+      if(playerNameController.value.text.isEmpty)
+      Get.snackbar('cantPost'.tr, "${"Player Name".tr + 'empty'.tr}",
           backgroundColor: Colors.red, snackPosition: SnackPosition.BOTTOM);
+      if(bioController.value.text.isEmpty)
+        Get.snackbar('cantPost'.tr, "${'bio'.tr + 'empty'.tr}",
+            backgroundColor: Colors.red, snackPosition: SnackPosition.BOTTOM);
+      if(city == null)
+        Get.snackbar('cantPost'.tr, "${'city'.tr + 'empty'.tr}",
+            backgroundColor: Colors.red, snackPosition: SnackPosition.BOTTOM);
+      if(image.value == null)
+        Get.snackbar('cantPost'.tr, "${'photo'.tr + 'empty'.tr}",
+            backgroundColor: Colors.red, snackPosition: SnackPosition.BOTTOM);
+      if(video.value == null)
+        Get.snackbar('cantPost'.tr, "${'video'.tr + 'empty'.tr}",
+            backgroundColor: Colors.red, snackPosition: SnackPosition.BOTTOM);
+
     }else {
       print("post process start");
       PlayerModel post = PlayerModel();
@@ -116,6 +130,27 @@ class CreatePlayerController extends GetxController {
       selectedDate.value = DateTime.now();
       Get.back();
     }
+  }
+
+  Future<void> updatePlayer(PlayerModel post) async {
+    print("start updating");
+
+      print("update process start");
+      post.city = city;
+      post.bio = bioController.text;
+      post.name = playerNameController.text;
+      post.birthDate = selectedDate.value;
+
+      //print(image.value);
+      await Get.find<DatabaseController>().updatePost(post, image: image.value, video: video.value);
+
+      image.value = null;
+      video.value = null;
+      playerNameController.clear();
+      bioController.clear();
+      //cityController.clear();
+      selectedDate.value = DateTime.now();
+      Get.back();
   }
 
 

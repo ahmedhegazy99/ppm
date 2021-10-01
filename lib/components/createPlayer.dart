@@ -173,8 +173,12 @@ class CreatePlayer extends GetWidget<CreatePlayerController> {
                     if(!buttonClicked.value){
                       buttonClicked.value = true;
                       print("create");
-                      await controller.postPlayer();
-                      Get.back();
+                      try {
+                        await controller.postPlayer();
+                        Get.back();
+                      } catch(e){
+
+                      }
                     }
                   }),
 

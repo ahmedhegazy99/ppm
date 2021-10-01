@@ -9,6 +9,7 @@ import 'package:get/get.dart';
 import 'package:pro_player_market/components/constants.dart';
 import 'package:pro_player_market/components/editPlayer.dart';
 import 'package:pro_player_market/components/videoPlayer.dart';
+import 'package:pro_player_market/controllers/createPlayerController.dart';
 import 'package:pro_player_market/controllers/databaseController.dart';
 import 'package:pro_player_market/controllers/mainBarController.dart';
 import 'package:pro_player_market/controllers/postController.dart';
@@ -103,7 +104,8 @@ class PlayerCard extends StatelessWidget {
                           builder: (BuildContext context) {
                             return SingleChildScrollView(
                               child: SimpleDialog(
-                                title: const Text('Select assignment'),
+                                //backgroundColor: Colors.grey[200],
+                                title: Text('edit'.tr,textAlign: TextAlign.center,),
                                 children: <Widget>[
 
                                   EditPlayer(player: player!),
@@ -114,7 +116,7 @@ class PlayerCard extends StatelessWidget {
                                   ),
                                   SimpleDialogOption(
                                     onPressed: () {
-
+                                      Get.find<CreatePlayerController>().updatePlayer(player!);
                                     },
                                     child: Text('edit'.tr),
                                   ),

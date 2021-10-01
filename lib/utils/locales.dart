@@ -68,6 +68,8 @@ class Locales extends Translations {
           "You already submitted a request": "You already submitted a request",
           'write biography of player': 'write biography of player',
           'Enter Player Name': 'Enter Player Name',
+          'photo': 'Photo',
+          'video': 'Video',
         },
         'ar': {
           'home': 'الرئيسية',
@@ -144,13 +146,10 @@ class Locales extends Translations {
           "Your password should is too short": 'كلمة السر قصيرة للغاية',
           "Your password should match criteria": 'كلمة السر يجب ان تتوافق مع المعاير',
           "Password didn't match": 'كلمة السر لا تتوافق',
-          "*Your password should be 8 character or more\n":
-          '*كلمة مرورك يجب ان تكون 8 احرف او اكثر',
-          "*Your password should contains Capital & small letters\n":
-          '*كلمة مرورك يجب ان تحتوي علي حروف كبيرة و صغيرة',
-          "*Your password should contains numbers & special characters":
-          '*كلمة مرورك يجب ان تحتوي علي ارقام و علامات مميزة',
-          "You haven't add Yet": 'لم تضيف لاعب بعد',
+          "*Your password should be 8 character or more\n*Your password should contains Capital & small letters\n*Your password should contains numbers & special characters": '*كلمة مرورك يجب ان تكون 8 احرف او اكثر\n*كلمة مرورك يجب ان تحتوي علي حروف كبيرة و صغيرة\n*كلمة مرورك يجب ان تحتوي علي ارقام و علامات مميزة',
+          "You haven't add player Yet": 'لم تضيف لاعب بعد',
+          'photo': 'صورة',
+          'video': 'فيديو',
         }
       };
 }

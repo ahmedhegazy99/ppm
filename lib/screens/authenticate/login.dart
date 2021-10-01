@@ -6,6 +6,7 @@ import 'package:pro_player_market/components/constants.dart';
 import 'package:pro_player_market/components/roundedButton.dart';
 import 'package:pro_player_market/components/roundedInputField.dart';
 import 'package:pro_player_market/controllers/authController.dart';
+import 'package:pro_player_market/controllers/mainBarController.dart';
 import 'package:pro_player_market/utils/appRouter.dart';
 
 class Login extends GetWidget<AuthController> {
@@ -44,7 +45,8 @@ class Login extends GetWidget<AuthController> {
                         }else {
                           Get.updateLocale(Locale('ar'));
                         }
-                        Get.reset();
+                        //Get.reset();
+                        Get.find<MainBarController>().currentLocale.value = Get.locale;
                       },
                       label: Text('language'.tr),
                       icon: Icon(Icons.language, color: ppmMain,),
@@ -60,17 +62,19 @@ class Login extends GetWidget<AuthController> {
                         fontSize: Get.locale == Locale('ar') ? 40 : 60,
                     ),
                   ),
-                  Visibility(
-                    visible: isVisible.value,
-                    child: Text(
-                      "you have entered wrong email or password".tr,
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontFamily: "englishBebas",
-                          color: Colors.red,
-                          fontSize: 12),
-                    ),
-                  ),
+                  Obx(() {
+                    return Visibility(
+                      visible: isVisible.value,
+                      child: Text(
+                        "you have entered wrong email or password".tr,
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontFamily: "englishBebas",
+                            color: Colors.red,
+                            fontSize: 12),
+                      ),
+                    );
+                  }),
                   SizedBox(height: size.height * 0.03),
                   RoundedInputField(
                     validator: (val) => val!.isEmpty ? 'Enter an email'.tr : null,

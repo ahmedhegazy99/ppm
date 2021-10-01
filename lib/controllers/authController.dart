@@ -61,6 +61,13 @@ class AuthController extends GetxController {
       Get.offAllNamed(AppRouter.mainBarRoute);
       loading.toggle();
       Get.back();
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'weak-password') {
+        print('The password provided is too weak.');
+      } else if (e.code == 'email-already-in-use') {
+        print('The account already exists for that email.');
+      }
+      displayError(e.code);
     } catch (e) {
       loading.toggle();
       //displayError(e);

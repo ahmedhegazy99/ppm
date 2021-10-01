@@ -41,45 +41,33 @@ class EditPlayer extends GetWidget<CreatePlayerController> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Row(
-            children: [
-
-              //select logo image
-              Container(
-                width: size.width * 0.3,
-                height: size.width * 0.3,
-                color: ppmLight,
-                child: SelectImage(selectedImage: player.photo,),
-              ),
-
-              SizedBox(width: size.width * 0.06),
-
-              Column(
-                children: [
-                  RoundedInputField(
-                    validator: (val) => val!.isEmpty ? 'Enter Player Name'.tr : null,
-                    keyboardType: TextInputType.name,
-                    hintText: "Player Name".tr,
-                    cSize: 0.7,
-                    oWidth: 0.7,
-                    icon: Icons.person ,
-                    controller: controller.playerNameController,
-                  ),
-
-                  SizedBox(height: size.height * 0.03),
-
-                  DropButton(
-                    cSize: 0.7,
-                    oWidth: 0.7,
-                    controller: controller,
-                    //cities: controller.cities,
-                  ),
-
-                ],
-              ),
-            ],
+      //select logo image
+          Container(
+          width: size.width * 0.3,
+            height: size.width * 0.3,
+            color: ppmLight,
+            child: SelectImage(selectedImage: player.photo, done: true.obs,),
           ),
-          const Divider(height: 20.0, thickness: 0.5),
+
+          RoundedInputField(
+            validator: (val) => val!.isEmpty ? 'Enter Player Name'.tr : null,
+            keyboardType: TextInputType.name,
+            hintText: "Player Name".tr,
+            cSize: 0.7,
+            oWidth: 0.7,
+            icon: Icons.person ,
+            color: Colors.grey[200]!,
+            controller: controller.playerNameController,
+          ),
+
+          SizedBox(height: size.height * 0.03),
+
+          DropButton(
+            cSize: 0.7,
+            oWidth: 0.7,
+            controller: controller,
+            color: Colors.grey[200]!,
+          ),
 
           GestureDetector(
             child: Container(
@@ -127,6 +115,7 @@ class EditPlayer extends GetWidget<CreatePlayerController> {
             keyboardType: TextInputType.multiline,
             hintText: 'bio'.tr,
             maxLines: 4,
+            color: Colors.grey[200]!,
             controller: controller.bioController,
           ),
 

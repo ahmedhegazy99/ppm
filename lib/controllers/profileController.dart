@@ -61,7 +61,12 @@ class ProfileController extends GetxController {
 
   Future init() async {
     print("Start Profile controller");
-    userId.value = (await Get.find<AuthController>().user?.uid)!; /*?? "";*/
+    if(await Get.find<AuthController>().user?.uid != null) {
+      userId.value = (await Get
+          .find<AuthController>()
+          .user
+          ?.uid)!;
+    }/*?? "";*/
     print('user id: ${userId.value}');
     if(userId.isNotEmpty) {
       await getUser();

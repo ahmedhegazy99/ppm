@@ -104,8 +104,14 @@ class DatabaseController extends GetxController {
     }
   }
 
-  Future<void> updatePost(PlayerModel post) async {
+  Future<void> updatePost(PlayerModel post, {File? image , File? video}) async {
     try {
+      if (image != null) {
+        post.photo = await uploadPlayerImage(post, image);
+      }
+      if (video != null) {
+        post.video = await uploadPlayerVideo(post, video);
+      }
       await _firestore.collection('players').doc(post.id).update(post.toJson());
       //return;
     } catch (e) {

@@ -152,11 +152,11 @@ class MainBarController extends GetxController {
             backgroundColor: Colors.black),
         BottomNavigationBarItem(
             icon: Icon(Icons.home),
-            //label: 'home'.tr,
+            label: 'home'.tr,
             backgroundColor: Colors.black),
         BottomNavigationBarItem(
             icon: Icon(Icons.person),
-            //label: 'profile'.tr,
+            label: 'profile'.tr,
             backgroundColor: Colors.black),
       ];
     });

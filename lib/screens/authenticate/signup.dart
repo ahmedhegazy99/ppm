@@ -6,6 +6,7 @@ import 'package:pro_player_market/components/dropDownButton.dart';
 import 'package:pro_player_market/components/roundedButton.dart';
 import 'package:pro_player_market/components/roundedInputField.dart';
 import 'package:pro_player_market/controllers/authController.dart';
+import 'package:pro_player_market/controllers/mainBarController.dart';
 import 'package:pro_player_market/models/userModel.dart';
 import 'package:pro_player_market/utils/utilFunctions.dart';
 
@@ -56,7 +57,8 @@ class Signup extends GetWidget<AuthController> {
                         }else {
                           Get.updateLocale(Locale('ar'));
                         }
-                        Get.reset();
+                        //Get.reset();
+                        Get.find<MainBarController>().currentLocale.value = Get.locale;
                       },
                       label: Text('language'.tr),
                       icon: Icon(Icons.language, color: ppmMain,),
@@ -229,9 +231,7 @@ class Signup extends GetWidget<AuthController> {
                         margin: EdgeInsets.symmetric(horizontal: 48,vertical: 8),
                         child: Text.rich(
                           TextSpan(
-                              text: "*Your password should be 8 character or more\n"
-                                  "*Your password should contains Capital & small letters\n"
-                                  "*Your password should contains numbers & special characters",
+                              text: "*Your password should be 8 character or more\n*Your password should contains Capital & small letters\n*Your password should contains numbers & special characters".tr,
                             style: TextStyle(
                               color: ppmLight
                             )
@@ -244,7 +244,7 @@ class Signup extends GetWidget<AuthController> {
                   //SizedBox(height: size.height * 0.03),
 
                   RoundedButton(
-                      text: "sign up",
+                      text: "signup".tr,
                       press: () async {
                         print('signup clicked');
                         if (_formKey.currentState!.validate() &&

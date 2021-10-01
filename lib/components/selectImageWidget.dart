@@ -8,19 +8,21 @@ import 'package:pro_player_market/controllers/createPlayerController.dart';
 class SelectImage extends GetWidget<CreatePlayerController> {
 
   var selectedImage  ;
-  RxBool _done = false.obs;
+  RxBool ?done = false.obs;
 
   Key key = Key('key');
 
-  SelectImage({this.selectedImage});
+  SelectImage({this.selectedImage, this.done});
 
   @override
   Widget build(BuildContext context) {
+    if(done==null)
+      done = false.obs;
     return Obx(() {
       return GestureDetector(
         child: Container(
             key: key,
-            child: /*_done.value &&*/ selectedImage!=null ?
+            child: done!.value && selectedImage!=null ?
               selectedImage is String ?
                 Image.network(
                   selectedImage,
@@ -49,7 +51,7 @@ class SelectImage extends GetWidget<CreatePlayerController> {
           ),
         onTap: () async{
           selectedImage = await (controller.selectImage())!;
-          _done.value = true;
+          done!.value = true;
 
         },
       );

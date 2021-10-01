@@ -406,21 +406,25 @@ class Profile extends GetWidget<ProfileController> {
                   ),
                   ///add obx listener here
                   Obx((){
-                  if (controller.user!.userType != UserTypeEnum.admin)
-                    if(controller.posts.value.isNotEmpty)
-                      return ListView.builder(
-                          itemCount: controller.posts.value.length,
-                          itemBuilder: (context, index) {
-                            return PlayerCard(
-                              player: controller.posts.value[index],
-                            );
-                          });
-                          //   ...controller.posts.value
-                          // .map((e) => PlayerCard(
-                          //       player: e,
-                          //     ))
-                          // .toList();
-                    return Text("You haven't add player Yet".tr);
+                  if (controller.user!.userType != UserTypeEnum.admin) {
+                      if (controller.posts.value.isNotEmpty)
+                        return ListView.builder(
+                          scrollDirection: Axis.vertical,
+                            shrinkWrap: true,
+                            itemCount: controller.posts.value.length,
+                            itemBuilder: (context, index) {
+                              return PlayerCard(
+                                player: controller.posts.value[index],
+                              );
+                            });
+                      //   ...controller.posts.value
+                      // .map((e) => PlayerCard(
+                      //       player: e,
+                      //     ))
+                      // .toList();
+                      return Text("You haven't add player Yet".tr);
+                    }
+                  return Container();
                   }),
                 ],
               ),
