@@ -15,7 +15,8 @@ class PlayerPage extends GetWidget<PostController>{
   //const PlayerPage({Key? key}) : super(key: key);
 
   final PlayerModel ? player;
-  PlayerPage({this.player});
+  final UserModel? owner;
+  PlayerPage({this.player, this.owner});
 
   @override
   Widget build(BuildContext context) {
@@ -156,6 +157,141 @@ class PlayerPage extends GetWidget<PostController>{
                                   ),
                                 ]
                             ),
+                          ),
+                        ),
+
+                        const Divider(height: 20.0, thickness: 0.5),
+
+                        //extra data for admin
+                        if(controller.userType.value == UserTypeEnum.admin)
+                        Container(
+                          child: Column(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(kDefaultPadding),
+                                child: Text.rich(
+                                  TextSpan(
+                                      text: "Join Date".tr,
+                                      style: TextStyle(
+                                          color: ppmMain,
+                                          fontWeight: FontWeight.bold
+                                      ),
+                                      children: <TextSpan>[
+                                        TextSpan(
+                                          text: ": ${player!.joinDate!.day}/${player!.joinDate!.month}/${player!.joinDate!.year}",
+                                          style: TextStyle(
+                                              color: ppmLight,
+                                              fontWeight: FontWeight.bold
+                                          ),
+                                        ),
+                                      ]
+                                  ),
+                                ),
+                              ),
+
+                              const Divider(height: 20.0, thickness: 0.5),
+                              /// add owner data
+                              Center(
+                                child: Text(
+                                  "Contact info".tr,
+                                  style: TextStyle(
+                                      color: ppmMain,
+                                      fontWeight: FontWeight.bold
+                                  ),
+                                ),
+                              ),
+
+                              const Divider(height: 20.0, thickness: 0.5),
+
+                              Padding(
+                                padding: const EdgeInsets.all(kDefaultPadding),
+                                child: Text.rich(
+                                  TextSpan(
+                                      text: "name".tr,
+                                      style: TextStyle(
+                                          color: ppmMain,
+                                          fontWeight: FontWeight.bold
+                                      ),
+                                      children: <TextSpan>[
+                                        TextSpan(
+                                          text: ": ${owner!.name}",
+                                          style: TextStyle(
+                                              color: ppmLight,
+                                              fontWeight: FontWeight.bold
+                                          ),
+                                        ),
+                                      ]
+                                  ),
+                                ),
+                              ),
+
+                              Padding(
+                                padding: const EdgeInsets.all(kDefaultPadding),
+                                child: Text.rich(
+                                  TextSpan(
+                                      text: "phone".tr,
+                                      style: TextStyle(
+                                          color: ppmMain,
+                                          fontWeight: FontWeight.bold
+                                      ),
+                                      children: <TextSpan>[
+                                        TextSpan(
+                                          text: ": ${owner!.mobile}",
+                                          style: TextStyle(
+                                              color: ppmLight,
+                                              fontWeight: FontWeight.bold
+                                          ),
+                                        ),
+                                      ]
+                                  ),
+                                ),
+                              ),
+
+                              Padding(
+                                padding: const EdgeInsets.all(kDefaultPadding),
+                                child: Text.rich(
+                                  TextSpan(
+                                      text: "email".tr,
+                                      style: TextStyle(
+                                          color: ppmMain,
+                                          fontWeight: FontWeight.bold
+                                      ),
+                                      children: <TextSpan>[
+                                        TextSpan(
+                                          text: ": ${owner!.email}",
+                                          style: TextStyle(
+                                              color: ppmLight,
+                                              fontWeight: FontWeight.bold
+                                          ),
+                                        ),
+                                      ]
+                                  ),
+                                ),
+                              ),
+
+                              Padding(
+                                padding: const EdgeInsets.all(kDefaultPadding),
+                                child: Text.rich(
+                                  TextSpan(
+                                      text: "type".tr,
+                                      style: TextStyle(
+                                          color: ppmMain,
+                                          fontWeight: FontWeight.bold
+                                      ),
+                                      children: <TextSpan>[
+                                        TextSpan(
+                                          text: ": ${controller.getUserType(owner!)}",
+                                          style: TextStyle(
+                                              color: ppmLight,
+                                              fontWeight: FontWeight.bold
+                                          ),
+                                        ),
+                                      ]
+                                  ),
+                                ),
+                              ),
+
+                            ],
                           ),
                         ),
                       ],

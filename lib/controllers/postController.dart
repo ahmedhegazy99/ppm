@@ -15,9 +15,13 @@ class PostController extends GetxController {
   var _postsStream = RxList<PlayerModel>();
   var _filterdPosts = RxList<PlayerModel>();
 
+  var ownerUserList= RxList<UserModel>();
+
   var userType = Rx(Get.find<UserController>().user.userType) ;
+  String ? userTypeSt;
 
   List<PlayerModel> ? get posts => _filterdPosts.value;
+  List<UserModel> ? get owners => ownerUserList.value;
 
   var loading = false.obs;
 
@@ -37,7 +41,16 @@ class PostController extends GetxController {
     ever(Get.find<UserController>().userModel , (UserModel newVal) {
       userType.value = newVal.userType;
     });
-
+    print("Getting idssssssssssssssssssssssssssssssssssssssss of owners");
+    getIds();
+    ever(_postsStream, (dynamic newVal) {
+      print("filtered posts : ${_filterdPosts.value}");
+      getIds();
+      if (_filterdPosts.isEmpty) {
+        print("empty posts");
+        getIds();
+      }
+    });
 
   }
   Future<void> toggleIsLiked(PlayerModel post) async {
@@ -86,6 +99,60 @@ class PostController extends GetxController {
 
     Get.back();
 
+  }
+
+  Future<UserModel> getUser(String userId) async {
+    try {
+      UserModel u = await Get.find<DatabaseController>().getUser(userId);
+      return u;
+    } catch (e) {
+      throw Exception("User Not Found");
+      //displayError(e);
+    }
+  }
+
+  Future<void> getIds() async {
+    //ownerUserList = RxList<UserModel>();
+    try {
+      await Future.forEach(posts!, (PlayerModel value) async {
+        print("start adding owners");
+        ownerUserList.add(await getUser(value.userId!));
+
+        print("posts length : ${_filterdPosts.length}");
+        print("users length : ${ownerUserList.length}");
+      });
+      print("filtered posts : ${_filterdPosts.value}");
+      print("ownerssssss : ${ownerUserList}");
+    } catch (e) {
+      //displayError(e);
+    }
+  }
+
+  String ?getUserType(UserModel user) {
+    try {
+      switch(user.userType){
+        case UserTypeEnum.userPlayer: {
+          userTypeSt = "Player";
+        }
+        break;
+        case UserTypeEnum.club: {
+          userTypeSt = "Club";
+        }
+        break;
+        case UserTypeEnum.admin: {
+          userTypeSt = "Admin";
+        }
+        break;
+        default:{
+          userTypeSt = "Default";
+        }
+      }
+
+      return userTypeSt;
+    } catch (e) {
+      displayError(e);
+      //return;
+    }
   }
 
   // This function is called whenever the text field changes

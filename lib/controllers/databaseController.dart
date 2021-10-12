@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:pro_player_market/components/constants.dart';
 import 'package:pro_player_market/controllers/userController.dart';
 import 'package:pro_player_market/models/cityModel.dart';
 import 'package:pro_player_market/models/playerModel.dart';
@@ -174,7 +175,17 @@ class DatabaseController extends GetxController {
   }
 */
 
-  Future<List<PlayerModel>?> getUserPosts(String userId) async {
+  Stream<List<PlayerModel>> getUserPosts(String userId) {
+    return _firestore
+        .collection('players')
+        .where('userId', isEqualTo: userId)
+        .orderBy('joinDate', descending: true)
+        .snapshots()
+        .map((snapshot) => snapshot.docs
+        .map((doc) => PlayerModel.fromJson(doc.data()))
+        .toList());
+  }
+ /* Future<List<PlayerModel>?> getUserPosts(String userId) async {
     try {
       QuerySnapshot postsDocs = await _firestore
           .collection('players')
@@ -197,7 +208,7 @@ class DatabaseController extends GetxController {
       );*/
       //return null;
     }
-  }
+  }*/
 
   Future<PlayerModel> getPlayer(String pid) async {
     try {
@@ -408,12 +419,104 @@ class DatabaseController extends GetxController {
 
   Future<bool> addCity(CityModel city) async {
     try {
-      await _firestore.collection('cities').add(city.toJson());
+      await _firestore.collection('cities').doc(city.id).set(city.toJson());
       return true;
     } catch (e) {
       print(e);
       return false;
     }
   }
-  
+
+  Future<void> deleteCity(String cityId) async {
+    TextEditingController t = TextEditingController();
+    try {
+      bool? delete = await Get.defaultDialog<bool>(
+          title: 'delete'.tr,
+          content: TextField(
+            controller: t,
+            decoration: InputDecoration(
+              hintText: "${'Write'.tr} confirm",
+              border: UnderlineInputBorder(
+                borderSide: BorderSide(width: 3, color: Colors.blue),
+              )
+              // OutlineInputBorder(
+              //   borderSide: BorderSide(width: 3, color: Colors.blue),
+              //   borderRadius: BorderRadius.circular(15),
+              // ),
+            ),
+          ),
+          //content: Text("${'Write'.tr} confirm"),
+          //custom: TextField(controller: t,),
+          actions: [
+            ElevatedButton(
+              onPressed: () async {
+                if (t.text == 'confirm') {
+                  //await _firestore.collection('cities').doc(cityId).delete();
+                  Get.back(result: true);
+                }
+              },
+              child: Text('delete'.tr),
+              style: ButtonStyle(
+                foregroundColor: MaterialStateProperty.all(ppmBack),
+                backgroundColor: MaterialStateProperty.all(Colors.red),
+              ),
+            ),
+            ElevatedButton(
+              onPressed: () => Get.back(result: false),
+              child: Text('cancel'.tr),
+            )
+          ]);
+      if (delete!) {
+        _firestore.collection('cities').doc(cityId).delete();
+      }
+    } catch (e) {
+      displayError(e);
+    }
+  }
+
+  Future<void> addAnnouncement({String? content, File? image , File? video}) async {
+    try {
+      uploading.toggle();
+
+      String ?imageUrl;
+      String ?videoUrl;
+
+      if(image != null){
+        String imageName = 'IMG_${DateTime.now()}.jpg';
+        Reference reference =
+            _storage.ref().child('announcements/photos/$imageName');
+        UploadTask uploadTask = reference.putFile(image);
+        TaskSnapshot snapshot = await uploadTask;
+        imageUrl = await snapshot.ref.getDownloadURL();
+      }
+
+      if(video != null){
+        String videoName = 'VID_${DateTime.now()}.mp4';
+        Reference referenceV =
+            _storage.ref().child('announcements/videos/$videoName');
+        UploadTask uploadTaskV = referenceV.putFile(video);
+        TaskSnapshot snapshotV = await uploadTaskV;
+        videoUrl = await snapshotV.ref.getDownloadURL();
+      }
+
+      await _firestore.collection('announcements').doc('announce_${DateTime.now()}').set({
+        'date': DateTime.now(),
+        'content': content,
+        'image': imageUrl,
+        'video': videoUrl
+      });
+      uploading.toggle();
+    } catch (e) {
+      uploading.toggle();
+      displayError(e);
+    }
+  }
+
+  Future getAnnouncement() async {
+       QuerySnapshot qs = await _firestore.collection('announcements')
+          .orderBy('date', descending: true).limit(1).get();
+
+       return qs.docs.map((snapshot) => snapshot.data()).first;
+
+  }
 }

@@ -31,10 +31,10 @@ Future selectDate(BuildContext context) async {
   }
 }
 
-void displayError(dynamic e) {
+void displayError(dynamic e, {dynamic ee}) {
   Get.snackbar(
-    "error".tr,
-    'errorOccured'.tr,
+    e,
+    ee??'error'.tr,
     snackPosition: SnackPosition.BOTTOM,
     backgroundColor: Colors.red,
   );

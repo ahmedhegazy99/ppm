@@ -1,4 +1,6 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:pro_player_market/components/constants.dart';
 import 'package:pro_player_market/controllers/userController.dart';
 import 'package:pro_player_market/models/playerModel.dart';
 import 'package:pro_player_market/models/requestModel.dart';
@@ -31,6 +33,7 @@ class RequestsController extends GetxController {
 
     ever(Get.find<UserController>().userModel, (UserModel newVal) {
       _pageUser.value = newVal ;
+      //_pageUser.value = Get.find<UserController>().user;
       //print("new val usertype : ${newVal.userType}");
       if(newVal != null && loading.isTrue) {
         if (pageUser!.userType == UserTypeEnum.club) {
@@ -105,7 +108,7 @@ class RequestsController extends GetxController {
       }*/
       //print(loading.value);
     } catch (e) {
-      displayError(e);
+      //displayError(e);
     }
   }
 
@@ -118,5 +121,112 @@ class RequestsController extends GetxController {
       //displayError(e);
     }
   }
+
+  Future<void> confirmAction(VoidCallback function) async {
+    TextEditingController t = TextEditingController();
+    try {
+      bool? confirm = await Get.defaultDialog<bool>(
+          title: "${"Write".tr} confirm ${'or'.tr +' '+ 'press'.tr +' '+ 'cancel'.tr}",
+          content: TextField(
+            controller: t,
+            decoration: InputDecoration(
+                hintText: "${'Write'.tr} confirm",
+                border: UnderlineInputBorder(
+                  borderSide: BorderSide(width: 3, color: Colors.blue),
+                )
+            ),
+          ),
+
+          actions: [
+            ElevatedButton(
+              onPressed: () async {
+                if (t.text == 'confirm') {
+                  function();
+                  Get.back(result: true);
+                }
+              },
+              child: Text('confirm'.tr),
+              style: ButtonStyle(
+                foregroundColor: MaterialStateProperty.all(ppmBack),
+                backgroundColor: MaterialStateProperty.all(Colors.red),
+              ),
+            ),
+            ElevatedButton(
+              onPressed: () => Get.back(result: false),
+              child: Text('cancel'.tr),
+            )
+          ]);
+      if (confirm!) {
+      }
+    } catch (e) {
+      displayError(e.toString());
+    }
+  }
+/*  confirmAction(BuildContext context, /*void function*/){
+    TextEditingController t = TextEditingController();
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text("${"Write".tr} confirm ${'or'.tr +' '+ 'press'.tr +' '+ 'cancel'.tr}"),
+            content: TextField(
+              controller: t,
+              decoration: InputDecoration(
+                hintText: "${'Write'.tr} confirm",
+                border: UnderlineInputBorder(
+                  borderSide: BorderSide(width: 3, color: Colors.blue),
+                )
+              ),
+            ),
+              actions: [
+                ElevatedButton(
+                  onPressed: () async {
+                    if (t.text == 'confirm') {
+                      Get.back(result: true);
+                    }
+                  },
+                  child: Text('delete'.tr),
+                  style: ButtonStyle(
+                    foregroundColor: MaterialStateProperty.all(ppmBack),
+                    backgroundColor: MaterialStateProperty.all(Colors.red),
+                  ),
+                ),
+                ElevatedButton(
+                  onPressed: () => Get.back(result: false),
+                  child: Text('cancel'.tr),
+                )
+              ]
+          );
+          /*Container(
+            child: Column(
+              children: [
+                //Text("delete".tr),
+                Text("${"Write".tr} confirm ${'or'.tr +' '+ 'press'.tr +' '+ 'cancel'.tr}"),
+                TextField(controller: t,),
+
+                Flex(
+                  direction: Axis.horizontal,
+                  children: [
+                    ElevatedButton(
+                        onPressed: (){
+                          if (t.text == 'confirm'){
+                            //function;
+                          }
+                        },
+                        child: Text('confirm'.tr)
+                    ),
+                    ElevatedButton(
+                        onPressed: (){
+                          Get.back();
+                        },
+                        child: Text('cancel'.tr)
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          );*/
+        });
+  }*/
 
 }

@@ -117,6 +117,7 @@ class Login extends GetWidget<AuthController> {
                         }else{
                           Get.defaultDialog(
                             title: "please enter an Email",
+                            content: Icon(Icons.error)
                           );
                         }
                       },
@@ -151,7 +152,7 @@ class Login extends GetWidget<AuthController> {
                       //to sign in with email and password
                       if (_formKey.currentState!.validate()) {
                         try{
-                          await controller.login(
+                          isVisible.value = !await controller.login(
                               emailController.text, passwordController.text);
                         } catch(e){
                           isVisible.value = true;

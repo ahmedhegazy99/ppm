@@ -10,7 +10,7 @@ import 'package:pro_player_market/controllers/databaseController.dart';
 import 'package:pro_player_market/utils/appRouter.dart';
 import 'package:pro_player_market/utils/utilFunctions.dart';
 
-import 'dropDownButton.dart';
+import '../components/dropDownButton.dart';
 
 class CreatePlayer extends GetWidget<CreatePlayerController> {
 
@@ -50,6 +50,14 @@ class CreatePlayer extends GetWidget<CreatePlayerController> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+
+              Container(
+                margin: EdgeInsets.only(bottom: 20),
+                child: Text(
+                  "شروط قبول الطلب:\n 1- لا يكون هناك بيانات تواصل شخصية للاعبى كرة القدم فقط بعض المعلومات عن الموهبة الخاصة بك.\n2- يكون طول الفيديو لا يتعدي الدقيقتين (120 ثانية).\n3- ان لا يكون الاعب مدرج بالفعل في التطبيق.\n4- ان يكون هناك صورة شخصية واضحة.",
+                ),
+              ),
+
               Row(
                 children: [
                   /*Stack(

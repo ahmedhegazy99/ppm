@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:pro_player_market/components/constants.dart';
 import 'package:pro_player_market/controllers/userController.dart';
 import 'package:pro_player_market/models/userModel.dart';
+import 'package:pro_player_market/screens/announcments.dart';
 import 'package:pro_player_market/screens/home.dart';
 import 'package:pro_player_market/screens/profile.dart';
 import 'package:pro_player_market/screens/requests.dart';
@@ -21,6 +23,11 @@ class MainBarController extends GetxController {
     icon: Icon(Icons.info),
     label: 'requests'.tr,
     backgroundColor: Colors.black),
+    BottomNavigationBarItem(
+        icon: ImageIcon(AssetImage('assets/images/megaphone.png')),
+        label: 'announcements'.tr,
+        backgroundColor: Colors.black
+    ),
     BottomNavigationBarItem(
     icon: Icon(Icons.home),
     label: 'home'.tr,
@@ -49,7 +56,7 @@ class MainBarController extends GetxController {
 
   get userTabs => addTabs();
 
-  var filterIndex = 0;
+  var filterIndex = 1;
   var currentLocale = Get.locale.obs;
 
   Future<void> addTabs()async {
@@ -62,6 +69,7 @@ class MainBarController extends GetxController {
       case UserTypeEnum.userPlayer:
         {
           tabs.value = [
+            Announcements(),
             Home(),
             Profile(),
           ];
@@ -71,6 +79,7 @@ class MainBarController extends GetxController {
       case UserTypeEnum.club:
         {
           tabs.value = [
+            Announcements(),
             Home(),
             Profile(),
           ];
@@ -81,16 +90,17 @@ class MainBarController extends GetxController {
         {
           tabs.value = [
             Requests(),
+            Announcements(),
             Home(),
             Profile(),
           ];
-          changeIndex(1);
-          filterIndex = 1;
+          changeIndex(2);
+          filterIndex = 2;
         }
         break;
       default:
         {
-          tabs.value = [Home(),Profile(),];
+          tabs.value = [Announcements(), Home(),Profile(),];
           items.removeAt(0);
         }
     }
@@ -145,7 +155,8 @@ class MainBarController extends GetxController {
 
     ever(currentLocale, (_) async {
       print(currentLocale);
-      items= [
+      init();
+      /*items= [
         BottomNavigationBarItem(
             icon: Icon(Icons.info),
             label: 'requests'.tr,
@@ -158,7 +169,12 @@ class MainBarController extends GetxController {
             icon: Icon(Icons.person),
             label: 'profile'.tr,
             backgroundColor: Colors.black),
-      ];
+      ];*/
+    });
+
+    ever(_user, (_) async {
+      print(_user);
+      init();
     });
 
     super.onInit();

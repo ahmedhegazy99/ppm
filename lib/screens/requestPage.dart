@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:get/get_state_manager/src/simple/get_view.dart';
 import 'package:pro_player_market/components/constants.dart';
 import 'package:pro_player_market/components/roundedButton.dart';
+import 'package:pro_player_market/components/videoPlayer.dart';
 import 'package:pro_player_market/controllers/databaseController.dart';
 import 'package:pro_player_market/controllers/postController.dart';
 import 'package:pro_player_market/controllers/requestsController.dart';
@@ -194,6 +195,9 @@ class RequestPage extends GetWidget<RequestsController>{
                         ),
                       ),
 
+                      const Divider(height: 20.0, thickness: 0.5),
+
+                      VideoWidget(player!.video),
 
                       const Divider(height: 20.0, thickness: 0.5),
 
@@ -432,15 +436,26 @@ class RequestPage extends GetWidget<RequestsController>{
                           text: "approve".tr,
                           coff: 1,
                           press: () async {
+                            print('approve clicked');
                             if(request!.type == RequestTypeEnum.deal){
-                              await Get.find<DatabaseController>().approveDealRequest(
-                                  request!.id!, request!.userId!);
-                              Get.back();
+                              controller.confirmAction(//context,
+                                () async {
+                                  await Get.find<DatabaseController>().approveDealRequest(
+                                      request!.id!, request!.userId!);
+                                  Get.back();
+                                }
+                              );
+                              //Get.back();
                             }else {
                               PlayerModel post = player!;
-                              await Get.find<DatabaseController>()
-                                  .approvePlayerRequest(request!);
-                              Get.back();
+                              controller.confirmAction(//context,
+                                () async {
+                                  await Get.find<DatabaseController>()
+                                      .approvePlayerRequest(request!);
+                                  Get.back();
+                                }
+                              );
+                              //Get.back();
                             }
                           }
                       ),
@@ -450,14 +465,26 @@ class RequestPage extends GetWidget<RequestsController>{
                           coff: 1,
                           //coff: 0.6,
                           press: () async {
+                            print('decline clicked');
                             if(request!.type == RequestTypeEnum.deal){
-                              await Get.find<DatabaseController>().declineDealRequest(
-                                  request!.id!, request!.userId!);
-                              Get.back();
+                              controller.confirmAction(//context,
+                                () async {
+                                  print('start fun');
+                                  await Get.find<DatabaseController>().declineDealRequest(
+                                    request!.id!, request!.userId!);
+                                  Get.back();
+                                }
+                              );
+                              //Get.back();
                             }else {
-                              await Get.find<DatabaseController>().declinePlayerRequest(
-                                  request!.id!, request!.userId!);
-                              Get.back();
+                              controller.confirmAction(//context,
+                                () async {
+                                  await Get.find<DatabaseController>().declinePlayerRequest(
+                                      request!.id!, request!.userId!);
+                                  Get.back();
+                                }
+                              );
+                              //Get.back();
                             }
                           }
                       ),

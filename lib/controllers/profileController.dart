@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
@@ -135,8 +136,8 @@ class ProfileController extends GetxController {
   Future<void> getUserPosts() async {
     try {
       print(userId);
-      posts.value = (await Get.find<DatabaseController>().getUserPosts(userId.value))!;
-
+      //posts.value = (await Get.find<DatabaseController>().getUserPosts(userId.value))!;
+      posts.bindStream(Get.find<DatabaseController>().getUserPosts(userId.value));
       //return;
     } catch (e) {
       displayError(e);
@@ -234,7 +235,7 @@ class ProfileController extends GetxController {
                     textColor: ppmMain,
                   ),
                 if(key == "password")
-                  showForm(),
+                  showForm(context),
 
                 if(key == "cities")
                   showCities(),
@@ -269,7 +270,7 @@ class ProfileController extends GetxController {
     );
   }
 
-  showForm(){
+  showForm(BuildContext context){
     return Form(
       key: _formKey,
       child: Column(
@@ -317,6 +318,13 @@ class ProfileController extends GetxController {
                     margin: EdgeInsets.symmetric(vertical: 1),
                     child: ListTile(
                       title: Text('${cities[index+1].cityName}'),
+                      trailing: IconButton(
+                        icon: Icon(Icons.delete),
+                        onPressed: () async {
+                          await Get.find<DatabaseController>().deleteCity(cities[index+1].id!);
+                          Get.back();
+                        },
+                      ),
                     ),
                   );
                 },
@@ -346,6 +354,7 @@ class ProfileController extends GetxController {
                 );
                 Get.find<DatabaseController>().addCity(newCity);
                 city.clear();
+                Get.back();
               }
           ),
         ],

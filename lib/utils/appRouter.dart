@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:pro_player_market/components/createPlayer.dart';
+import 'package:pro_player_market/screens/createPlayer.dart';
 import 'package:pro_player_market/screens/about/about.dart';
 import 'package:pro_player_market/screens/authenticate/login.dart';
 import 'package:pro_player_market/screens/authenticate/signup.dart';

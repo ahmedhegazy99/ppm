@@ -63,11 +63,13 @@ class AuthController extends GetxController {
       Get.back();
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
+        displayError('weak-password'.tr);
         print('The password provided is too weak.');
       } else if (e.code == 'email-already-in-use') {
+        displayError('email-already-in-use'.tr);
         print('The account already exists for that email.');
       }
-      displayError(e.code);
+      displayError(e.code.tr);
     } catch (e) {
       loading.toggle();
       //displayError(e);
@@ -211,7 +213,14 @@ class AuthController extends GetxController {
       print("finish");
     } on FirebaseAuthException catch (e) {
       loading.toggle();
-      //displayError(e);
+      displayError(e.code);
+
+      if (e.code == 'user-not-found') {
+        displayError('unregistered email.'.tr);
+      } else if (e.code == 'wrong-password') {
+        displayError('Wrong password.'.tr);
+      }
+
     }
   }
 

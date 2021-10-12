@@ -3,26 +3,22 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:intl/intl.dart';
 import 'package:get/get.dart';
 import 'package:pro_player_market/components/constants.dart';
 import 'package:pro_player_market/components/editPlayer.dart';
 import 'package:pro_player_market/components/videoPlayer.dart';
 import 'package:pro_player_market/controllers/createPlayerController.dart';
 import 'package:pro_player_market/controllers/databaseController.dart';
-import 'package:pro_player_market/controllers/mainBarController.dart';
 import 'package:pro_player_market/controllers/postController.dart';
 import 'package:pro_player_market/controllers/userController.dart';
 import 'package:pro_player_market/models/playerModel.dart';
 import 'package:pro_player_market/models/userModel.dart';
-import 'package:photo_view/photo_view.dart';
-import 'package:photo_view/photo_view_gallery.dart';
 import 'package:pro_player_market/screens/playerPage.dart';
 
 class PlayerCard extends StatelessWidget {
   final PlayerModel ? player;
-  PlayerCard({this.player});
+  final UserModel ? owner;
+  PlayerCard({this.player, this.owner});
 
   var media ;
 
@@ -49,11 +45,17 @@ class PlayerCard extends StatelessWidget {
             Stack(
               children: [
                 Container(
-                  //height: size.height * 0.65,
+                  height: size.width*0.8,
+                  width: size.width,
                   child: (){
                     //if(player!.photo != null)
                       return CachedNetworkImage(
-                        placeholder: (context, url) => Container(child: CircularProgressIndicator(), width: 500, height: 400,),
+                        progressIndicatorBuilder: (context, url, downloadProgress) =>
+                            //CircularProgressIndicator(value: downloadProgress.progress),
+                        LinearProgressIndicator(value: downloadProgress.progress),
+                        /*placeholder: (context, url) => Container(
+                            child: Container(child: CircularProgressIndicator(), height: size.width*0.8,
+                              width: size.width,)),*/
                         imageUrl: '${player!.photo}',
                         errorWidget: (context, url, error) => Icon(Icons.error),
                       );
@@ -65,7 +67,7 @@ class PlayerCard extends StatelessWidget {
                   }(),
                   //Image.network('${player!.photo}') ?? Placeholder(fallbackHeight: 400,fallbackWidth: 400),
                 ),
-                if(user.id == player!.userId)
+                if(user.id == player!.userId || user.userType == UserTypeEnum.admin)
                   PopupMenuButton(
                     onSelected: (val) {
                       if (val == 'delete') {
@@ -114,6 +116,7 @@ class PlayerCard extends StatelessWidget {
                                     onPressed: () {Get.back();},
                                     child: Text('cancel'.tr),
                                   ),
+                                  if(player!.show != true)
                                   SimpleDialogOption(
                                     onPressed: () {
                                       Get.find<CreatePlayerController>().updatePlayer(player!);
@@ -208,7 +211,7 @@ class PlayerCard extends StatelessWidget {
                   ),
                   textColor: Colors.black38,
                   onPressed: () {
-                    Get.to(PlayerPage(player: player!));
+                    Get.to(PlayerPage(player: player!, owner: owner,));
                     //Get.find<MainBarController>().openPlayerProfile(post!.id!);
                   },
                 ),

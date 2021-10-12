@@ -44,7 +44,7 @@ class Background extends StatelessWidget {
             child: Transform.rotate(
               angle: pi / 2.0,
               child: Opacity(
-                opacity: 0.6,
+                opacity: 0.3,
                 child: SvgPicture.asset(
                   "assets/icons/soccer_ball.svg",
                   width: size.width * 0.4,

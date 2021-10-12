@@ -48,6 +48,7 @@ class Home extends GetWidget<PostController> {
                   itemBuilder: (context, index) {
                     return PlayerCard(
                       player: controller.posts![index],
+                      owner: controller.owners![index],
                     );
                   },
               ),

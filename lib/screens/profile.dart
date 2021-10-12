@@ -247,8 +247,10 @@ class Profile extends GetWidget<ProfileController> {
                                           Flexible(
                                             flex: 1,
                                             child: Icon(Icons.verified,
-                                              semanticLabel: controller.fireUser!.emailVerified == false ? "Verify" :"" ,
-                                              color: controller.fireUser!.emailVerified == false  ? ppmLight : ppmMain,
+                                              //semanticLabel: controller.fireUser!.emailVerified == false ? "Verify" :"" ,
+                                              //color: controller.fireUser!.emailVerified == false  ? ppmLight : ppmMain,
+                                              semanticLabel: "Verify",
+                                              color: ppmLight,
                                             ),
                                           ),
                                           ]
@@ -292,8 +294,10 @@ class Profile extends GetWidget<ProfileController> {
                                           ),
 
                                           Icon(Icons.verified,
-                                            semanticLabel: controller.fireUser?.phoneNumber == null ? "Verify" :"" ,
-                                            color: controller.fireUser?.phoneNumber == null ? ppmLight : ppmMain,
+                                            //semanticLabel: controller.fireUser?.phoneNumber == null ? "Verify" :"" ,
+                                            //color: controller.fireUser?.phoneNumber == null ? ppmLight : ppmMain,
+                                            semanticLabel: "Verify",
+                                            color: ppmLight,
                                           ),
                                         ]
                                       ),
@@ -400,7 +404,41 @@ class Profile extends GetWidget<ProfileController> {
                           ),
                           child: Text('update password'.tr),
                         ),
-
+/*
+                    Container(
+                      width: size.width * 0.6,
+                      height: size.width * 0.1,
+                      decoration: BoxDecoration(
+                          color: Colors.teal,
+                          borderRadius: BorderRadius.all(Radius.circular(3),),
+                          gradient: LinearGradient(
+                            colors: [
+                              Colors.indigo,
+                              //ppmMain,
+                              Colors.red,
+                              Colors.pink,
+                              Colors.orange,
+                              Colors.yellow,
+                            ],
+                            begin: Alignment(-1.0, -15.0),
+                            end: Alignment(2 , 5.0),
+                            stops: [0.4, /*0.38,*/ 0.5, 0.6, 0.7, 0.8],
+                            tileMode: TileMode.mirror,
+                          )
+                      ),
+                      child: TextButton(
+                        onPressed: () {
+                          print('Received click update password');
+                          controller.showSheet(context, "password");
+                        },
+                        style: ButtonStyle(
+                          foregroundColor: MaterialStateProperty.all(ppmBack),
+                          //fixedSize: MaterialStateProperty.all(Size(size.width * 0.6, size.width * 0.02)),
+                          alignment: Alignment.center,
+                        ),
+                        child: Text('update password'.tr),),
+                    ),
+                        */
                       ],
                     ),
                   ),

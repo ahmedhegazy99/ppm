@@ -22,7 +22,8 @@ class MainBar extends GetWidget<MainBarController> {
       resizeToAvoidBottomInset: true,
       appBar: AppBar(
         automaticallyImplyLeading: true,
-        backgroundColor: ppmMain,
+        //backgroundColor: ppmMain,
+        backgroundColor: ppmBack,
         title: Flex(
           direction: Axis.horizontal,
           children: [
@@ -33,7 +34,20 @@ class MainBar extends GetWidget<MainBarController> {
               width: 30,
             ),
             SizedBox(width: kDefaultPadding / 3),
-            Text("FPM"),
+            //Text("FPM",style: TextStyle(color: ppmMain),),
+            Text(
+              "FPM",
+              style: TextStyle(
+                foreground: Paint()..shader = LinearGradient(
+                  tileMode: TileMode.mirror,
+                  begin: Alignment.topLeft,
+                  colors: <Color>[Colors.indigo, Colors.pink, Colors.yellow],
+                ).createShader(
+                  Rect.fromLTWH(240, 100, 10, 2),
+                )
+              ),
+            ),
+
           ]
         ),
         //title: Text("Football Player Market"),
@@ -44,7 +58,8 @@ class MainBar extends GetWidget<MainBarController> {
           return IconButton(
             icon: Icon(
               Icons.filter_alt,
-              color: ppmBack,
+              //color: ppmBack,
+              color: ppmMain,
             ),
             onPressed: () {
               Get.find<PostController>().showFliterBar.toggle();
@@ -55,6 +70,7 @@ class MainBar extends GetWidget<MainBarController> {
           return Container();
         }),
           PopupMenuButton(
+            icon: Icon(Icons.more_vert, color: ppmMain,),
             itemBuilder: (BuildContext context) => <PopupMenuEntry>[
                PopupMenuItem(
                 value: 1,
@@ -86,7 +102,7 @@ class MainBar extends GetWidget<MainBarController> {
           SizedBox(width: kDefaultPadding / 2)
         ],
         //bottom: controller.putDropdown(),
-        elevation: 0,
+        elevation: 1,
         /*shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(
             bottom: Radius.circular(40),
