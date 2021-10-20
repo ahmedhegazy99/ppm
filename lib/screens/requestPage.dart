@@ -440,8 +440,9 @@ class RequestPage extends GetWidget<RequestsController>{
                             if(request!.type == RequestTypeEnum.deal){
                               controller.confirmAction(//context,
                                 () async {
+                                  print(request);
                                   await Get.find<DatabaseController>().approveDealRequest(
-                                      request!.id!, request!.userId!);
+                                      request!);
                                   Get.back();
                                 }
                               );
@@ -480,7 +481,7 @@ class RequestPage extends GetWidget<RequestsController>{
                               controller.confirmAction(//context,
                                 () async {
                                   await Get.find<DatabaseController>().declinePlayerRequest(
-                                      request!.id!, request!.userId!);
+                                      request!);
                                   Get.back();
                                 }
                               );

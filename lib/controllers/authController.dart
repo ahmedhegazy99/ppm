@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pro_player_market/components/constants.dart';
+import 'package:pro_player_market/controllers/mainBarController.dart';
+import 'package:pro_player_market/controllers/profileController.dart';
 import 'package:pro_player_market/controllers/userController.dart';
 import 'package:pro_player_market/models/userModel.dart';
 import 'package:pro_player_market/utils/appRouter.dart';
@@ -229,6 +231,8 @@ class AuthController extends GetxController {
       loading.toggle();
       await _auth.signOut();
       Get.find<UserController>().clear();
+      Get.find<ProfileController>().clear();
+      Get.find<MainBarController>().update();
       Get.offAllNamed(AppRouter.loginRoute);
       loading.toggle();
     } catch (e) {

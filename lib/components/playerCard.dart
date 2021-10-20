@@ -34,8 +34,9 @@ class PlayerCard extends StatelessWidget {
     return Card(
       margin: EdgeInsets.symmetric(vertical: 4, /*horizontal: 6*/),
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(
-          Radius.circular(30.0),
+        borderRadius: BorderRadius.only(
+          bottomLeft: Radius.circular(30.0),
+          bottomRight: Radius.circular(30.0),
         ),
       ),
       child: Column(
@@ -50,6 +51,7 @@ class PlayerCard extends StatelessWidget {
                   child: (){
                     //if(player!.photo != null)
                       return CachedNetworkImage(
+                        fit: BoxFit.fill,
                         progressIndicatorBuilder: (context, url, downloadProgress) =>
                             //CircularProgressIndicator(value: downloadProgress.progress),
                         LinearProgressIndicator(value: downloadProgress.progress),
@@ -67,7 +69,7 @@ class PlayerCard extends StatelessWidget {
                   }(),
                   //Image.network('${player!.photo}') ?? Placeholder(fallbackHeight: 400,fallbackWidth: 400),
                 ),
-                if(user.id == player!.userId || user.userType == UserTypeEnum.admin)
+                if((user.id == player!.userId && !player!.show!) || user.userType == UserTypeEnum.admin)
                   PopupMenuButton(
                     onSelected: (val) {
                       if (val == 'delete') {
@@ -81,8 +83,8 @@ class PlayerCard extends StatelessWidget {
                               actions: <Widget>[
                                 TextButton(
                                   child: Text('delete'.tr),
-                                  onPressed: () {
-                                    Get.find<DatabaseController>().deletePost(player!.id!);
+                                  onPressed: () async {
+                                    await Get.find<DatabaseController>().deletePost(player!.id!);
                                     //Navigator.of(context).pop();
                                     Get.back();
                                   },
@@ -112,16 +114,23 @@ class PlayerCard extends StatelessWidget {
 
                                   EditPlayer(player: player!),
 
-                                  SimpleDialogOption(
-                                    onPressed: () {Get.back();},
-                                    child: Text('cancel'.tr),
-                                  ),
-                                  if(player!.show != true)
-                                  SimpleDialogOption(
-                                    onPressed: () {
-                                      Get.find<CreatePlayerController>().updatePlayer(player!);
-                                    },
-                                    child: Text('edit'.tr),
+                                  Flex(
+                                    direction: Axis.horizontal,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      if(player!.show != true)
+                                        SimpleDialogOption(
+                                          onPressed: () {
+                                            Get.find<CreatePlayerController>().updatePlayer(player!);
+                                          },
+                                          child: Text('edit'.tr),
+                                        ),
+
+                                      SimpleDialogOption(
+                                        onPressed: () {Get.back();},
+                                        child: Text('cancel'.tr),
+                                      ),
+                                    ],
                                   ),
                                 ],
                               ),

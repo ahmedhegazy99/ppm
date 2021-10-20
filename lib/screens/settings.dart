@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:pro_player_market/components/constants.dart';
 import 'package:pro_player_market/controllers/mainBarController.dart';
 import 'package:pro_player_market/screens/about/about.dart';
+import 'package:pro_player_market/utils/appRouter.dart';
 
 class Settings extends StatelessWidget {
   const Settings({Key? key}) : super(key: key);
@@ -44,6 +45,7 @@ class Settings extends StatelessWidget {
                     }
                     //Get.reset();
                     Get.find<MainBarController>().currentLocale.value = Get.locale;
+                    Get.appUpdate();
                   },
                 ),
 

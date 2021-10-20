@@ -19,42 +19,52 @@ class Home extends GetWidget<PostController> {
           body: Container(
             color: Colors.grey[200],
             //padding: EdgeInsets.only(top: kDefaultPadding/2),
-            child: Obx(() {
-              if(controller.loading.value){
-                return Center(child: CircularProgressIndicator(color: ppmMain,));
-              }
-              if (controller.posts == null || controller.posts!.isEmpty == true)
-                return Column(
-                  children: [
-                    Center(
-                      child: Text('noPosts'.tr),
-                    ),
-                  ],
-                );
-
-              return Obx(() {
-                return RefreshIndicator(
-                  onRefresh: () {
-                    return Future.delayed(
-                      Duration(seconds: 1),
+            child: RefreshIndicator(
+              onRefresh: () {
+                return Future.delayed(
+                  Duration(seconds: 1),
                       () {
-                        controller.update();
-                      },
-                    );
+                    controller.update();
                   },
-                  child: ListView.builder(
-                  physics: AlwaysScrollableScrollPhysics(),
-                  itemCount: controller.posts!.length,
-                  itemBuilder: (context, index) {
-                    return PlayerCard(
-                      player: controller.posts![index],
-                      owner: controller.owners![index],
-                    );
-                  },
-              ),
                 );
-              });
-            }),
+              },
+              child: Obx(() {
+                if(controller.loading.value){
+                  return Center(child: CircularProgressIndicator(color: ppmMain,));
+                }
+                if (controller.posts == null || controller.posts!.isEmpty == true)
+                  return Column(
+                    children: [
+                      Center(
+                        child: Text('noPosts'.tr),
+                      ),
+                    ],
+                  );
+
+                return Obx(() {
+                  return /*RefreshIndicator(
+                    onRefresh: () {
+                      return Future.delayed(
+                        Duration(seconds: 1),
+                        () {
+                          controller.update();
+                        },
+                      );
+                    },
+                    child:*/ ListView.builder(
+                    physics: AlwaysScrollableScrollPhysics(),
+                    itemCount: controller.posts!.length,
+                    itemBuilder: (context, index) {
+                      return PlayerCard(
+                        player: controller.posts![index],
+                        owner: controller.owners![index],
+                      );
+                    },
+                //),
+                  );
+                });
+              }),
+            ),
           ),
         );
       }

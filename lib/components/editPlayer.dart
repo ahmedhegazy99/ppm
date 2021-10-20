@@ -120,14 +120,15 @@ class EditPlayer extends GetWidget<CreatePlayerController> {
           ),
 
           //VideoWidget(player.video),
-          Container(
+          /*Container(
             color: ppmBack,
             child: Obx(() {
               return Expanded(
                 child: Column(
+                  mainAxisSize: MainAxisSize.min,
                   children: [
                     if(controller.video.value == null)
-                      VideoWidget(player.video),
+                      Container(width: size.width * 0.5,child: VideoWidget(player.video)),
 
                     TextButton(
                       onPressed: () async {
@@ -148,9 +149,43 @@ class EditPlayer extends GetWidget<CreatePlayerController> {
                 ),
               );
             }),
+          ),*/
+
+          Container(
+            //color: ppmBack,
+            height: size.width * 0.55,
+            child: Obx(() {
+              return Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  if(controller.video.value == null)
+                    Container(width: size.width*0.8,child: VideoWidget(player.video)),
+
+                  ElevatedButton(
+                    onPressed: () async {
+                      await controller.selectVideo();
+                    },
+                    style: ButtonStyle(
+                      foregroundColor: MaterialStateProperty.all(ppmBack),
+                      backgroundColor: MaterialStateProperty.all(ppmMain),
+                    ),
+                    child: Text(
+                      controller.video.value.isNull
+                          ? "select video".tr
+                          : "done".tr,
+                      style: TextStyle(
+                        color: controller.video.value.isNull
+                            ? ppmBack
+                            : Colors.green,
+                      ),
+                    ),
+                  ),
+                ],
+              );
+            }),
           ),
 
-          SizedBox(height: size.height * 0.03),
+          //SizedBox(height: size.height * 0.01),
 
           Padding(
             padding: const EdgeInsets.all(kDefaultPadding * 2),

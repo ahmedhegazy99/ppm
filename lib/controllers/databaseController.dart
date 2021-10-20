@@ -121,7 +121,7 @@ class DatabaseController extends GetxController {
     }
   }
 
-  Future<void> deletePost(String playerId) async {
+  /*Future<void> deletePost(String playerId) async {
     try {
       bool? delete = await Get.defaultDialog<bool>(
           title: 'warning'.tr,
@@ -140,6 +140,18 @@ class DatabaseController extends GetxController {
       if (delete!) {
         _firestore.collection('players').doc(playerId).delete();
       }
+      //return;
+    } catch (e) {
+      displayError(e);
+      //return;
+    }
+  }*/
+
+  Future<void> deletePost(String playerId) async {
+    try {
+      await
+        _firestore.collection('players').doc(playerId).delete();
+      Get.back();
       //return;
     } catch (e) {
       displayError(e);
@@ -366,12 +378,13 @@ class DatabaseController extends GetxController {
     }
   }
 
-  Future<void> declinePlayerRequest(String rId, String uId) async {
+  Future<void> declinePlayerRequest(RequestModel request) async {
     try {
       uploading.toggle();
 
-      await _firestore.collection('requests').doc(rId).update({"status": false});
-      await _firestore.collection('users').doc(uId).update({"requests": [rId]});
+      await _firestore.collection('requests').doc(request.id).update({"status": false});
+      await _firestore.collection('users').doc(request.userId).update({"requests": [request.id]});
+      await _firestore.collection('players').doc(request.info).update({"show" : false});
       uploading.toggle();
     } catch (e) {
       uploading.toggle();
@@ -380,12 +393,13 @@ class DatabaseController extends GetxController {
     }
   }
 
-  Future<void> approveDealRequest(String rId, String uId) async {
+  Future<void> approveDealRequest(RequestModel request) async {
     try {
       uploading.toggle();
 
-      await _firestore.collection('requests').doc(rId).update({"status": true});
-      await _firestore.collection('users').doc(uId).update({"requests": [rId]});
+      await _firestore.collection('requests').doc(request.id).update({"status": true});
+      await _firestore.collection('users').doc(request.userId).update({"requests": [request.id]});
+      await _firestore.collection('players').doc(request.info).update({"show" : false});
       uploading.toggle();
     } catch (e) {
       uploading.toggle();
@@ -399,7 +413,7 @@ class DatabaseController extends GetxController {
       uploading.toggle();
 
       await _firestore.collection('requests').doc(rId).update({"status": false});
-      await _firestore.collection('users').doc(uId).update({"requests": [rId]});
+      //await _firestore.collection('users').doc(uId).update({"requests": [rId]});
       uploading.toggle();
     } catch (e) {
       uploading.toggle();

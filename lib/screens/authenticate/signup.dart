@@ -129,9 +129,9 @@ class Signup extends GetWidget<AuthController> {
                   RoundedInputField(
                     validator: (val) {
                       if (val!.isEmpty)
-                        return "Please enter email".tr;
+                        return "enter an email".tr;
                       else if (!val.contains("@"))
-                        return "Please enter valid email".tr;
+                        return "enter valid email".tr;
                       else
                         return null;
                     },
@@ -215,8 +215,12 @@ class Signup extends GetWidget<AuthController> {
                   //SizedBox(height: size.height * 0.03),
 
                   RoundedInputField(
-                    validator: (val) =>
-                        val!.isEmpty ? "Password didn't match".tr : null,
+                    validator: (val) {
+                      if (val!.isEmpty)
+                      return "Please enter password".tr;
+                      else if (val != password.text)
+                      return "Password didn't match".tr;
+                      },
                     textColor: Colors.black,
                     obscureText: true,
                     icon: Icons.lock,
@@ -225,20 +229,17 @@ class Signup extends GetWidget<AuthController> {
                     controller: confirmPassword,
                   ),
 
-                  Visibility(
-                      visible: true,
-                      child: Container(
-                        margin: EdgeInsets.symmetric(horizontal: 48,vertical: 8),
-                        child: Text.rich(
-                          TextSpan(
-                              text: "*Your password should be 8 character or more\n*Your password should contains Capital & small letters\n*Your password should contains numbers & special characters".tr,
-                            style: TextStyle(
-                              color: ppmLight
-                            )
-                          ),
-                          textAlign: TextAlign.start,
-                        ),
-                      )
+                  Container(
+                    margin: EdgeInsets.symmetric(horizontal: 48,vertical: 8),
+                    child: Text.rich(
+                      TextSpan(
+                          text: "*Your password should be 8 character or more\n*Your password should contains Capital & small letters\n*Your password should contains numbers & special characters".tr,
+                        style: TextStyle(
+                          color: ppmLight
+                        )
+                      ),
+                      textAlign: TextAlign.start,
+                    ),
                   ),
 
                   //SizedBox(height: size.height * 0.03),

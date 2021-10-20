@@ -1,5 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.pro_player_market">
+
+    <uses-permission android:name="android.permission.INTERNET"/>
+
    <application
         android:label="Football Player Market"
         android:icon="@mipmap/launcher_icon">

@@ -38,6 +38,9 @@ class PostController extends GetxController {
   @override
   void onReady() {
 
+    /*while(_filterdPosts.isEmpty){
+      getIds();
+    }*/
     ever(Get.find<UserController>().userModel , (UserModel newVal) {
       userType.value = newVal.userType;
     });
@@ -296,8 +299,8 @@ class _DropButtonState extends State<DropButton> {
       items: widget.cities
           .map<DropdownMenuItem<String>>((data) {
         return DropdownMenuItem<String>(
-          value: data.cityName,
-          child: Text('${data.cityName}'),
+          value: '${data.cityName}'.tr,
+          child: Text('${data.cityName}'.tr),
         );
       }).toList(),
     );

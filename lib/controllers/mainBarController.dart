@@ -106,7 +106,7 @@ class MainBarController extends GetxController {
     }
     //Get.put(ProfileController());
   } catch(e) {
-    displayError(e);
+    //displayError(e);
   }
     /*
     if (userType == UserTypeEnum.admin){
@@ -150,12 +150,16 @@ class MainBarController extends GetxController {
   void onInit() {
     //userType = Get.find<UserController>().user.userType ;
     //_user.value = Get.find<UserController>().user ;
+    addTabs();
     init();
     print("user type mainbar : $userType");
 
     ever(currentLocale, (_) async {
       print(currentLocale);
-      init();
+      await init();
+      //await addTabs();
+      print("local: ${Get.locale}");
+      print("currentLocal: $currentLocale");
       /*items= [
         BottomNavigationBarItem(
             icon: Icon(Icons.info),
@@ -173,7 +177,7 @@ class MainBarController extends GetxController {
     });
 
     ever(_user, (_) async {
-      print(_user);
+      print('new user: $_user');
       init();
     });
 
@@ -183,11 +187,13 @@ class MainBarController extends GetxController {
   Future init() async {
     //userType = await Get.find<UserController>().user.userType ;
     //_user.value = await Get.find<UserController>().user ;
+    //await addTabs();
+
     ever(Get.find<UserController>().userModel, (UserModel ? _) async {
       if (_ != null && loading.isTrue) {
         userType=_.userType;
         _user.value = _;
-        addTabs();
+        await addTabs();
         print("user type: ${user!.userType}");
         loading.value = false;
       }
@@ -199,5 +205,39 @@ class MainBarController extends GetxController {
     }*/
     print("user type mainbar init : $userType");
   }
+
+  void clear() {
+    _user.value = UserModel();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  Widget ppmBottomNavigationBar(){
+
+    ever(currentLocale, (_) async {
+      await init();
+    });
+
+    return Obx(() {
+      return BottomNavigationBar(
+        currentIndex: currentIndex,
+        type: BottomNavigationBarType.fixed,
+        backgroundColor: ppmBack,
+        unselectedItemColor: ppmLight,
+        selectedItemColor: ppmMain,
+        items: items,
+        onTap: (index) {
+          changeIndex(index);
+          //controller.userId.value = '';
+        },
+        /*showSelectedLabels: false,
+        showUnselectedLabels: false,*/
+      );
+    });
+  }
+
 }
 

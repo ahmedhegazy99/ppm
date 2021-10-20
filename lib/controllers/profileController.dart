@@ -40,6 +40,10 @@ class ProfileController extends GetxController {
 
   var loading = RxBool(true);
 
+  void clear() {
+    _user.value = UserModel();
+  }
+
   @override
   void onReady() {
     init();

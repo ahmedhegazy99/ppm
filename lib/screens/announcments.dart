@@ -8,6 +8,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:pro_player_market/components/constants.dart';
 import 'package:pro_player_market/components/videoPlayer.dart';
 import 'package:pro_player_market/controllers/databaseController.dart';
+import 'package:pro_player_market/controllers/userController.dart';
+import 'package:pro_player_market/models/userModel.dart';
 
 class Announcements extends StatelessWidget {
   //const Announcements({Key? key}) : super(key: key);
@@ -26,58 +28,20 @@ class Announcements extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    
+
+    final UserModel user = Get.find<UserController>().user;
     //announce = Get.find<DatabaseController>().getAnnouncement();
     getAnn();
     
     return Scaffold(
-      //backgroundColor: Colors.grey[200],
-      backgroundColor: ppmBack,
+      backgroundColor: Colors.grey[200],
+      //backgroundColor: ppmBack,
       body: SingleChildScrollView(
 //        padding: EdgeInsets.all(kDefaultPadding/2),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
           children: [
-
-            Container(
-              //color: ppmBack,
-              //color: Colors.grey[200],
-              padding: EdgeInsets.symmetric(horizontal: kDefaultPadding * 2),
-              margin: EdgeInsets.only(bottom: kDefaultPadding, ),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.vertical(bottom:Radius.circular(30),),
-                color: Colors.grey[200],
-              ),
-              child: Flex(
-                direction: Axis.vertical,
-                children:[
-                  SizedBox(
-                    height: kDefaultPadding * 1.5,
-                  ),
-
-                  Image.asset(
-                    'assets/images/fpm.png',
-                    fit: BoxFit.contain,
-                    height: 200,
-                    width: 200,
-                  ),
-
-                  RichText(
-                    textAlign: TextAlign.center,
-                    text: TextSpan(
-                      text: "فكرة جديدة تعتمد على اختبار لاعبى كرة القدم بشكل جديد من خلال تطبيق الموبيل، حيث  تعتمد الفكرة على إرسال فيديو للمواهب الناشئه، فى عالم كرة القدم و يتم اختيار التواصل مع لاعبى كرة القدم من خلال نوادي اخرة وتقوم فلفسفة التطبيق على اختصار الوقت ومنح الفرصة لملايين الناشئين الراغبين فى الخضوع للاختبارات و يتم تسويق لافضل لاعبى كرة القدم في كل محافظة.",
-                      style: TextStyle(
-                        fontSize: 18,
-                        color: ppmLight,
-                      ),
-
-                    ),
-                  ),
-                  SizedBox(height: size.height * 0.02),
-                ]
-              ),
-            ),
 
             ///add obx listener here
             /*Obx((){
@@ -111,70 +75,119 @@ class Announcements extends StatelessWidget {
               return Container();
             }),*/
 
-            Obx((){
-              if (announce.isNotEmpty) {
-                return Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.vertical(bottom:Radius.circular(30),),
-                    //color: Colors.grey[200],
+            //announce
+            Container(
+              width: size.width,
+              padding: EdgeInsets.only(left: 15, top: 10, right: 15, bottom: 20),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.vertical(bottom:Radius.circular(30),),
+                color: ppmBack,
+              ),
+              child: Obx((){
+                if (announce.isNotEmpty) {
+                  return Container(
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.vertical(bottom:Radius.circular(20),),
+                        //color: Colors.grey[200],
+                        gradient: LinearGradient(
+                          colors: [
+                            Colors.indigo,
+                            //ppmMain,
+                            Colors.red,
+                            //Colors.pink,
+                            //Colors.orange,
+                            Colors.yellow,
+                          ],
+                          begin: Alignment(-1.0, 15.0),
+                          end: Alignment(20 , 10.0),
+                          stops: [0.1, /*0.38,*/ 0.2, 0.3, /*0.4, 0.5*/],
+                          //tileMode: TileMode.mirror,
+                        )
 
-                    gradient: LinearGradient(
-                      colors: [
-                        Colors.indigo,
-                        //ppmMain,
-                        Colors.red,
-                        //Colors.pink,
-                        //Colors.orange,
-                        Colors.yellow,
-                      ],
-                      begin: Alignment(-1.0, 15.0),
-                      end: Alignment(20 , 10.0),
-                      stops: [0.1, /*0.38,*/ 0.2, 0.3, /*0.4, 0.5*/],
-                      //tileMode: TileMode.mirror,
-                    )
+                    ),
+                    child: Column(
+                      children: [
 
-                  ),
-                  child: Column(
-                    children: [
+                        if(announce['video'] != null)
+                          VideoWidget(announce['video']),
 
-                      if(announce['video'] != null)
-                        VideoWidget(announce['video']),
-
-                      if(announce['image'] != null)
-                      CachedNetworkImage(
-                        progressIndicatorBuilder: (context, url, downloadProgress) =>
-                            LinearProgressIndicator(value: downloadProgress.progress),
-                        imageUrl: '${announce['image']}',
-                        errorWidget: (context, url, error) => Icon(Icons.error),
-                      ),
-
-                      if(announce['content'] != null)
-                      Container(
-                        padding: EdgeInsets.symmetric(vertical: 12, horizontal: 8),
-                        child: Text(
-                          '${announce['content']??'this is the content'}',
-                          style: TextStyle(
-                            fontSize: 18,
-                            color: ppmBack,
+                        if(announce['image'] != null)
+                          CachedNetworkImage(
+                            progressIndicatorBuilder: (context, url, downloadProgress) =>
+                                LinearProgressIndicator(value: downloadProgress.progress),
+                            imageUrl: '${announce['image']}',
+                            errorWidget: (context, url, error) => Icon(Icons.error),
                           ),
-                        ),
-                      ),
-                    ],
+
+                        if(announce['content'] != null)
+                          Container(
+                            padding: EdgeInsets.symmetric(vertical: 12, horizontal: 8),
+                            child: Text(
+                              '${announce['content']??'this is the content'}',
+                              style: TextStyle(
+                                fontSize: 18,
+                                color: ppmBack,
+                              ),
+                            ),
+                          ),
+                      ],
+                    ),
+                  );
+                }
+                return Container();
+              }),
+            ),
+
+            Container(
+              //color: ppmBack,
+              //color: Colors.grey[200],
+              padding: EdgeInsets.symmetric(horizontal: kDefaultPadding * 2),
+              margin: EdgeInsets.only(bottom: kDefaultPadding, ),
+              // decoration: BoxDecoration(
+              //   borderRadius: BorderRadius.vertical(bottom:Radius.circular(30),),
+              //   color: Colors.grey[200],
+              // ),
+              child: Flex(
+                direction: Axis.vertical,
+                children:[
+                  SizedBox(
+                    height: kDefaultPadding * 1.5,
                   ),
-                );
-              }
-              return Container();
-            }),
+
+                  Image.asset(
+                    'assets/images/fpm.png',
+                    fit: BoxFit.contain,
+                    height: 200,
+                    width: 200,
+                  ),
+
+                  RichText(
+                    textAlign: TextAlign.center,
+                    text: TextSpan(
+                      text: "فكرة جديدة تعتمد على اختبار لاعبى كرة القدم بشكل جديد من خلال تطبيق الموبيل، حيث  تعتمد الفكرة على إرسال فيديو للمواهب الناشئه، فى عالم كرة القدم و يتم اختيار التواصل مع لاعبى كرة القدم من خلال نوادي اخرة وتقوم فلفسفة التطبيق على اختصار الوقت ومنح الفرصة لملايين الناشئين الراغبين فى الخضوع للاختبارات و يتم تسويق لافضل لاعبى كرة القدم في كل محافظة.",
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: ppmLight,
+                      ),
+
+                    ),
+                  ),
+                  SizedBox(height: size.height * 0.02),
+                ]
+              ),
+            ),
+
 
             /*IconButton(
-                                  onPressed: (){
-                                    edit.value = true;
-                                  },
-                                  color: ppmMain,
-                                  icon: Icon(Icons.edit),
-                                  padding: EdgeInsets.symmetric(vertical: 10, horizontal: size.width * 0.35),
-                                ),*/
+                onPressed: (){
+                  edit.value = true;
+                },
+                color: ppmMain,
+                icon: Icon(Icons.edit),
+                padding: EdgeInsets.symmetric(vertical: 10, horizontal: size.width * 0.35),
+              ),*/
             //edit button
+            if(user.userType == UserTypeEnum.admin)
             ElevatedButton(
               onPressed: (){
                 print("edit announce");
@@ -189,6 +202,7 @@ class Announcements extends StatelessWidget {
 
             SizedBox(height: size.height * 0.02),
 
+            //edit announce space
             Obx((){
               if(edit.value)
               return Container(

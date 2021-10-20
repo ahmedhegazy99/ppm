@@ -110,7 +110,7 @@ class MainBar extends GetWidget<MainBarController> {
         ),*/
       ),
       body: Obx(() => controller.tabs[controller.currentIndex]),
-      bottomNavigationBar: Obx(
+      bottomNavigationBar: controller.ppmBottomNavigationBar(),/*Obx(
         () => BottomNavigationBar(
           currentIndex: controller.currentIndex,
           type: BottomNavigationBarType.fixed,
@@ -123,7 +123,7 @@ class MainBar extends GetWidget<MainBarController> {
             //controller.userId.value = '';
           },
         ),
-      ),
+      ),*/
     );
   }
 }
