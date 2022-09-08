@@ -233,8 +233,8 @@ class MainBarController extends GetxController {
           changeIndex(index);
           //controller.userId.value = '';
         },
-        /*showSelectedLabels: false,
-        showUnselectedLabels: false,*/
+        showSelectedLabels: false,
+        showUnselectedLabels: false,
       );
     });
   }

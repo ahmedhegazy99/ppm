@@ -273,6 +273,28 @@ class PlayerPage extends GetWidget<PostController>{
                                 padding: const EdgeInsets.all(kDefaultPadding),
                                 child: Text.rich(
                                   TextSpan(
+                                      text: "address".tr,
+                                      style: TextStyle(
+                                          color: ppmMain,
+                                          fontWeight: FontWeight.bold
+                                      ),
+                                      children: <TextSpan>[
+                                        TextSpan(
+                                          text: ": ${owner!.address}",
+                                          style: TextStyle(
+                                              color: ppmLight,
+                                              fontWeight: FontWeight.bold
+                                          ),
+                                        ),
+                                      ]
+                                  ),
+                                ),
+                              ),
+
+                              Padding(
+                                padding: const EdgeInsets.all(kDefaultPadding),
+                                child: Text.rich(
+                                  TextSpan(
                                       text: "type".tr,
                                       style: TextStyle(
                                           color: ppmMain,

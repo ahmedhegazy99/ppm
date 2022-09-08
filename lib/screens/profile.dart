@@ -309,13 +309,39 @@ class Profile extends GetWidget<ProfileController> {
 
                               ListTile(
                                 leading: Icon(Icons.location_on, color: mainColor,),
-                                // trailing: IconButton(
-                                //   onPressed: (){
-                                //     print('Received click edit mobile');
-                                //     controller.showSheet(context, "mobile");
-                                //   },
-                                //   icon: Icon(Icons.edit),
-                                // ),
+                                title: Flex(
+                                    direction: Axis.vertical,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        "address".tr,
+                                        style: TextStyle(
+                                          color: mainColor,
+                                          fontSize: size.width * 0.03,
+                                        ),
+                                      ),
+                                      Flex(
+                                          direction: Axis.horizontal,
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          children:[
+                                            Text(
+                                              "${controller.user?.address ?? 'no data'}",
+                                              style: TextStyle(
+                                                color: ppmLight,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: size.width * 0.04,
+                                              ),
+                                            ),
+                                          ]
+                                      ),
+
+                                      const Divider(height: 20.0, thickness: 0.5),
+                                    ]
+                                ),
+                              ),
+
+                              ListTile(
+                                leading: Icon(Icons.location_city, color: mainColor,),
                                 title: Flex(
                                     direction: Axis.vertical,
                                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -339,11 +365,6 @@ class Profile extends GetWidget<ProfileController> {
                                                 fontSize: size.width * 0.04,
                                               ),
                                             ),
-
-                                            // Icon(Icons.verified,
-                                            //   semanticLabel: controller.fireUser!.phoneNumber!.isEmpty ? "Verify" :"" ,
-                                            //   color: controller.fireUser!.phoneNumber!.isEmpty ? ppmLight : ppmMain,
-                                            // ),
                                           ]
                                       ),
 

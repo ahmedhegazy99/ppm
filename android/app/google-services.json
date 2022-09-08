@@ -9,7 +9,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:806126914308:android:ceca02eea7c210fdc99e51",
         "android_client_info": {
-          "package_name": "com.company.proplayermarket"
+          "package_name": "com.company.footballplayermarket"
         }
       },
       "oauth_client": [
@@ -17,7 +17,7 @@
           "client_id": "806126914308-gf1almqs1bu5h9t5o3pen637b5a3enan.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.company.proplayermarket",
+            "package_name": "com.company.footballplayermarket",
             "certificate_hash": "9633ec5f7f1b7819d82d7d7edfe81872df7d76c3"
           }
         },

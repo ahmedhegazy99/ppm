@@ -51,6 +51,7 @@ class Locales extends Translations {
           'view more' : 'View more',
           'name': 'Name',
           'city': 'City',
+          "address": 'Address',
           'age': 'Age',
           'bio': 'Bio',
           "Contact info": "Contact info",
@@ -121,6 +122,7 @@ class Locales extends Translations {
           'like': 'إعجاب',
           'view more' : 'المزيد',
           'name': 'الأسم',
+          "address": 'العنوان',
           'city': 'المدينة',
           'age': 'السن',
           'bio': 'السيرة الذاتية',
@@ -168,6 +170,7 @@ class Locales extends Translations {
           "Write": 'اكتب',
           'or': 'أو',
           'press': 'اضغط',
+          'Enter Your Address': 'ادخل عنوانك',
         }
       };
 }

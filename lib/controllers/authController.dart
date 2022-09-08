@@ -39,7 +39,7 @@ class AuthController extends GetxController {
     });
   }
 
-  void createUser(String name, UserTypeEnum userType, String email,
+  void createUser(String name, UserTypeEnum userType, String email, String address,
       String mobile, DateTime birthDate, String password) async {
     try {
       loading.toggle();
@@ -53,6 +53,7 @@ class AuthController extends GetxController {
         mobile: mobile,
         email: email,
         joinDate: DateTime.now(),
+        address: address,
         city: city,
         birthDate: birthDate,
       );

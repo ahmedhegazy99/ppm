@@ -18,6 +18,7 @@ class Signup extends GetWidget<AuthController> {
   final TextEditingController password = TextEditingController();
   final TextEditingController confirmPassword = TextEditingController();
   final TextEditingController mobile = TextEditingController();
+  final TextEditingController address = TextEditingController();
 
   //UserTypeEnum userType = UserTypeEnum.userPlayer.obs as UserTypeEnum;
   //var userType = UserTypeEnum.userPlayer.obs;
@@ -187,6 +188,15 @@ class Signup extends GetWidget<AuthController> {
                     );
                   }),
 
+                  RoundedInputField(
+                    validator: (val) => val!.isEmpty ? 'Enter Your Address'.tr : null,
+                    keyboardType: TextInputType.name,
+                    hintText: "address".tr,
+                    icon: Icons.location_on,
+                    controller: address,
+                    color: Colors.grey[200]!,
+                  ),
+
                   DropButton(
                     cSize: 0.7,
                     oWidth: 0.7,
@@ -255,6 +265,7 @@ class Signup extends GetWidget<AuthController> {
                               name.text,
                               userType.value!,
                               email.text,
+                              address.text,
                               mobile.text,
                               selectedDate.value,
                               password.text);

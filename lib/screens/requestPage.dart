@@ -292,6 +292,33 @@ class RequestPage extends GetWidget<RequestsController>{
                               ),
                           ),
                         ),
+
+                      if (controller.pageUser!.userType == UserTypeEnum.admin)
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: kDefaultPadding),
+                          child: ListTile(
+                            leading: Icon(Icons.mail, color: ppmMain,),
+                            title: Text.rich(
+                              TextSpan(
+                                  text: "address".tr,
+                                  style: TextStyle(
+                                      color: ppmMain,
+                                      fontWeight: FontWeight.bold
+                                  ),
+                                  children: <TextSpan>[
+                                    TextSpan(
+                                      text: ": ${ownerUser!.address}",
+                                      style: TextStyle(
+                                          color: ppmLight,
+                                          fontWeight: FontWeight.bold
+                                      ),
+                                    ),
+                                  ]
+                              ),
+                            ),
+                          ),
+                        ),
+
                       ],
                     );
                   }),
@@ -408,6 +435,31 @@ class RequestPage extends GetWidget<RequestsController>{
                               ),
                           ),
                         ),
+
+                      Padding(
+                        padding: const EdgeInsets.all(kDefaultPadding/4),
+                        child: ListTile(
+                          leading: Icon(Icons.mail, color: ppmMain,),
+                          title: Text.rich(
+                            TextSpan(
+                                text: "address".tr,
+                                style: TextStyle(
+                                    color: ppmMain,
+                                    fontWeight: FontWeight.bold
+                                ),
+                                children: <TextSpan>[
+                                  TextSpan(
+                                    text: ": ${user!.address}",
+                                    style: TextStyle(
+                                        color: ppmLight,
+                                        fontWeight: FontWeight.bold
+                                    ),
+                                  ),
+                                ]
+                            ),
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                 ),

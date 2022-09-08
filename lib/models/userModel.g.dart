@@ -15,6 +15,7 @@ UserModel _$UserModelFromJson(Map<String, dynamic> json) {
     mobile: json['mobile'] as String?,
     imageUrl: json['imageUrl'] as String?,
     email: json['email'] as String?,
+    address: json['address'] as String?,
     city: json['city'] as String?,
     birthDate: json['birthDate'] == null
         ? null
@@ -33,6 +34,7 @@ Map<String, dynamic> _$UserModelToJson(UserModel instance) => <String, dynamic>{
   'email': instance.email,
   'mobile': instance.mobile,
   'imageUrl': instance.imageUrl,
+  'address': instance.address,
   'city': instance.city,
   'birthDate': instance.birthDate?.toIso8601String(),
   'requests': instance.requests,

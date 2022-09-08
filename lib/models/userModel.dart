@@ -14,6 +14,7 @@ class UserModel {
   String? email;
   String? mobile;
   String? imageUrl;
+  String? address;
   String ? city;
   DateTime ? birthDate;
   List<String> ? requests;
@@ -27,6 +28,7 @@ class UserModel {
     this.mobile,
     this.imageUrl,
     this.email,
+    this.address,
     this.city,
     this.birthDate,
     this.requests,
